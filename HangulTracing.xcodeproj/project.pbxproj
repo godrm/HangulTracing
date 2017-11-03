@@ -14,6 +14,10 @@
 		487037B41FAC3E0100A966A2 /* WordsListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487037B31FAC3E0100A966A2 /* WordsListVC.swift */; };
 		487037B81FAC3F4F00A966A2 /* WordsListVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487037B71FAC3F4F00A966A2 /* WordsListVCTests.swift */; };
 		487037BA1FAC414B00A966A2 /* InitialViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487037B91FAC414B00A966A2 /* InitialViewTests.swift */; };
+		48D1A2001FAC5F3200F4B9A6 /* CardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A1FF1FAC5F3200F4B9A6 /* CardManager.swift */; };
+		48D1A2031FAC63BE00F4B9A6 /* CardManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A2021FAC63BE00F4B9A6 /* CardManagerTests.swift */; };
+		48D1A2051FAC66B900F4B9A6 /* WordCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A2041FAC66B900F4B9A6 /* WordCard.swift */; };
+		48D1A2071FAC673B00F4B9A6 /* WordCardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A2061FAC673B00F4B9A6 /* WordCardTests.swift */; };
 		C40C83AF9C90D98D32F57681 /* Pods_HangulTracing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99F57EDD03313F22B80C0933 /* Pods_HangulTracing.framework */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +43,10 @@
 		487037B31FAC3E0100A966A2 /* WordsListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsListVC.swift; sourceTree = "<group>"; };
 		487037B71FAC3F4F00A966A2 /* WordsListVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsListVCTests.swift; sourceTree = "<group>"; };
 		487037B91FAC414B00A966A2 /* InitialViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewTests.swift; sourceTree = "<group>"; };
+		48D1A1FF1FAC5F3200F4B9A6 /* CardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardManager.swift; sourceTree = "<group>"; };
+		48D1A2021FAC63BE00F4B9A6 /* CardManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardManagerTests.swift; sourceTree = "<group>"; };
+		48D1A2041FAC66B900F4B9A6 /* WordCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCard.swift; sourceTree = "<group>"; };
+		48D1A2061FAC673B00F4B9A6 /* WordCardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCardTests.swift; sourceTree = "<group>"; };
 		90A3176324348AAAD5837702 /* Pods-HangulTracingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HangulTracingTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HangulTracingTests/Pods-HangulTracingTests.release.xcconfig"; sourceTree = "<group>"; };
 		99B3EC0E1BE194E1C579ECAC /* Pods-HangulTracingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HangulTracingTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HangulTracingTests/Pods-HangulTracingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		99F57EDD03313F22B80C0933 /* Pods_HangulTracing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HangulTracing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,6 +120,7 @@
 		487037A41FAC3D6300A966A2 /* HangulTracingTests */ = {
 			isa = PBXGroup;
 			children = (
+				48D1A2011FAC63A900F4B9A6 /* Model */,
 				487037B61FAC3EEA00A966A2 /* Controller */,
 				487037A71FAC3D6300A966A2 /* Info.plist */,
 				487037B91FAC414B00A966A2 /* InitialViewTests.swift */,
@@ -137,6 +146,8 @@
 		487037B21FAC3DA300A966A2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				48D1A1FF1FAC5F3200F4B9A6 /* CardManager.swift */,
+				48D1A2041FAC66B900F4B9A6 /* WordCard.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -147,6 +158,15 @@
 				487037B71FAC3F4F00A966A2 /* WordsListVCTests.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		48D1A2011FAC63A900F4B9A6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				48D1A2021FAC63BE00F4B9A6 /* CardManagerTests.swift */,
+				48D1A2061FAC673B00F4B9A6 /* WordCardTests.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		A6D67BDA226EADD36968BE8E /* Pods */ = {
@@ -353,10 +373,14 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-HangulTracing/Pods-HangulTracing-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -371,8 +395,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48D1A2001FAC5F3200F4B9A6 /* CardManager.swift in Sources */,
 				487037B41FAC3E0100A966A2 /* WordsListVC.swift in Sources */,
 				487037911FAC3D6200A966A2 /* AppDelegate.swift in Sources */,
+				48D1A2051FAC66B900F4B9A6 /* WordCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,6 +408,8 @@
 			files = (
 				487037B81FAC3F4F00A966A2 /* WordsListVCTests.swift in Sources */,
 				487037BA1FAC414B00A966A2 /* InitialViewTests.swift in Sources */,
+				48D1A2031FAC63BE00F4B9A6 /* CardManagerTests.swift in Sources */,
+				48D1A2071FAC673B00F4B9A6 /* WordCardTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

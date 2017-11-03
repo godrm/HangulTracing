@@ -24,7 +24,8 @@ class WordsListVCTests: XCTestCase {
     super.tearDown()
   }
   
-  func test_TableViewIsNotNilAfterViewDidLoad() {
+  //tableView
+  func test_TableView_IsNotNil_AfterViewDidLoad() {
     XCTAssertNotNil(sut.tableView)
   }
   

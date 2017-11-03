@@ -7,6 +7,7 @@ target 'HangulTracing' do
   
   # Pods for HangulTracing
   pod 'SnapKit', '~> 4.0.0'
+  pod 'RealmSwift'
 
   target 'HangulTracingTests' do
     inherit! :search_paths

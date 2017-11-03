@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "55471A5225284A5A4FAA86B1938B70D4"
+               BlueprintIdentifier = "C4DB6902F23AAD106680CCCBD5536633"
                BuildableName = "Pods_HangulTracing.framework"
                BlueprintName = "Pods-HangulTracing"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -47,7 +47,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "55471A5225284A5A4FAA86B1938B70D4"
+            BlueprintIdentifier = "C4DB6902F23AAD106680CCCBD5536633"
             BuildableName = "Pods_HangulTracing.framework"
             BlueprintName = "Pods-HangulTracing"
             ReferencedContainer = "container:Pods.xcodeproj">

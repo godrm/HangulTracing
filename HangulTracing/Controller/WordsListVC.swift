@@ -10,6 +10,7 @@ import UIKit
 
 class WordsListVC: UIViewController {
   
+  var didSetupConstraints = false
   var tableView: UITableView = {
     let tabelView = UITableView()
     return tabelView
@@ -17,6 +18,20 @@ class WordsListVC: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    view.addSubview(tableView)
     
+    view.setNeedsUpdateConstraints()
+  }
+  
+  override func updateViewConstraints() {
+    if !didSetupConstraints {
+      
+      tableView.snp.makeConstraints { make in
+        make.edges.equalTo(self.view)
+      }
+      
+      didSetupConstraints = true
+    }
+    super.updateViewConstraints()
   }
 }
