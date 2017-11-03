@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		487037911FAC3D6200A966A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487037901FAC3D6200A966A2 /* AppDelegate.swift */; };
-		487037931FAC3D6200A966A2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487037921FAC3D6200A966A2 /* ViewController.swift */; };
-		487037961FAC3D6200A966A2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 487037941FAC3D6200A966A2 /* Main.storyboard */; };
 		487037981FAC3D6200A966A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 487037971FAC3D6200A966A2 /* Assets.xcassets */; };
 		4870379B1FAC3D6200A966A2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 487037991FAC3D6200A966A2 /* LaunchScreen.storyboard */; };
-		487037A61FAC3D6300A966A2 /* HangulTracingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487037A51FAC3D6300A966A2 /* HangulTracingTests.swift */; };
+		487037B41FAC3E0100A966A2 /* WordsListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487037B31FAC3E0100A966A2 /* WordsListVC.swift */; };
+		487037B81FAC3F4F00A966A2 /* WordsListVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487037B71FAC3F4F00A966A2 /* WordsListVCTests.swift */; };
+		487037BA1FAC414B00A966A2 /* InitialViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487037B91FAC414B00A966A2 /* InitialViewTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,14 +28,14 @@
 /* Begin PBXFileReference section */
 		4870378D1FAC3D6200A966A2 /* HangulTracing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HangulTracing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		487037901FAC3D6200A966A2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		487037921FAC3D6200A966A2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		487037951FAC3D6200A966A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		487037971FAC3D6200A966A2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4870379A1FAC3D6200A966A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4870379C1FAC3D6200A966A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		487037A11FAC3D6300A966A2 /* HangulTracingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HangulTracingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		487037A51FAC3D6300A966A2 /* HangulTracingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HangulTracingTests.swift; sourceTree = "<group>"; };
 		487037A71FAC3D6300A966A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		487037B31FAC3E0100A966A2 /* WordsListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsListVC.swift; sourceTree = "<group>"; };
+		487037B71FAC3F4F00A966A2 /* WordsListVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsListVCTests.swift; sourceTree = "<group>"; };
+		487037B91FAC414B00A966A2 /* InitialViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,9 +77,10 @@
 		4870378F1FAC3D6200A966A2 /* HangulTracing */ = {
 			isa = PBXGroup;
 			children = (
+				487037B21FAC3DA300A966A2 /* Model */,
+				487037B11FAC3D9B00A966A2 /* View */,
+				487037B01FAC3D9200A966A2 /* Controller */,
 				487037901FAC3D6200A966A2 /* AppDelegate.swift */,
-				487037921FAC3D6200A966A2 /* ViewController.swift */,
-				487037941FAC3D6200A966A2 /* Main.storyboard */,
 				487037971FAC3D6200A966A2 /* Assets.xcassets */,
 				487037991FAC3D6200A966A2 /* LaunchScreen.storyboard */,
 				4870379C1FAC3D6200A966A2 /* Info.plist */,
@@ -90,10 +91,41 @@
 		487037A41FAC3D6300A966A2 /* HangulTracingTests */ = {
 			isa = PBXGroup;
 			children = (
-				487037A51FAC3D6300A966A2 /* HangulTracingTests.swift */,
+				487037B61FAC3EEA00A966A2 /* Controller */,
 				487037A71FAC3D6300A966A2 /* Info.plist */,
+				487037B91FAC414B00A966A2 /* InitialViewTests.swift */,
 			);
 			path = HangulTracingTests;
+			sourceTree = "<group>";
+		};
+		487037B01FAC3D9200A966A2 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				487037B31FAC3E0100A966A2 /* WordsListVC.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		487037B11FAC3D9B00A966A2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		487037B21FAC3DA300A966A2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		487037B61FAC3EEA00A966A2 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				487037B71FAC3F4F00A966A2 /* WordsListVCTests.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -150,6 +182,7 @@
 					};
 					487037A01FAC3D6200A966A2 = {
 						CreatedOnToolsVersion = 9.1;
+						LastSwiftMigration = 0910;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 4870378C1FAC3D6200A966A2;
 					};
@@ -181,7 +214,6 @@
 			files = (
 				4870379B1FAC3D6200A966A2 /* LaunchScreen.storyboard in Resources */,
 				487037981FAC3D6200A966A2 /* Assets.xcassets in Resources */,
-				487037961FAC3D6200A966A2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,7 +231,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				487037931FAC3D6200A966A2 /* ViewController.swift in Sources */,
+				487037B41FAC3E0100A966A2 /* WordsListVC.swift in Sources */,
 				487037911FAC3D6200A966A2 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -208,7 +240,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				487037A61FAC3D6300A966A2 /* HangulTracingTests.swift in Sources */,
+				487037B81FAC3F4F00A966A2 /* WordsListVCTests.swift in Sources */,
+				487037BA1FAC414B00A966A2 /* InitialViewTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,14 +256,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		487037941FAC3D6200A966A2 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				487037951FAC3D6200A966A2 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		487037991FAC3D6200A966A2 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -384,12 +409,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J6JJA4UC5Z;
 				INFOPLIST_FILE = HangulTracingTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.samchon.HangulTracingTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HangulTracing.app/HangulTracing";
@@ -401,6 +428,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J6JJA4UC5Z;
 				INFOPLIST_FILE = HangulTracingTests/Info.plist;
