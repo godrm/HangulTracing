@@ -19,7 +19,8 @@ class CardManagerTests: XCTestCase {
   }
   
   override func tearDown() {
-    
+    sut.removeAll()
+    sut = nil
     super.tearDown()
   }
   

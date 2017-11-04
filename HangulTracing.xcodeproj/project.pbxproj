@@ -18,6 +18,11 @@
 		48D1A2031FAC63BE00F4B9A6 /* CardManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A2021FAC63BE00F4B9A6 /* CardManagerTests.swift */; };
 		48D1A2051FAC66B900F4B9A6 /* WordCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A2041FAC66B900F4B9A6 /* WordCard.swift */; };
 		48D1A2071FAC673B00F4B9A6 /* WordCardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A2061FAC673B00F4B9A6 /* WordCardTests.swift */; };
+		48D1A2091FAC7D3A00F4B9A6 /* CardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A2081FAC7D3A00F4B9A6 /* CardCell.swift */; };
+		48D1A20C1FAC7D5600F4B9A6 /* CardCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A20B1FAC7D5600F4B9A6 /* CardCellTests.swift */; };
+		48D1A20E1FAD709900F4B9A6 /* CardListDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A20D1FAD709900F4B9A6 /* CardListDataProvider.swift */; };
+		48D1A2101FAD70B300F4B9A6 /* CardListDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A20F1FAD70B300F4B9A6 /* CardListDataProviderTests.swift */; };
+		48D1A2121FADA98D00F4B9A6 /* InputVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A2111FADA98D00F4B9A6 /* InputVC.swift */; };
 		C40C83AF9C90D98D32F57681 /* Pods_HangulTracing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99F57EDD03313F22B80C0933 /* Pods_HangulTracing.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +52,11 @@
 		48D1A2021FAC63BE00F4B9A6 /* CardManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardManagerTests.swift; sourceTree = "<group>"; };
 		48D1A2041FAC66B900F4B9A6 /* WordCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCard.swift; sourceTree = "<group>"; };
 		48D1A2061FAC673B00F4B9A6 /* WordCardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCardTests.swift; sourceTree = "<group>"; };
+		48D1A2081FAC7D3A00F4B9A6 /* CardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCell.swift; sourceTree = "<group>"; };
+		48D1A20B1FAC7D5600F4B9A6 /* CardCellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCellTests.swift; sourceTree = "<group>"; };
+		48D1A20D1FAD709900F4B9A6 /* CardListDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListDataProvider.swift; sourceTree = "<group>"; };
+		48D1A20F1FAD70B300F4B9A6 /* CardListDataProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListDataProviderTests.swift; sourceTree = "<group>"; };
+		48D1A2111FADA98D00F4B9A6 /* InputVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputVC.swift; sourceTree = "<group>"; };
 		90A3176324348AAAD5837702 /* Pods-HangulTracingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HangulTracingTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HangulTracingTests/Pods-HangulTracingTests.release.xcconfig"; sourceTree = "<group>"; };
 		99B3EC0E1BE194E1C579ECAC /* Pods-HangulTracingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HangulTracingTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HangulTracingTests/Pods-HangulTracingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		99F57EDD03313F22B80C0933 /* Pods_HangulTracing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HangulTracing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,6 +130,7 @@
 		487037A41FAC3D6300A966A2 /* HangulTracingTests */ = {
 			isa = PBXGroup;
 			children = (
+				48D1A20A1FAC7D4400F4B9A6 /* View */,
 				48D1A2011FAC63A900F4B9A6 /* Model */,
 				487037B61FAC3EEA00A966A2 /* Controller */,
 				487037A71FAC3D6300A966A2 /* Info.plist */,
@@ -132,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				487037B31FAC3E0100A966A2 /* WordsListVC.swift */,
+				48D1A2111FADA98D00F4B9A6 /* InputVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -139,6 +151,7 @@
 		487037B11FAC3D9B00A966A2 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				48D1A2081FAC7D3A00F4B9A6 /* CardCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -148,6 +161,7 @@
 			children = (
 				48D1A1FF1FAC5F3200F4B9A6 /* CardManager.swift */,
 				48D1A2041FAC66B900F4B9A6 /* WordCard.swift */,
+				48D1A20D1FAD709900F4B9A6 /* CardListDataProvider.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -165,8 +179,17 @@
 			children = (
 				48D1A2021FAC63BE00F4B9A6 /* CardManagerTests.swift */,
 				48D1A2061FAC673B00F4B9A6 /* WordCardTests.swift */,
+				48D1A20F1FAD70B300F4B9A6 /* CardListDataProviderTests.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		48D1A20A1FAC7D4400F4B9A6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				48D1A20B1FAC7D5600F4B9A6 /* CardCellTests.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		A6D67BDA226EADD36968BE8E /* Pods */ = {
@@ -395,9 +418,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48D1A20E1FAD709900F4B9A6 /* CardListDataProvider.swift in Sources */,
+				48D1A2091FAC7D3A00F4B9A6 /* CardCell.swift in Sources */,
 				48D1A2001FAC5F3200F4B9A6 /* CardManager.swift in Sources */,
 				487037B41FAC3E0100A966A2 /* WordsListVC.swift in Sources */,
 				487037911FAC3D6200A966A2 /* AppDelegate.swift in Sources */,
+				48D1A2121FADA98D00F4B9A6 /* InputVC.swift in Sources */,
 				48D1A2051FAC66B900F4B9A6 /* WordCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -408,6 +434,8 @@
 			files = (
 				487037B81FAC3F4F00A966A2 /* WordsListVCTests.swift in Sources */,
 				487037BA1FAC414B00A966A2 /* InitialViewTests.swift in Sources */,
+				48D1A2101FAD70B300F4B9A6 /* CardListDataProviderTests.swift in Sources */,
+				48D1A20C1FAC7D5600F4B9A6 /* CardCellTests.swift in Sources */,
 				48D1A2031FAC63BE00F4B9A6 /* CardManagerTests.swift in Sources */,
 				48D1A2071FAC673B00F4B9A6 /* WordCardTests.swift in Sources */,
 			);
