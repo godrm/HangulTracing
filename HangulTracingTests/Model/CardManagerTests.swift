@@ -79,6 +79,31 @@ class CardManagerTests: XCTestCase {
     XCTAssertNotEqual(first, sut.cardAt(index: 0))
   }
   
+  func test_ResetCardAt_ChangesCounts() {
+    let newCard = WordCard(word: "temp")
+    sut.addCard(newCard: newCard)
+    sut.completeCardAt(index: 0)
+    XCTAssertEqual(sut.toDoCount, 0)
+    XCTAssertEqual(sut.doneCount, 1)
+    
+    sut.resetCardAt(index: 0)
+    XCTAssertEqual(sut.toDoCount, 1)
+    XCTAssertEqual(sut.doneCount, 0)
+  }
+  
+  func test_ResetCardAt_RemoveItFromDoneCards() {
+    let first = WordCard(word: "one")
+    let second = WordCard(word: "two")
+    sut.addCard(newCard: first)
+    sut.addCard(newCard: second)
+    
+    sut.completeCardAt(index: 0)
+    sut.completeCardAt(index: 0)
+    XCTAssertEqual(sut.doneCardsAt(index: 0), first)
+    sut.resetCardAt(index: 0)
+    XCTAssertEqual(sut.cardAt(index: 0), first)
+  }
+  
   //doneCardAt
   func test_DoneCardAt_ReturnsCompletedCard() {
     let first = WordCard(word: "one")
@@ -91,7 +116,7 @@ class CardManagerTests: XCTestCase {
   }
   
   //removeAll
-  func removeAll_CountsToBeZero() {
+  func test_removeAll_CountsToBeZero() {
     let first = WordCard(word: "one")
     let second = WordCard(word: "two")
     sut.addCard(newCard: first)

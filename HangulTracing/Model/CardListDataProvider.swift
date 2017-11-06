@@ -48,4 +48,25 @@ extension CardListDataProvider: UITableViewDataSource {
 
 extension CardListDataProvider: UITableViewDelegate {
   
+  func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+    guard let section = Section(rawValue: indexPath.section) else { return "" }
+    var title: String
+    
+    switch section {
+    case .toDo: title = "COMPLETE"
+    case .done: title = "RESET"
+    }
+    return title
+  }
+  
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    guard let cardManager = cardManager else { return }
+    guard let section = Section(rawValue: indexPath.section) else { return }
+    
+    switch section {
+    case .toDo: cardManager.completeCardAt(index: indexPath.row)
+    case .done: cardManager.resetCardAt(index: indexPath.row)
+    }
+    tableView.reloadData()
+  }
 }

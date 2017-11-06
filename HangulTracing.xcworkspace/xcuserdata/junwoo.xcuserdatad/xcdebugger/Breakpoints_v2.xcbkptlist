@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangulTracingTests/Model/CardListDataProviderTests.swift"
-            timestampString = "531475228.293275"
+            timestampString = "531638354.298877"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
             landmarkName = "dequeueReusableCell(withIdentifier:for:)"
             landmarkType = "7">
          </BreakpointContent>

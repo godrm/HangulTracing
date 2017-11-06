@@ -30,6 +30,11 @@ class CardManager: NSObject {
     doneCards.append(completedCard)
   }
   
+  func resetCardAt(index: Int) {
+    let resetCard = doneCards.remove(at: index)
+    toDoCards.append(resetCard)
+  }
+  
   func doneCardsAt(index: Int) -> WordCard {
     return doneCards[index]
   }

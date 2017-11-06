@@ -80,6 +80,27 @@ class CardListDataProviderTests: XCTestCase {
     _ = mockTableView.cellForRow(at: IndexPath(row: 0, section: 0))
     XCTAssertTrue(mockTableView.dequeueIsCalled)
   }
+  
+  //deleteBtn
+  func test_DeleteBtnInFirstSection_ShowsTitle() {
+    let title = tableView.delegate?.tableView?(tableView, titleForDeleteConfirmationButtonForRowAt: IndexPath(row: 0, section: 0))
+    XCTAssertEqual(title, "COMPLETE")
+  }
+  
+  func test_DeleteBtnInSecondSection_ShowsTitle() {
+    let title = tableView.delegate?.tableView?(tableView, titleForDeleteConfirmationButtonForRowAt: IndexPath(row: 0, section: 1))
+    XCTAssertEqual(title, "RESET")
+  }
+  
+  func test_DeleteBtnInFirstSection_Simulation() {
+    provider.cardManager?.addCard(newCard: WordCard(word: "new"))
+    XCTAssertEqual(provider.cardManager?.toDoCount, 1)
+    XCTAssertEqual(provider.cardManager?.doneCount, 0)
+    //버튼 클릭
+    tableView.dataSource?.tableView?(tableView, commit: .delete, forRowAt: IndexPath(row: 0, section: 0))
+    XCTAssertEqual(provider.cardManager?.toDoCount, 0)
+    XCTAssertEqual(provider.cardManager?.doneCount, 1)
+  }
 }
 
 

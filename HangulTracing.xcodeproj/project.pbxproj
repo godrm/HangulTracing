@@ -23,6 +23,7 @@
 		48D1A20E1FAD709900F4B9A6 /* CardListDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A20D1FAD709900F4B9A6 /* CardListDataProvider.swift */; };
 		48D1A2101FAD70B300F4B9A6 /* CardListDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A20F1FAD70B300F4B9A6 /* CardListDataProviderTests.swift */; };
 		48D1A2121FADA98D00F4B9A6 /* InputVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A2111FADA98D00F4B9A6 /* InputVC.swift */; };
+		48D1A2141FADAFF300F4B9A6 /* InputVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A2131FADAFF300F4B9A6 /* InputVCTests.swift */; };
 		C40C83AF9C90D98D32F57681 /* Pods_HangulTracing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99F57EDD03313F22B80C0933 /* Pods_HangulTracing.framework */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +58,7 @@
 		48D1A20D1FAD709900F4B9A6 /* CardListDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListDataProvider.swift; sourceTree = "<group>"; };
 		48D1A20F1FAD70B300F4B9A6 /* CardListDataProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListDataProviderTests.swift; sourceTree = "<group>"; };
 		48D1A2111FADA98D00F4B9A6 /* InputVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputVC.swift; sourceTree = "<group>"; };
+		48D1A2131FADAFF300F4B9A6 /* InputVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputVCTests.swift; sourceTree = "<group>"; };
 		90A3176324348AAAD5837702 /* Pods-HangulTracingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HangulTracingTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HangulTracingTests/Pods-HangulTracingTests.release.xcconfig"; sourceTree = "<group>"; };
 		99B3EC0E1BE194E1C579ECAC /* Pods-HangulTracingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HangulTracingTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HangulTracingTests/Pods-HangulTracingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		99F57EDD03313F22B80C0933 /* Pods_HangulTracing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HangulTracing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -170,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				487037B71FAC3F4F00A966A2 /* WordsListVCTests.swift */,
+				48D1A2131FADAFF300F4B9A6 /* InputVCTests.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -437,6 +440,7 @@
 				48D1A2101FAD70B300F4B9A6 /* CardListDataProviderTests.swift in Sources */,
 				48D1A20C1FAC7D5600F4B9A6 /* CardCellTests.swift in Sources */,
 				48D1A2031FAC63BE00F4B9A6 /* CardManagerTests.swift in Sources */,
+				48D1A2141FADAFF300F4B9A6 /* InputVCTests.swift in Sources */,
 				48D1A2071FAC673B00F4B9A6 /* WordCardTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

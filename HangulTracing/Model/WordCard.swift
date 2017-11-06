@@ -7,18 +7,22 @@
 //
 
 import Foundation
+import RealmSwift
 
-struct WordCard {
+class WordCard: Object {
   
-  let word: String
-}
-
-extension WordCard: Equatable {
-  static func ==(lhs: WordCard, rhs: WordCard) -> Bool {
+  @objc dynamic var word: String = ""
+  convenience init(word: String) {
+    self.init()
+    self.word = word
     
-    if lhs.word != rhs.word {
-      return false
+  }
+  
+  override func isEqual(_ object: Any?) -> Bool {
+    if let card = object as? WordCard {
+      return card.word == self.word
     }
-    return true
+    return false
   }
 }
+

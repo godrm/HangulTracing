@@ -7,16 +7,17 @@
 //
 
 import UIKit
+import RealmSwift
 
 class WordsListVC: UIViewController {
   
+  var storedCards = List<WordCard>()
   var didSetupConstraints = false
   
   var tableView: UITableView = {
     let tabelView = UITableView()
     return tabelView
   }()
-  let cardManager = CardManager()
   var dataProvider: CardListDataProvider = {
     let provider = CardListDataProvider()
     return provider
@@ -52,8 +53,16 @@ class WordsListVC: UIViewController {
     super.updateViewConstraints()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    tableView.reloadData()
+  }
+  
   @objc func addBtnTapped(_ sender: UIBarButtonItem) {
     let inputVC = InputVC()
+    
+    //cardManager 공유
+    inputVC.cardManager = self.dataProvider.cardManager
     present(inputVC, animated: true, completion: nil)
   }
 }

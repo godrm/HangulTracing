@@ -42,7 +42,7 @@ class CardCellTests: XCTestCase {
   //configCell
   func test_ConfigCell_SetsWordLabelText() {
     cell.configCell(card: WordCard(word: "text"))
-    XCTAssertEqual(cell?.wordLabel.text, "text")
+    XCTAssertEqual(cell.wordLabel.text, "text")
   }
   
   func test_ConfigCellForDone_GotStroke() {
