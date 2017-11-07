@@ -11,16 +11,22 @@ import XCTest
 
 class TracingVCTests: XCTestCase {
   
+  var sut: TracingVC!
+  
   override func setUp() {
     super.setUp()
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    sut = TracingVC()
+    _ = sut.view
+    
   }
   
   override func tearDown() {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    sut.cardInfo?.0.removeAll()
     super.tearDown()
   }
   
-  
+  func test_HasScrollView() {
+    XCTAssertNotNil(sut.scrollView)
+  }
   
 }

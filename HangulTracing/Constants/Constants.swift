@@ -10,4 +10,5 @@ import Foundation
 
 struct Constants {
   let NOTI_CARD_SELECTED = Notification.Name(rawValue: "cardSelected")
+  let NOTI_DRAW_COMPLETED = Notification.Name("drawCompleted")
 }

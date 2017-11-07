@@ -67,19 +67,22 @@ class WordsListVC: UIViewController {
       alertTextField = textField
       textField.placeholder = "단어를 입력하세요"
     }
-    alertController.addAction(UIAlertAction(title: "Add", style: .default) { _ in
+    alertController.addAction(UIAlertAction(title: "ADD", style: .default) { _ in
       guard let text = alertTextField.text , !text.isEmpty else { return }
       
       self.dataProvider.cardManager?.addCard(newCard: WordCard(word: text))
       self.tableView.reloadData()
     })
+    alertController.addAction(UIAlertAction(title: "CANCEL", style: .cancel) { _ in
+    })
+    
     present(alertController, animated: true, completion: nil)
   }
   
   @objc func pushTracingVC(_ notification: NSNotification) {
     guard let index = notification.userInfo!["index"] as? Int else { fatalError() }
     let nextVC = TracingVC()
-    nextVC.itemInfo = (cardManager, index)
+    nextVC.cardInfo = (cardManager, index)
     navigationController?.pushViewController(nextVC, animated: true)
   }
 }

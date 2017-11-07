@@ -10,30 +10,25 @@ import UIKit
 
 class TracingVC: UIViewController {
   var didSetupConstraints = false
-  var itemInfo: (CardManager, Int)?
-  var numberOfCharacters: Int?
+  var cardInfo: (CardManager, Int)?
+  var characters = [Character]()
+  var characterViews = [LetterView]()
+  
   var scrollView: UIScrollView = {
     let scrollView = UIScrollView()
     scrollView.showsHorizontalScrollIndicator = false
     scrollView.showsVerticalScrollIndicator = false
     scrollView.isPagingEnabled = true
+    scrollView.isScrollEnabled = false
     scrollView.bounces = false
     return scrollView
   }()
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    guard let itemInfo = itemInfo else { fatalError() }
-    guard let word = itemInfo.0.cardAt(index: itemInfo.1).word as? String else { fatalError() }
-    numberOfCharacters = word.count
-    
+    NotificationCenter.default.addObserver(self, selector: #selector(TracingVC.goToNextLetter(_:)), name: Constants().NOTI_DRAW_COMPLETED, object: nil)
     view.addSubview(scrollView)
-    for i in 0..<numberOfCharacters! {
-      let view = UIView()
-      view.backgroundColor = UIColor.gray
-      
-      scrollView.addSubview(view)
-    }
+    
     view.setNeedsUpdateConstraints()
   }
   
@@ -41,16 +36,42 @@ class TracingVC: UIViewController {
     if !didSetupConstraints {
       
       scrollView.snp.makeConstraints({ (make) in
-        make.edges.equalTo(self.view)
+        make.left.right.bottom.equalTo(self.view)
+        make.top.equalTo(self.view).offset(44)
       })
-      for i in 0..<scrollView.subviews.count {
-        scrollView.subviews[i].frame = CGRect(x: UIScreen.main.bounds.width * CGFloat(i), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-      }
       
-      scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width * CGFloat(numberOfCharacters!), height: UIScreen.main.bounds.height)
+      scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width * CGFloat(characters.count), height: UIScreen.main.bounds.height - 44.0)
       
       didSetupConstraints = true
     }
     super.updateViewConstraints()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    getCharactersView()
+  }
+  
+  func getCharactersView() {
+    guard let cardInfo = cardInfo else { fatalError() }
+    let selectedWord = cardInfo.0.cardAt(index: cardInfo.1).word
+    for character in selectedWord {
+      characters.append(character)
+    }
+    characterViews.removeAll()
+    for i in 0..<characters.count {
+      let view = LetterView(frame: CGRect(x: UIScreen.main.bounds.width * CGFloat(i), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44.0), letter: String(characters[i]))
+      characterViews.append(view)
+      scrollView.addSubview(view)
+    }
+  }
+  
+  @objc func goToNextLetter(_ notification: NSNotification) {
+    let page = Int(scrollView.contentOffset.x / scrollView.bounds.size.width)
+    if page < characterViews.count - 1 {
+      UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
+        self.scrollView.contentOffset.x = self.scrollView.bounds.size.width * CGFloat(page + 1)}, completion: nil)
+    }
+    
   }
 }
