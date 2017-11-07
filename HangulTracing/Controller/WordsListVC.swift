@@ -11,7 +11,6 @@ import RealmSwift
 
 class WordsListVC: UIViewController {
   
-  var storedCards = List<WordCard>()
   var didSetupConstraints = false
   
   var tableView: UITableView = {
@@ -27,13 +26,16 @@ class WordsListVC: UIViewController {
     let buttonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(WordsListVC.addBtnTapped(_:)))
     return buttonItem
   }()
+  let cardManager = CardManager()
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    NotificationCenter.default.addObserver(self, selector: #selector(WordsListVC.pushTracingVC(_:)), name: Constants().NOTI_CARD_SELECTED, object: nil)
     view.addSubview(tableView)
     tableView.register(CardCell.self, forCellReuseIdentifier: "CardCell")
     tableView.dataSource = dataProvider
     tableView.delegate = dataProvider
+    dataProvider.cardManager = cardManager
     addBarBtnItem.target = self
     addBarBtnItem.action = #selector(WordsListVC.addBtnTapped(_:))
     navigationItem.rightBarButtonItem = addBarBtnItem
@@ -59,10 +61,25 @@ class WordsListVC: UIViewController {
   }
   
   @objc func addBtnTapped(_ sender: UIBarButtonItem) {
-    let inputVC = InputVC()
-    
-    //cardManager 공유
-    inputVC.cardManager = self.dataProvider.cardManager
-    present(inputVC, animated: true, completion: nil)
+    let alertController = UIAlertController(title: "New Word", message: "단어를 입력하세요", preferredStyle: .alert)
+    var alertTextField: UITextField!
+    alertController.addTextField { textField in
+      alertTextField = textField
+      textField.placeholder = "단어를 입력하세요"
+    }
+    alertController.addAction(UIAlertAction(title: "Add", style: .default) { _ in
+      guard let text = alertTextField.text , !text.isEmpty else { return }
+      
+      self.dataProvider.cardManager?.addCard(newCard: WordCard(word: text))
+      self.tableView.reloadData()
+    })
+    present(alertController, animated: true, completion: nil)
+  }
+  
+  @objc func pushTracingVC(_ notification: NSNotification) {
+    guard let index = notification.userInfo!["index"] as? Int else { fatalError() }
+    let nextVC = TracingVC()
+    nextVC.itemInfo = (cardManager, index)
+    navigationController?.pushViewController(nextVC, animated: true)
   }
 }

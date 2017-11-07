@@ -29,11 +29,6 @@ class CardManagerTests: XCTestCase {
     XCTAssertEqual(sut.toDoCount, 0)
   }
   
-  //doneCount
-  func test_DoneCount_Initially_IsZero() {
-    XCTAssertEqual(sut.doneCount, 0)
-  }
-  
   //addCard
   func test_AddCard_IncreaseToDoCountToOne() {
     let newCard = WordCard(word: "news")
@@ -62,11 +57,9 @@ class CardManagerTests: XCTestCase {
     let newCard = WordCard(word: "temp")
     sut.addCard(newCard: newCard)
     XCTAssertEqual(sut.toDoCount, 1)
-    XCTAssertEqual(sut.doneCount, 0)
     
     sut.completeCardAt(index: 0)
     XCTAssertEqual(sut.toDoCount, 0)
-    XCTAssertEqual(sut.doneCount, 1)
   }
   
   func test_CompleteCardAt_RemoveItFromToDoCards() {
@@ -79,42 +72,6 @@ class CardManagerTests: XCTestCase {
     XCTAssertNotEqual(first, sut.cardAt(index: 0))
   }
   
-  func test_ResetCardAt_ChangesCounts() {
-    let newCard = WordCard(word: "temp")
-    sut.addCard(newCard: newCard)
-    sut.completeCardAt(index: 0)
-    XCTAssertEqual(sut.toDoCount, 0)
-    XCTAssertEqual(sut.doneCount, 1)
-    
-    sut.resetCardAt(index: 0)
-    XCTAssertEqual(sut.toDoCount, 1)
-    XCTAssertEqual(sut.doneCount, 0)
-  }
-  
-  func test_ResetCardAt_RemoveItFromDoneCards() {
-    let first = WordCard(word: "one")
-    let second = WordCard(word: "two")
-    sut.addCard(newCard: first)
-    sut.addCard(newCard: second)
-    
-    sut.completeCardAt(index: 0)
-    sut.completeCardAt(index: 0)
-    XCTAssertEqual(sut.doneCardsAt(index: 0), first)
-    sut.resetCardAt(index: 0)
-    XCTAssertEqual(sut.cardAt(index: 0), first)
-  }
-  
-  //doneCardAt
-  func test_DoneCardAt_ReturnsCompletedCard() {
-    let first = WordCard(word: "one")
-    let second = WordCard(word: "two")
-    sut.addCard(newCard: first)
-    sut.addCard(newCard: second)
-    sut.completeCardAt(index: 0)
-    XCTAssertEqual(sut.doneCardsAt(index: 0), first)
-    XCTAssertNotEqual(sut.doneCardsAt(index: 0), second)
-  }
-  
   //removeAll
   func test_removeAll_CountsToBeZero() {
     let first = WordCard(word: "one")
@@ -125,6 +82,5 @@ class CardManagerTests: XCTestCase {
     
     sut.removeAll()
     XCTAssertEqual(sut.toDoCount, 0)
-    XCTAssertEqual(sut.doneCount, 0)
   }
 }

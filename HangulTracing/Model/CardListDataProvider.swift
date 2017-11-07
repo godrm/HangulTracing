@@ -8,12 +8,6 @@
 
 import UIKit
 
-enum Section: Int {
-  case toDo
-  case done
-  static let arr = [toDo, done]
-}
-
 class CardListDataProvider: NSObject {
   var cardManager: CardManager?
 }
@@ -21,24 +15,19 @@ class CardListDataProvider: NSObject {
 extension CardListDataProvider: UITableViewDataSource {
   
   func numberOfSections(in tableView: UITableView) -> Int {
-    return Section.arr.count
+    return 1
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    guard let cardManager = cardManager else { return 0 }
-    guard let cardSection = Section(rawValue: section) else { fatalError() }
+    guard let cardManager = self.cardManager else { fatalError() }
     
-    var numberOfRows: Int = 0
-    switch cardSection {
-    case .toDo: numberOfRows = cardManager.toDoCount
-    case .done: numberOfRows = cardManager.doneCount
-    }
-    
-    return numberOfRows
+    return cardManager.toDoCount
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    guard let cardManager = cardManager else { fatalError() }
     if let cell = tableView.dequeueReusableCell(withIdentifier: "CardCell", for: indexPath) as? CardCell {
+      cell.configCell(card: cardManager.cardAt(index: indexPath.row))
       return cell
     } else {
       return CardCell()
@@ -49,24 +38,17 @@ extension CardListDataProvider: UITableViewDataSource {
 extension CardListDataProvider: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
-    guard let section = Section(rawValue: indexPath.section) else { return "" }
-    var title: String
-    
-    switch section {
-    case .toDo: title = "COMPLETE"
-    case .done: title = "RESET"
-    }
-    return title
+    return "COMPLETE"
   }
   
   func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     guard let cardManager = cardManager else { return }
-    guard let section = Section(rawValue: indexPath.section) else { return }
     
-    switch section {
-    case .toDo: cardManager.completeCardAt(index: indexPath.row)
-    case .done: cardManager.resetCardAt(index: indexPath.row)
-    }
+    cardManager.completeCardAt(index: indexPath.row)
     tableView.reloadData()
+  }
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    NotificationCenter.default.post(name: Constants().NOTI_CARD_SELECTED, object: self, userInfo: ["index": indexPath.row])
   }
 }

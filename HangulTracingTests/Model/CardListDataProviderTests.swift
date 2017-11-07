@@ -35,8 +35,8 @@ class CardListDataProviderTests: XCTestCase {
   }
   
   //numberOfSections
-  func test_NumberOfSections_IsTwo() {
-    XCTAssertEqual(tableView.numberOfSections, 2)
+  func test_NumberOfSections_IsOne() {
+    XCTAssertEqual(tableView.numberOfSections, 1)
   }
   
   //tableview test할때 reloadData 해줘야 함
@@ -50,15 +50,6 @@ class CardListDataProviderTests: XCTestCase {
     provider.cardManager?.addCard(newCard: second)
     tableView.reloadData()
     XCTAssertEqual(tableView.numberOfRows(inSection: 0), 2)
-  }
-  
-  func test_NumberOfRowsInSecondSection_IsDoneCount() {
-    provider.cardManager?.addCard(newCard: WordCard(word: "one"))
-    XCTAssertEqual(tableView.numberOfRows(inSection: 1), 0)
-    provider.cardManager?.completeCardAt(index: 0)
-    
-    tableView.reloadData()
-    XCTAssertEqual(tableView.numberOfRows(inSection: 1), 1)
   }
   
   //cellForRowAt
@@ -87,24 +78,36 @@ class CardListDataProviderTests: XCTestCase {
     XCTAssertEqual(title, "COMPLETE")
   }
   
-  func test_DeleteBtnInSecondSection_ShowsTitle() {
-    let title = tableView.delegate?.tableView?(tableView, titleForDeleteConfirmationButtonForRowAt: IndexPath(row: 0, section: 1))
-    XCTAssertEqual(title, "RESET")
-  }
-  
   func test_DeleteBtnInFirstSection_Simulation() {
     provider.cardManager?.addCard(newCard: WordCard(word: "new"))
     XCTAssertEqual(provider.cardManager?.toDoCount, 1)
-    XCTAssertEqual(provider.cardManager?.doneCount, 0)
     //버튼 클릭
     tableView.dataSource?.tableView?(tableView, commit: .delete, forRowAt: IndexPath(row: 0, section: 0))
     XCTAssertEqual(provider.cardManager?.toDoCount, 0)
-    XCTAssertEqual(provider.cardManager?.doneCount, 1)
+  }
+  
+  //notification sender
+  func test_SelectingACell_SendsNotification() {
+    let card = WordCard(word: "noti")
+    provider.cardManager?.addCard(newCard: card)
+    
+    //index가 0일 것이다
+    expectation(forNotification: Constants().NOTI_CARD_SELECTED, object: nil) { (notification) -> Bool in
+      guard let index = notification.userInfo?["index"] as? Int else {
+        return false
+      }
+      return index == 0
+    }
+    
+    //셀 클릭
+    tableView.delegate?.tableView!(tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
+    
+    waitForExpectations(timeout: 3, handler: nil)
   }
 }
 
 
-//dequeue 호출 확인하기 위해 만듬
+//dequeue 호출 확인하기 위해
 extension CardListDataProviderTests {
   
   class MockTableView: UITableView {

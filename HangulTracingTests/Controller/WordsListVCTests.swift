@@ -49,28 +49,18 @@ class WordsListVCTests: XCTestCase {
     XCTAssertEqual(target as? WordsListVC, sut)
   }
   
-  func test_WhenAddBtnTapped_PresentInputVC() {
+  func test_WhenAddBtnTapped_PresentUIAlertController() {
     XCTAssertNil(sut.presentedViewController)
-    
+
     //버튼 띄우기
     UIApplication.shared.keyWindow?.rootViewController = sut
-    
+
     guard let addBtn = sut.navigationItem.rightBarButtonItem else { XCTFail(); return }
     guard let action = addBtn.action else { XCTFail(); return }
-    
+
     //클릭
     sut.performSelector(onMainThread: action, with: addBtn, waitUntilDone: true)
-    XCTAssertTrue(sut.presentedViewController is InputVC)
-  }
-  
-  func test_WordsListVC_InputVC_ShareCardManager() {
-    UIApplication.shared.keyWindow?.rootViewController = sut
-    guard let addBtn = sut.navigationItem.rightBarButtonItem else { XCTFail(); return }
-    guard let action = addBtn.action else { XCTFail(); return }
-    sut.performSelector(onMainThread: action, with: addBtn, waitUntilDone: true)
-    
-    let inputVC = sut.presentedViewController as? InputVC
-    XCTAssertTrue(sut.dataProvider.cardManager === inputVC?.cardManager)
+    XCTAssertTrue(sut.presentedViewController is UIAlertController)
   }
   
   func test_WhenAddedCard_TableViewReloaded() {
@@ -84,10 +74,18 @@ class WordsListVCTests: XCTestCase {
     
     XCTAssertTrue(mockTableView.reloadIsCalled)
   }
+  
+  //cardManager
+  func test_ViewDidLoad_SetsCardManagerToDataProvider() {
+    XCTAssertTrue(sut.cardManager === sut.dataProvider.cardManager)
+  }
+  
+  
 }
 
 extension WordsListVCTests {
   
+  //reload 확인
   class MockTableView: UITableView {
     var reloadIsCalled = false
     
@@ -95,6 +93,16 @@ extension WordsListVCTests {
       reloadIsCalled = true
       
       super.reloadData()
+    }
+  }
+  
+  //pushVC 확인
+  class MockNavigationController: UINavigationController {
+    var pushedVC: UIViewController?
+    
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+      pushedVC = viewController
+      super.pushViewController(viewController, animated: animated)
     }
   }
 }

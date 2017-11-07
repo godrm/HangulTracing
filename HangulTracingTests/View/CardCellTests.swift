@@ -45,14 +45,6 @@ class CardCellTests: XCTestCase {
     XCTAssertEqual(cell.wordLabel.text, "text")
   }
   
-  func test_ConfigCellForDone_GotStroke() {
-    cell.configCell(card: WordCard(word: "done"), checked: true)
-    
-    let attributedString = NSAttributedString(string: "done", attributes: [NSAttributedStringKey.strikethroughStyle: NSUnderlineStyle.styleSingle.rawValue])
-    
-    XCTAssertEqual(cell.wordLabel.attributedText, attributedString)
-  }
-  
 }
 
 //datasource 는 provider 인데 아직 완성전이라 만든건가

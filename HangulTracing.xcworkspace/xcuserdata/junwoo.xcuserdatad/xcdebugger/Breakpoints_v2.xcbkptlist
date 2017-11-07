@@ -9,13 +9,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HangulTracingTests/Model/CardListDataProviderTests.swift"
-            timestampString = "531638354.298877"
+            filePath = "HangulTracing/Controller/WordsListVC.swift"
+            timestampString = "531725254.022786"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
-            landmarkName = "dequeueReusableCell(withIdentifier:for:)"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "pushTracingVC(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

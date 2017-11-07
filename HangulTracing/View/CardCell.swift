@@ -22,9 +22,10 @@ class CardCell: UITableViewCell {
     contentView.addSubview(wordLabel)
     
     wordLabel.snp.makeConstraints { (make) in
-      make.left.top.equalTo(contentView).offset(5)
-      make.bottom.equalTo(contentView).offset(-5)
-      make.width.equalTo(300)
+      make.left.equalTo(contentView).offset(20)
+      make.right.equalTo(contentView).offset(-20)
+      make.top.equalTo(contentView).offset(2)
+      make.bottom.equalTo(contentView).offset(-2)
     }
   }
   
@@ -32,13 +33,8 @@ class CardCell: UITableViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func configCell(card: WordCard, checked: Bool = false) {
-    if checked == false {
-      wordLabel.text = card.word
-    } else {
-      let attributedString = NSAttributedString(string: card.word, attributes: [NSAttributedStringKey.strikethroughStyle: NSUnderlineStyle.styleSingle.rawValue])
-      wordLabel.attributedText = attributedString
-    }
+  func configCell(card: WordCard) {
+    wordLabel.text = card.word
     
   }
   
