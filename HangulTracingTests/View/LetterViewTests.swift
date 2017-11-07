@@ -7,12 +7,16 @@
 //
 
 import XCTest
+@testable import HangulTracing
 
 class LetterViewTests: XCTestCase {
   
+  var letterView: LetterView!
+  
   override func setUp() {
     super.setUp()
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    let tracingVC = TracingVC()
+    _ = tracingVC.view
   }
   
   override func tearDown() {

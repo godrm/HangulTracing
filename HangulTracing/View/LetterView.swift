@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class LetterView: UIView {
   
@@ -16,6 +17,12 @@ class LetterView: UIView {
   var letterSet = Set<CGPoint>()
   var drawSet = Set<CGPoint>()
   var unionPath = UIBezierPath()
+  var speakerBtn: UIButton = {
+    let btn = UIButton()
+    btn.setImage(UIImage(named: "speaker"), for: .normal)
+    return btn
+  }()
+  var speechSynthesizer = AVSpeechSynthesizer()
   
   init(frame: CGRect, letter: String) {
     self.letter = letter
@@ -41,27 +48,35 @@ class LetterView: UIView {
       let cgpath = CTFontCreatePathForGlyph(font, glyphs[0], nil)!
       self.path = UIBezierPath(cgPath: cgpath)
       self.path.apply(CGAffineTransform(scaleX: 1, y: -1))
-      self.path.apply(CGAffineTransform(translationX: UIScreen.main.bounds.width / 7, y: UIScreen.main.bounds.height / 2))
+      self.path.apply(CGAffineTransform(translationX: UIScreen.main.bounds.width / 7, y: UIScreen.main.bounds.height * 3 / 5))
       
       let letterLayer = CAShapeLayer()
       letterLayer.path = self.path.cgPath
       letterLayer.strokeColor = UIColor.black.cgColor
-      letterLayer.lineWidth = 5.0
+      letterLayer.lineWidth = UIScreen.main.bounds.width / 30
       letterLayer.fillColor = nil
       letterLayer.lineJoin = kCALineJoinRound
       self.layer.addSublayer(letterLayer)
     }
+    
+    addSubview(speakerBtn)
+    speakerBtn.snp.makeConstraints { (make) in
+      make.width.height.equalTo(100)
+      make.top.equalTo(self).offset(10)
+      make.right.equalTo(self).offset(-10)
+    }
+    speakerBtn.addTarget(self, action: #selector(LetterView.speakerTapped(_:)), for: .touchUpInside)
   }
   
   func getScreenPointsSet() -> Set<CGPoint> {
     var tempSet = Set<CGPoint>()
-    let viewWidth = Int(self.frame.width / 3)
-    let viewHeight = Int(self.frame.height / 3)
+    let viewWidth = Int(self.frame.width / 10)
+    let viewHeight = Int(self.frame.height / 10)
     
     for w in 0..<viewWidth {
       for h in 0..<viewHeight {
-        let x = CGFloat(w * 3)
-        let y = CGFloat(h * 3)
+        let x = CGFloat(w * 10)
+        let y = CGFloat(h * 10)
         let point = CGPoint(x: x, y: y)
         tempSet.insert(point)
       }
@@ -81,16 +96,25 @@ class LetterView: UIView {
   }
   
   func addLine(_ center: CGPoint) {
-    let r: CGFloat = 10.0
+    let r: CGFloat = UIScreen.main.bounds.width / 20
     let path = UIBezierPath()
     
     path.addArc(withCenter: center, radius: r, startAngle: 0, endAngle: 2 * .pi, clockwise: true)
     let shapeLayer = CAShapeLayer()
     shapeLayer.path = path.cgPath
     shapeLayer.fillColor = UIColor.black.cgColor
-    shapeLayer.lineWidth = 10.0
+    shapeLayer.lineWidth = UIScreen.main.bounds.width / 40
     self.layer.addSublayer(shapeLayer)
     unionPath.append(path)
+  }
+  
+  @objc func speakerTapped(_ sender: UIButton) {
+    synthesizeSpeech(fromString: letter)
+  }
+  
+  func synthesizeSpeech(fromString string:String) {
+    let speechUtterence = AVSpeechUtterance(string: string)
+    speechSynthesizer.speak(speechUtterence)
   }
   
   override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -104,7 +128,7 @@ class LetterView: UIView {
   
   override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
     drawSet = getContainingPoints(tempSet: letterSet, path: unionPath)
-    if drawSet.count * 100 / letterSet.count >= 70 {
+    if drawSet.count * 100 / letterSet.count >= 90 {
       NotificationCenter.default.post(name: Constants().NOTI_DRAW_COMPLETED, object: nil)
     }
   }

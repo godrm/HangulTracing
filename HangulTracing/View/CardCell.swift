@@ -35,7 +35,7 @@ class CardCell: UITableViewCell {
   
   func configCell(card: WordCard) {
     wordLabel.text = card.word
-    
+    wordLabel.font = UIFont(name: "NanumBarunpen", size: 40)!
   }
   
 }
