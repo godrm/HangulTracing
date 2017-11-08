@@ -26,17 +26,4 @@ class WordCardTests: XCTestCase {
     let wordCard = WordCard(word: "다람쥐")
     XCTAssertEqual(wordCard.word, "다람쥐")
   }
-  
-  //equatable
-  func test_EqualWordCards_AreEqual() {
-    let first = WordCard(word: "닌자")
-    let second = WordCard(word: "닌자")
-    XCTAssertEqual(first, second)
-  }
-  
-  func test_WordCards_WhenWordDiffers_AreNotEqual() {
-    let first = WordCard(word: "닌자")
-    let second = WordCard(word: "거북이")
-    XCTAssertNotEqual(first, second)
-  }
 }

@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HangulTracing/Controller/WordsListVC.swift"
-            timestampString = "531800667.279837"
+            timestampString = "531818678.13732"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
             landmarkName = "pushTracingVC(_:)"
             landmarkType = "7">
          </BreakpointContent>
