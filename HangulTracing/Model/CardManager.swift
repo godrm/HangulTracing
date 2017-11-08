@@ -7,16 +7,25 @@
 //
 
 import UIKit
+import RealmSwift
 
 class CardManager: NSObject {
   
-  private var toDoCards: [WordCard] = []
-  
+  var realm: Realm!
+  var toDoCards: Results<WordCard>!
   var toDoCount: Int { return toDoCards.count }
   
+  override init() {
+    realm = try! Realm()
+    toDoCards = realm.objects(WordCard.self)
+  }
+  
   func addCard(newCard: WordCard) {
-    if !toDoCards.contains(newCard) {
-      toDoCards.append(newCard)
+    let myPrimaryKey = newCard.word
+    if realm.object(ofType: WordCard.self, forPrimaryKey: myPrimaryKey) == nil {
+      try! realm.write {
+        realm.add(newCard)
+      }
     }
   }
   
@@ -25,10 +34,14 @@ class CardManager: NSObject {
   }
   
   func completeCardAt(index: Int) {
-    toDoCards.remove(at: index)
+    try! realm.write {
+      realm.delete(toDoCards[index])
+    }
   }
   
   func removeAll() {
-    toDoCards.removeAll()
+    try! realm.write {
+      realm.deleteAll()
+    }
   }
 }

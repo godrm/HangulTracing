@@ -18,6 +18,10 @@ class WordCard: Object {
     
   }
   
+  override static func primaryKey() -> String? {
+    return "word"
+  }
+  
   override func isEqual(_ object: Any?) -> Bool {
     if let card = object as? WordCard {
       return card.word == self.word

@@ -71,6 +71,8 @@ class TracingVC: UIViewController {
     if page < characterViews.count - 1 {
       UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
         self.scrollView.contentOffset.x = self.scrollView.bounds.size.width * CGFloat(page + 1)}, completion: nil)
+    } else {
+      navigationController?.popViewController(animated: true)
     }
     
   }

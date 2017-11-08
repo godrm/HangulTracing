@@ -61,7 +61,7 @@ class LetterView: UIView {
     
     addSubview(speakerBtn)
     speakerBtn.snp.makeConstraints { (make) in
-      make.width.height.equalTo(100)
+      make.width.height.equalTo(50)
       make.top.equalTo(self).offset(10)
       make.right.equalTo(self).offset(-10)
     }

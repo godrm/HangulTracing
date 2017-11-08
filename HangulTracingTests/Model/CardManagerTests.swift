@@ -7,26 +7,35 @@
 //
 
 import XCTest
+import RealmSwift
 @testable import HangulTracing
 
 class CardManagerTests: XCTestCase {
-  
+  var testRealm: Realm!
   var sut: CardManager!
   
   override func setUp() {
     super.setUp()
+    testRealm = try! Realm()
     sut = CardManager()
+    sut.realm = testRealm
+    
+    try! sut.realm.write {
+      sut.realm.deleteAll()
+    }
   }
   
   override func tearDown() {
-    sut.removeAll()
+    try! sut.realm.write {
+      sut.realm.deleteAll()
+    }
     sut = nil
     super.tearDown()
   }
   
   //toDoCount
-  func test_ToDoCount_Initially_IsZero() {
-    XCTAssertEqual(sut.toDoCount, 0)
+  func test_ToDoCount_Initially_SameAsRealmObjectsCount() {
+    XCTAssertEqual(sut.toDoCount, sut.realm.objects(WordCard.self).count)
   }
   
   //addCard
@@ -67,9 +76,9 @@ class CardManagerTests: XCTestCase {
     let second = WordCard(word: "two")
     sut.addCard(newCard: first)
     sut.addCard(newCard: second)
-    
     sut.completeCardAt(index: 0)
-    XCTAssertNotEqual(first, sut.cardAt(index: 0))
+    
+    XCTAssertEqual(second.word, sut.cardAt(index: 0).word)
   }
   
   //removeAll
