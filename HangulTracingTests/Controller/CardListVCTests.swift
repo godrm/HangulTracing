@@ -1,21 +1,21 @@
 //
-//  WordsListVCTests.swift
+//  CardListVCTests.swift
 //  HangulTracingTests
 //
-//  Created by junwoo on 2017. 11. 3..
+//  Created by junwoo on 2017. 11. 9..
 //  Copyright © 2017년 samchon. All rights reserved.
 //
 
 import XCTest
 @testable import HangulTracing
 
-class WordsListVCTests: XCTestCase {
-  
-  var sut: WordsListVC!
+class CardListVCTests: XCTestCase {
+    
+  var sut: CardListVC!
   
   override func setUp() {
     super.setUp()
-    sut = WordsListVC()
+    sut = CardListVC()
     _ = sut.view
   }
   
@@ -25,54 +25,55 @@ class WordsListVCTests: XCTestCase {
   }
   
   //tableView
-  func test_TableView_IsNotNil_AfterViewDidLoad() {
-    XCTAssertNotNil(sut.tableView)
+  func test_CollectionView_IsNotNil_AfterViewDidLoad() {
+    XCTAssertNotNil(sut.collectionView)
   }
   
   //datasource
-  func test_WhenViewDidLoad_SetsTableViewDataSource() {
-    XCTAssertTrue(sut.tableView.dataSource is CardListDataProvider)
+  func test_WhenViewDidLoad_SetsCollectionViewDataSource() {
+    XCTAssertTrue(sut.collectionView.dataSource is DataProvider)
   }
   
   //delegate
-  func test_WhenViewDidLoad_SetsTableViewDelegate() {
-    XCTAssertTrue(sut.tableView.delegate is CardListDataProvider)
+  func test_WhenViewDidLoad_SetsCollectionViewDelegate() {
+    XCTAssertTrue(sut.collectionView.delegate is DataProvider)
   }
   
   func test_WhenViewDidLoad_DataSourceAndDelegateAreSame() {
-    XCTAssertEqual(sut.tableView.dataSource as? CardListDataProvider, sut.tableView.delegate as? CardListDataProvider)
+    XCTAssertEqual(sut.collectionView.dataSource as? DataProvider, sut.collectionView.delegate as? DataProvider)
   }
   
   //UIBarButton
   func test_Controller_HasBarBtnWithSelfAsTarget() {
     let target = sut.navigationItem.rightBarButtonItem?.target
-    XCTAssertEqual(target as? WordsListVC, sut)
+    XCTAssertEqual(target as? CardListVC, sut)
   }
   
-  func test_WhenAddBtnTapped_PresentUIAlertController() {
+  func test_WhenAddBtnTapped_PresentInputVC() {
     XCTAssertNil(sut.presentedViewController)
-
+    
     //버튼 띄우기
     UIApplication.shared.keyWindow?.rootViewController = sut
-
+    
     guard let addBtn = sut.navigationItem.rightBarButtonItem else { XCTFail(); return }
     guard let action = addBtn.action else { XCTFail(); return }
-
+    
     //클릭
     sut.performSelector(onMainThread: action, with: addBtn, waitUntilDone: true)
-    XCTAssertTrue(sut.presentedViewController is UIAlertController)
+    XCTAssertTrue(sut.presentedViewController is InputVC)
   }
   
-  func test_WhenAddedCard_TableViewReloaded() {
-    let mockTableView = MockTableView()
-    sut.tableView = mockTableView
-    sut.dataProvider.cardManager?.addCard(newCard: WordCard(word: "new"))
-    
+  func test_WhenAddedCard_CollectionViewReloaded() {
+    let mockCollectionView = MockCollectionView(frame: CGRect(), collectionViewLayout: UICollectionViewFlowLayout())
+    sut.collectionView = mockCollectionView
+    sut.dataProvider.cardManager?.addCard(newCard: WordCard(word: "test", imageData: Data()))
+
     //viewwillappear
     sut.beginAppearanceTransition(true, animated: true)
     sut.endAppearanceTransition()
+    sut.collectionView.layoutIfNeeded()
     
-    XCTAssertTrue(mockTableView.reloadIsCalled)
+    XCTAssertTrue(mockCollectionView.reloadIsCalled)
   }
   
   //cardManager
@@ -83,15 +84,14 @@ class WordsListVCTests: XCTestCase {
   
 }
 
-extension WordsListVCTests {
+extension CardListVCTests {
   
   //reload 확인
-  class MockTableView: UITableView {
+  class MockCollectionView: UICollectionView {
     var reloadIsCalled = false
     
     override func reloadData() {
       reloadIsCalled = true
-      
       super.reloadData()
     }
   }
@@ -106,3 +106,4 @@ extension WordsListVCTests {
     }
   }
 }
+

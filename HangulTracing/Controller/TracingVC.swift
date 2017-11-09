@@ -26,6 +26,7 @@ class TracingVC: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    self.title = "따라쓰세요"
     NotificationCenter.default.addObserver(self, selector: #selector(TracingVC.goToNextLetter(_:)), name: Constants().NOTI_DRAW_COMPLETED, object: nil)
     view.addSubview(scrollView)
     

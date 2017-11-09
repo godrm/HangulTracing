@@ -1,0 +1,46 @@
+//
+//  DataProvider.swift
+//  HangulTracing
+//
+//  Created by junwoo on 2017. 11. 8..
+//  Copyright © 2017년 samchon. All rights reserved.
+//
+
+import UIKit
+
+class DataProvider: NSObject {
+  var cardManager: CardManager?
+}
+
+extension DataProvider: UICollectionViewDataSource {
+  
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    guard let cardManager = cardManager else { fatalError() }
+    return cardManager.toDoCount
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    guard let cardManager = cardManager else { fatalError() }
+    if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WordCardCell", for: indexPath) as? WordCardCell {
+      cell.configCell(card: cardManager.cardAt(index: indexPath.item))
+      return cell
+    } else {
+      return WordCardCell()
+    }
+  }
+}
+
+extension DataProvider: UICollectionViewDelegate {
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    NotificationCenter.default.post(name: Constants().NOTI_CARD_SELECTED, object: self, userInfo: ["index": indexPath.item])
+  }
+}
+
+extension DataProvider: PinterestLayoutDelegate {
+  func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath:IndexPath) -> CGFloat {
+    guard let cardManager = cardManager else { fatalError() }
+    let imgData =  cardManager.cardAt(index: indexPath.item).imgData
+    guard let image = UIImage(data: imgData) else { return 0 }
+    return image.size.height / 8
+  }
+}

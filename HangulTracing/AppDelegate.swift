@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RealmSwift
 import SnapKit
 
 @UIApplicationMain
@@ -17,23 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    let config = Realm.Configuration(
-      
-      schemaVersion: 2,
-      
-      migrationBlock: { migration, oldSchemaVersion in
-        
-        if (oldSchemaVersion < 1) {
-          
-        }
-    })
-    
-    Realm.Configuration.defaultConfiguration = config
-    let realm = try! Realm()
     
     window = UIWindow(frame: UIScreen.main.bounds)
-    let wordsListVC = WordsListVC()
-    window?.rootViewController = UINavigationController(rootViewController: wordsListVC)
+    let cardListVC = CardListVC()
+    window?.rootViewController = UINavigationController(rootViewController: cardListVC)
     window?.makeKeyAndVisible()
     
     return true

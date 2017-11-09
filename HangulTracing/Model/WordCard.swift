@@ -12,10 +12,12 @@ import RealmSwift
 class WordCard: Object {
   
   @objc dynamic var word: String = ""
-  convenience init(word: String) {
+  @objc dynamic var imgData = Data()
+  
+  convenience init(word: String, imageData: Data) {
     self.init()
     self.word = word
-    
+    self.imgData = imageData
   }
   
   override static func primaryKey() -> String? {

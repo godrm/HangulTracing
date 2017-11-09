@@ -17,20 +17,22 @@
 		484979B91FB18E30000C1E2A /* NanumBarunpenB.otf in Resources */ = {isa = PBXBuildFile; fileRef = 484979B81FB18E26000C1E2A /* NanumBarunpenB.otf */; };
 		484979BA1FB18E33000C1E2A /* NanumBarunpenB.otf in Resources */ = {isa = PBXBuildFile; fileRef = 484979B81FB18E26000C1E2A /* NanumBarunpenB.otf */; };
 		484979BD1FB194A6000C1E2A /* CGPointExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979BC1FB194A6000C1E2A /* CGPointExt.swift */; };
+		484979C51FB2FED5000C1E2A /* InputVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979C41FB2FED5000C1E2A /* InputVC.swift */; };
+		484979C71FB30618000C1E2A /* CameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979C61FB30618000C1E2A /* CameraVC.swift */; };
+		484979C91FB31711000C1E2A /* WordCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979C81FB31711000C1E2A /* WordCardCell.swift */; };
+		484979CB1FB31CFF000C1E2A /* CardListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979CA1FB31CFF000C1E2A /* CardListVC.swift */; };
+		484979CD1FB31DE3000C1E2A /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979CC1FB31DE3000C1E2A /* DataProvider.swift */; };
+		484979CF1FB31F66000C1E2A /* PinterestLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979CE1FB31F66000C1E2A /* PinterestLayout.swift */; };
+		484979D71FB455B1000C1E2A /* WordCardCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979D61FB455B1000C1E2A /* WordCardCellTests.swift */; };
+		484979D91FB45610000C1E2A /* DataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979D81FB45610000C1E2A /* DataProviderTests.swift */; };
+		484979DB1FB4564D000C1E2A /* CardListVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979DA1FB4564D000C1E2A /* CardListVCTests.swift */; };
 		487037911FAC3D6200A966A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487037901FAC3D6200A966A2 /* AppDelegate.swift */; };
 		487037981FAC3D6200A966A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 487037971FAC3D6200A966A2 /* Assets.xcassets */; };
 		4870379B1FAC3D6200A966A2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 487037991FAC3D6200A966A2 /* LaunchScreen.storyboard */; };
-		487037B41FAC3E0100A966A2 /* WordsListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487037B31FAC3E0100A966A2 /* WordsListVC.swift */; };
-		487037B81FAC3F4F00A966A2 /* WordsListVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487037B71FAC3F4F00A966A2 /* WordsListVCTests.swift */; };
-		487037BA1FAC414B00A966A2 /* InitialViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487037B91FAC414B00A966A2 /* InitialViewTests.swift */; };
 		48D1A2001FAC5F3200F4B9A6 /* CardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A1FF1FAC5F3200F4B9A6 /* CardManager.swift */; };
 		48D1A2031FAC63BE00F4B9A6 /* CardManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A2021FAC63BE00F4B9A6 /* CardManagerTests.swift */; };
 		48D1A2051FAC66B900F4B9A6 /* WordCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A2041FAC66B900F4B9A6 /* WordCard.swift */; };
 		48D1A2071FAC673B00F4B9A6 /* WordCardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A2061FAC673B00F4B9A6 /* WordCardTests.swift */; };
-		48D1A2091FAC7D3A00F4B9A6 /* CardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A2081FAC7D3A00F4B9A6 /* CardCell.swift */; };
-		48D1A20C1FAC7D5600F4B9A6 /* CardCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A20B1FAC7D5600F4B9A6 /* CardCellTests.swift */; };
-		48D1A20E1FAD709900F4B9A6 /* CardListDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A20D1FAD709900F4B9A6 /* CardListDataProvider.swift */; };
-		48D1A2101FAD70B300F4B9A6 /* CardListDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A20F1FAD70B300F4B9A6 /* CardListDataProviderTests.swift */; };
 		C40C83AF9C90D98D32F57681 /* Pods_HangulTracing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99F57EDD03313F22B80C0933 /* Pods_HangulTracing.framework */; };
 /* End PBXBuildFile section */
 
@@ -53,6 +55,15 @@
 		484979B61FB17C4F000C1E2A /* LetterViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterViewTests.swift; sourceTree = "<group>"; };
 		484979B81FB18E26000C1E2A /* NanumBarunpenB.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumBarunpenB.otf; sourceTree = "<group>"; };
 		484979BC1FB194A6000C1E2A /* CGPointExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPointExt.swift; sourceTree = "<group>"; };
+		484979C41FB2FED5000C1E2A /* InputVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputVC.swift; sourceTree = "<group>"; };
+		484979C61FB30618000C1E2A /* CameraVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVC.swift; sourceTree = "<group>"; };
+		484979C81FB31711000C1E2A /* WordCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCardCell.swift; sourceTree = "<group>"; };
+		484979CA1FB31CFF000C1E2A /* CardListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListVC.swift; sourceTree = "<group>"; };
+		484979CC1FB31DE3000C1E2A /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
+		484979CE1FB31F66000C1E2A /* PinterestLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinterestLayout.swift; sourceTree = "<group>"; };
+		484979D61FB455B1000C1E2A /* WordCardCellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCardCellTests.swift; sourceTree = "<group>"; };
+		484979D81FB45610000C1E2A /* DataProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProviderTests.swift; sourceTree = "<group>"; };
+		484979DA1FB4564D000C1E2A /* CardListVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListVCTests.swift; sourceTree = "<group>"; };
 		4870378D1FAC3D6200A966A2 /* HangulTracing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HangulTracing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		487037901FAC3D6200A966A2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		487037971FAC3D6200A966A2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -60,17 +71,10 @@
 		4870379C1FAC3D6200A966A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		487037A11FAC3D6300A966A2 /* HangulTracingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HangulTracingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		487037A71FAC3D6300A966A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		487037B31FAC3E0100A966A2 /* WordsListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsListVC.swift; sourceTree = "<group>"; };
-		487037B71FAC3F4F00A966A2 /* WordsListVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsListVCTests.swift; sourceTree = "<group>"; };
-		487037B91FAC414B00A966A2 /* InitialViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewTests.swift; sourceTree = "<group>"; };
 		48D1A1FF1FAC5F3200F4B9A6 /* CardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardManager.swift; sourceTree = "<group>"; };
 		48D1A2021FAC63BE00F4B9A6 /* CardManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardManagerTests.swift; sourceTree = "<group>"; };
 		48D1A2041FAC66B900F4B9A6 /* WordCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCard.swift; sourceTree = "<group>"; };
 		48D1A2061FAC673B00F4B9A6 /* WordCardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCardTests.swift; sourceTree = "<group>"; };
-		48D1A2081FAC7D3A00F4B9A6 /* CardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCell.swift; sourceTree = "<group>"; };
-		48D1A20B1FAC7D5600F4B9A6 /* CardCellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCellTests.swift; sourceTree = "<group>"; };
-		48D1A20D1FAD709900F4B9A6 /* CardListDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListDataProvider.swift; sourceTree = "<group>"; };
-		48D1A20F1FAD70B300F4B9A6 /* CardListDataProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListDataProviderTests.swift; sourceTree = "<group>"; };
 		90A3176324348AAAD5837702 /* Pods-HangulTracingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HangulTracingTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HangulTracingTests/Pods-HangulTracingTests.release.xcconfig"; sourceTree = "<group>"; };
 		99B3EC0E1BE194E1C579ECAC /* Pods-HangulTracingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HangulTracingTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HangulTracingTests/Pods-HangulTracingTests.debug.xcconfig"; sourceTree = "<group>"; };
 		99F57EDD03313F22B80C0933 /* Pods_HangulTracing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HangulTracing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -167,7 +171,6 @@
 				48D1A2011FAC63A900F4B9A6 /* Model */,
 				487037B61FAC3EEA00A966A2 /* Controller */,
 				487037A71FAC3D6300A966A2 /* Info.plist */,
-				487037B91FAC414B00A966A2 /* InitialViewTests.swift */,
 			);
 			path = HangulTracingTests;
 			sourceTree = "<group>";
@@ -175,8 +178,10 @@
 		487037B01FAC3D9200A966A2 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				487037B31FAC3E0100A966A2 /* WordsListVC.swift */,
 				484979B01FB16B80000C1E2A /* TracingVC.swift */,
+				484979C41FB2FED5000C1E2A /* InputVC.swift */,
+				484979C61FB30618000C1E2A /* CameraVC.swift */,
+				484979CA1FB31CFF000C1E2A /* CardListVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -184,8 +189,9 @@
 		487037B11FAC3D9B00A966A2 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				48D1A2081FAC7D3A00F4B9A6 /* CardCell.swift */,
 				484979B41FB17C41000C1E2A /* LetterView.swift */,
+				484979C81FB31711000C1E2A /* WordCardCell.swift */,
+				484979CE1FB31F66000C1E2A /* PinterestLayout.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -195,7 +201,7 @@
 			children = (
 				48D1A1FF1FAC5F3200F4B9A6 /* CardManager.swift */,
 				48D1A2041FAC66B900F4B9A6 /* WordCard.swift */,
-				48D1A20D1FAD709900F4B9A6 /* CardListDataProvider.swift */,
+				484979CC1FB31DE3000C1E2A /* DataProvider.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -203,8 +209,8 @@
 		487037B61FAC3EEA00A966A2 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				487037B71FAC3F4F00A966A2 /* WordsListVCTests.swift */,
 				484979B21FB16B90000C1E2A /* TracingVCTests.swift */,
+				484979DA1FB4564D000C1E2A /* CardListVCTests.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -214,7 +220,7 @@
 			children = (
 				48D1A2021FAC63BE00F4B9A6 /* CardManagerTests.swift */,
 				48D1A2061FAC673B00F4B9A6 /* WordCardTests.swift */,
-				48D1A20F1FAD70B300F4B9A6 /* CardListDataProviderTests.swift */,
+				484979D81FB45610000C1E2A /* DataProviderTests.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -222,8 +228,8 @@
 		48D1A20A1FAC7D4400F4B9A6 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				48D1A20B1FAC7D5600F4B9A6 /* CardCellTests.swift */,
 				484979B61FB17C4F000C1E2A /* LetterViewTests.swift */,
+				484979D61FB455B1000C1E2A /* WordCardCellTests.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -456,15 +462,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				48D1A20E1FAD709900F4B9A6 /* CardListDataProvider.swift in Sources */,
 				484979B51FB17C41000C1E2A /* LetterView.swift in Sources */,
-				48D1A2091FAC7D3A00F4B9A6 /* CardCell.swift in Sources */,
 				48D1A2001FAC5F3200F4B9A6 /* CardManager.swift in Sources */,
+				484979CB1FB31CFF000C1E2A /* CardListVC.swift in Sources */,
 				484979B11FB16B80000C1E2A /* TracingVC.swift in Sources */,
-				487037B41FAC3E0100A966A2 /* WordsListVC.swift in Sources */,
+				484979C51FB2FED5000C1E2A /* InputVC.swift in Sources */,
+				484979C71FB30618000C1E2A /* CameraVC.swift in Sources */,
 				484979AE1FB15F37000C1E2A /* Constants.swift in Sources */,
 				487037911FAC3D6200A966A2 /* AppDelegate.swift in Sources */,
 				484979BD1FB194A6000C1E2A /* CGPointExt.swift in Sources */,
+				484979CF1FB31F66000C1E2A /* PinterestLayout.swift in Sources */,
+				484979CD1FB31DE3000C1E2A /* DataProvider.swift in Sources */,
+				484979C91FB31711000C1E2A /* WordCardCell.swift in Sources */,
 				48D1A2051FAC66B900F4B9A6 /* WordCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -474,13 +483,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				484979B71FB17C4F000C1E2A /* LetterViewTests.swift in Sources */,
-				487037B81FAC3F4F00A966A2 /* WordsListVCTests.swift in Sources */,
-				487037BA1FAC414B00A966A2 /* InitialViewTests.swift in Sources */,
-				48D1A2101FAD70B300F4B9A6 /* CardListDataProviderTests.swift in Sources */,
+				484979D71FB455B1000C1E2A /* WordCardCellTests.swift in Sources */,
 				484979B31FB16B90000C1E2A /* TracingVCTests.swift in Sources */,
-				48D1A20C1FAC7D5600F4B9A6 /* CardCellTests.swift in Sources */,
 				484979AF1FB1659B000C1E2A /* Constants.swift in Sources */,
 				48D1A2031FAC63BE00F4B9A6 /* CardManagerTests.swift in Sources */,
+				484979D91FB45610000C1E2A /* DataProviderTests.swift in Sources */,
+				484979DB1FB4564D000C1E2A /* CardListVCTests.swift in Sources */,
 				48D1A2071FAC673B00F4B9A6 /* WordCardTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

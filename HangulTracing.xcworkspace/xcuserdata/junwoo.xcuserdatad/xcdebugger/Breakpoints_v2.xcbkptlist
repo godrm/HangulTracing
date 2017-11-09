@@ -9,13 +9,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "HangulTracing/Controller/WordsListVC.swift"
-            timestampString = "531818678.13732"
+            filePath = "HangulTracing/Controller/InputVC.swift"
+            timestampString = "531913103.849496"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
-            landmarkName = "pushTracingVC(_:)"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "addBtnTapped(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

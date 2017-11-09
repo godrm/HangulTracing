@@ -40,14 +40,14 @@ class CardManagerTests: XCTestCase {
   
   //addCard
   func test_AddCard_IncreaseToDoCountToOne() {
-    let newCard = WordCard(word: "news")
+    let newCard = WordCard(word: "new", imageData: Data())
     sut.addCard(newCard: newCard)
     XCTAssertEqual(sut.toDoCount, 1)
   }
   
   func test_WhenSameCardAdded_NotIncreaseToDoCount() {
-    let newCard = WordCard(word: "same")
-    let card = WordCard(word: "same")
+    let newCard = WordCard(word: "same", imageData: Data())
+    let card = WordCard(word: "same", imageData: Data())
     sut.addCard(newCard: newCard)
     sut.addCard(newCard: card)
     XCTAssertEqual(sut.toDoCount, 1)
@@ -55,7 +55,7 @@ class CardManagerTests: XCTestCase {
   
   //cardAt
   func test_CardAt_AfterAddingCard_ReturnsThatCard() {
-    let newCard = WordCard(word: "new")
+    let newCard = WordCard(word: "new", imageData: Data())
     sut.addCard(newCard: newCard)
     
     XCTAssertEqual(newCard.word, sut.cardAt(index: 0).word)
@@ -63,7 +63,7 @@ class CardManagerTests: XCTestCase {
   
   //completeCardAt
   func test_CompleteCardAt_ChangesCounts() {
-    let newCard = WordCard(word: "temp")
+    let newCard = WordCard(word: "temp", imageData: Data())
     sut.addCard(newCard: newCard)
     XCTAssertEqual(sut.toDoCount, 1)
     
@@ -72,8 +72,8 @@ class CardManagerTests: XCTestCase {
   }
   
   func test_CompleteCardAt_RemoveItFromToDoCards() {
-    let first = WordCard(word: "one")
-    let second = WordCard(word: "two")
+    let first = WordCard(word: "one", imageData: Data())
+    let second = WordCard(word: "two", imageData: Data())
     sut.addCard(newCard: first)
     sut.addCard(newCard: second)
     sut.completeCardAt(index: 0)
@@ -83,8 +83,8 @@ class CardManagerTests: XCTestCase {
   
   //removeAll
   func test_removeAll_CountsToBeZero() {
-    let first = WordCard(word: "one")
-    let second = WordCard(word: "two")
+    let first = WordCard(word: "one", imageData: Data())
+    let second = WordCard(word: "two", imageData: Data())
     sut.addCard(newCard: first)
     sut.addCard(newCard: second)
     sut.completeCardAt(index: 0)
