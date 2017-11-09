@@ -8,11 +8,32 @@
 
 import UIKit
 
+protocol DeleteBtnDelegate: class {
+  func deleteBtnTapped(sender: UIButton)
+}
+
+extension DeleteBtnDelegate {
+  func deleteBtnTapped(sender: UIButton) {}
+}
+
+enum CellMode: Int {
+  case normal
+  case delete
+}
+
 class WordCardCell: UICollectionViewCell {
   
+  weak var deleteBtnDelegate: DeleteBtnDelegate?
+  var cellMode: CellMode = .normal
   var imgView: UIImageView = {
     let imgView = UIImageView()
+    imgView.contentMode = .scaleAspectFill
     return imgView
+  }()
+  var deleteBtn: UIButton = {
+    let btn = UIButton()
+    btn.setImage(UIImage(named: "delete"), for: .normal)
+    return btn
   }()
   var wordLabel: UILabel = {
     let label = UILabel()
@@ -29,6 +50,14 @@ class WordCardCell: UICollectionViewCell {
     contentView.layer.masksToBounds = true
     contentView.addSubview(imgView)
     contentView.addSubview(wordLabel)
+    contentView.addSubview(deleteBtn)
+    deleteBtn.isHidden = true
+    
+    let longPress = UILongPressGestureRecognizer(target: self, action: #selector(WordCardCell.handleLongPress(_:)))
+    longPress.minimumPressDuration = 0.5
+    longPress.delaysTouchesBegan = true
+    longPress.delegate = self
+    self.addGestureRecognizer(longPress)
     
     wordLabel.snp.makeConstraints { (make) in
       make.left.equalTo(contentView).offset(2)
@@ -41,6 +70,10 @@ class WordCardCell: UICollectionViewCell {
       make.right.equalTo(contentView).offset(-2)
       make.bottom.equalTo(wordLabel.snp.top).offset(-2)
     }
+    deleteBtn.snp.makeConstraints { (make) in
+      make.left.top.equalTo(contentView).offset(2)
+      make.width.height.equalTo(50)
+    }
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -48,8 +81,28 @@ class WordCardCell: UICollectionViewCell {
   }
   
   func configCell(card: WordCard) {
+    
+    if cellMode == .normal {
+      deleteBtn.isHidden = true
+    } else {
+      deleteBtn.isHidden = false
+    }
     wordLabel.text = card.word
     wordLabel.font = UIFont(name: "NanumBarunpen", size: 14)!
     imgView.image = UIImage(data: card.imgData)
+  }
+  
+  @objc func deleteBtnTapped() {
+    self.deleteBtnDelegate?.deleteBtnTapped(sender: deleteBtn)
+  }
+}
+
+extension WordCardCell: UIGestureRecognizerDelegate {
+  @objc func handleLongPress(_ recognizer: UILongPressGestureRecognizer) {
+    if cellMode == .normal {
+      cellMode = .delete
+    } else {
+      cellMode = .normal
+    }
   }
 }

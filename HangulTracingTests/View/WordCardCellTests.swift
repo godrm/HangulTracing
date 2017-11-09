@@ -22,6 +22,8 @@ class WordCardCellTests: XCTestCase {
     _ = cardListVC.view
     collectionView = cardListVC.collectionView
     collectionView.dataSource = dataSource
+    
+    //tableview와 달리 layout을 설정해줘야 함
     collectionView.collectionViewLayout = UICollectionViewFlowLayout()
     
     //dequeue

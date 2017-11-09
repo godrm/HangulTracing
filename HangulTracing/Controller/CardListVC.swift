@@ -76,3 +76,16 @@ class CardListVC: UIViewController {
     navigationController?.pushViewController(nextVC, animated: true)
   }
 }
+
+extension CardListVC: DeleteBtnDelegate {
+  func deleteBtnTapped(sender: UIButton) {
+    
+    if let cell = sender.superview?.superview as? WordCardCell {
+      if cell.superview == collectionView {
+        let indexPath = collectionView.indexPath(for: cell)
+        cardManager.completeCardAt(index: (indexPath?.item)!)
+        collectionView.reloadData()
+      }
+    }
+  }
+}
