@@ -29,7 +29,7 @@ extension DataProvider: UICollectionViewDataSource {
     guard let cardManager = cardManager else { fatalError() }
     if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WordCardCell", for: indexPath) as? WordCardCell {
       cell.configCell(card: cardManager.cardAt(index: indexPath.item), cellMode: cellMode)
-      cell.deleteBtnDelegate = collectionView.parentViewController as! CardListVC
+      cell.deleteBtnDelegate = collectionView.parentViewController as? CardListVC
       return cell
     } else {
       return WordCardCell()

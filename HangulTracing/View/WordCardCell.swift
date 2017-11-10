@@ -32,8 +32,8 @@ class WordCardCell: UICollectionViewCell {
   }()
   var wordLabel: UILabel = {
     let label = UILabel()
-    label.backgroundColor = #colorLiteral(red: 0.9385011792, green: 0.7164435983, blue: 0.3331357837, alpha: 0.8)
-    label.font = UIFont(name: "NanumBarunpen", size: 22)!
+    label.backgroundColor = UIColor(hex: "1EC545")
+    label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     label.textAlignment = .center
     return label
   }()
@@ -47,11 +47,6 @@ class WordCardCell: UICollectionViewCell {
     contentView.addSubview(wordLabel)
     contentView.addSubview(deleteBtn)
     deleteBtn.isHidden = true
-    
-    let longPress = UILongPressGestureRecognizer(target: self, action: #selector(WordCardCell.handleLongPress(_:)))
-    longPress.minimumPressDuration = 0.5
-    longPress.delaysTouchesBegan = true
-    self.addGestureRecognizer(longPress)
     deleteBtn.addTarget(self, action: #selector(deleteBtnTapped), for: .touchUpInside)
     
     wordLabel.snp.makeConstraints { (make) in
@@ -66,8 +61,8 @@ class WordCardCell: UICollectionViewCell {
       make.bottom.equalTo(wordLabel.snp.top).offset(-2)
     }
     deleteBtn.snp.makeConstraints { (make) in
-      make.left.top.equalTo(contentView).offset(2)
-      make.width.height.equalTo(50)
+      make.left.top.equalTo(contentView)
+      make.width.height.equalTo(40)
     }
   }
   
@@ -89,13 +84,6 @@ class WordCardCell: UICollectionViewCell {
   
   @objc func deleteBtnTapped() {
     self.deleteBtnDelegate?.deleteBtnTapped(sender: deleteBtn)
-  }
-  
-  @objc func handleLongPress(_ recognizer: UILongPressGestureRecognizer) {
-    if recognizer.state != UIGestureRecognizerState.ended {
-      return
-    }
-    NotificationCenter.default.post(name: Constants().NOTI_CELL_LONGPRESSED, object: nil)
   }
 }
 

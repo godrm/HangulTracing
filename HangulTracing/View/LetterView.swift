@@ -27,7 +27,7 @@ class LetterView: UIView {
   init(frame: CGRect, letter: String) {
     self.letter = letter
     super.init(frame: frame)
-    self.backgroundColor = #colorLiteral(red: 0.9385011792, green: 0.7164435983, blue: 0.3331357837, alpha: 1)
+    self.backgroundColor = UIColor(hex: "1EC545")
     setupView()
     screenPointsSet = getScreenPointsSet()
     letterSet = getContainingPoints(tempSet: screenPointsSet, path: self.path)
@@ -54,7 +54,7 @@ class LetterView: UIView {
       letterLayer.path = self.path.cgPath
       letterLayer.strokeColor = UIColor.black.cgColor
       letterLayer.lineWidth = UIScreen.main.bounds.width / 30
-      letterLayer.fillColor = nil
+      letterLayer.fillColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
       letterLayer.lineJoin = kCALineJoinRound
       self.layer.addSublayer(letterLayer)
     }

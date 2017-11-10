@@ -45,19 +45,30 @@ class WordCardCellTests: XCTestCase {
     XCTAssertNotNil(cell.imgView)
   }
   
+  func test_HasDeleteBtn() {
+    XCTAssertNotNil(cell.deleteBtn)
+  }
+  
   //configCell
   func test_ConfigCell_SetsWordLabelText() {
     let imgData = Data()
     let card = WordCard(word: "text", imageData: imgData)
-    cell.configCell(card: card)
+    cell.configCell(card: card, cellMode: .normal)
     XCTAssertEqual("text", cell.wordLabel.text)
   }
   
   func test_ConfigCell_SetsImg() {
     let imgData = Data()
     let card = WordCard(word: "temp", imageData: imgData)
-    cell.configCell(card: card)
+    cell.configCell(card: card, cellMode: .normal)
     XCTAssertEqual(UIImage(data: imgData), cell.imgView.image)
+  }
+  
+  func test_WhenCellModeIsDelete_DeleteBtnIsShowing() {
+    let imgData = Data()
+    let card = WordCard(word: "temp", imageData: imgData)
+    cell.configCell(card: card, cellMode: .delete)
+    XCTAssertFalse(cell.deleteBtn.isHidden)
   }
   
 }

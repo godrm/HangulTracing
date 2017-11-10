@@ -27,6 +27,9 @@
 		484979D91FB45610000C1E2A /* DataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979D81FB45610000C1E2A /* DataProviderTests.swift */; };
 		484979DB1FB4564D000C1E2A /* CardListVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979DA1FB4564D000C1E2A /* CardListVCTests.swift */; };
 		484979DD1FB54B73000C1E2A /* UIViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979DC1FB54B73000C1E2A /* UIViewExt.swift */; };
+		484979DF1FB56ABC000C1E2A /* InputVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979DE1FB56ABC000C1E2A /* InputVCTests.swift */; };
+		484979E11FB56ACD000C1E2A /* CameraVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979E01FB56ACD000C1E2A /* CameraVCTests.swift */; };
+		484979E31FB5747F000C1E2A /* UIColorExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979E21FB5747F000C1E2A /* UIColorExt.swift */; };
 		487037911FAC3D6200A966A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487037901FAC3D6200A966A2 /* AppDelegate.swift */; };
 		487037981FAC3D6200A966A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 487037971FAC3D6200A966A2 /* Assets.xcassets */; };
 		4870379B1FAC3D6200A966A2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 487037991FAC3D6200A966A2 /* LaunchScreen.storyboard */; };
@@ -66,6 +69,9 @@
 		484979D81FB45610000C1E2A /* DataProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProviderTests.swift; sourceTree = "<group>"; };
 		484979DA1FB4564D000C1E2A /* CardListVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListVCTests.swift; sourceTree = "<group>"; };
 		484979DC1FB54B73000C1E2A /* UIViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExt.swift; sourceTree = "<group>"; };
+		484979DE1FB56ABC000C1E2A /* InputVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputVCTests.swift; sourceTree = "<group>"; };
+		484979E01FB56ACD000C1E2A /* CameraVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVCTests.swift; sourceTree = "<group>"; };
+		484979E21FB5747F000C1E2A /* UIColorExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExt.swift; sourceTree = "<group>"; };
 		4870378D1FAC3D6200A966A2 /* HangulTracing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HangulTracing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		487037901FAC3D6200A966A2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		487037971FAC3D6200A966A2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -126,6 +132,7 @@
 			children = (
 				484979BC1FB194A6000C1E2A /* CGPointExt.swift */,
 				484979DC1FB54B73000C1E2A /* UIViewExt.swift */,
+				484979E21FB5747F000C1E2A /* UIColorExt.swift */,
 			);
 			path = Ext;
 			sourceTree = "<group>";
@@ -214,6 +221,8 @@
 			children = (
 				484979B21FB16B90000C1E2A /* TracingVCTests.swift */,
 				484979DA1FB4564D000C1E2A /* CardListVCTests.swift */,
+				484979DE1FB56ABC000C1E2A /* InputVCTests.swift */,
+				484979E01FB56ACD000C1E2A /* CameraVCTests.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -478,6 +487,7 @@
 				484979CF1FB31F66000C1E2A /* PinterestLayout.swift in Sources */,
 				484979CD1FB31DE3000C1E2A /* DataProvider.swift in Sources */,
 				484979C91FB31711000C1E2A /* WordCardCell.swift in Sources */,
+				484979E31FB5747F000C1E2A /* UIColorExt.swift in Sources */,
 				48D1A2051FAC66B900F4B9A6 /* WordCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -493,7 +503,9 @@
 				48D1A2031FAC63BE00F4B9A6 /* CardManagerTests.swift in Sources */,
 				484979D91FB45610000C1E2A /* DataProviderTests.swift in Sources */,
 				484979DB1FB4564D000C1E2A /* CardListVCTests.swift in Sources */,
+				484979DF1FB56ABC000C1E2A /* InputVCTests.swift in Sources */,
 				48D1A2071FAC673B00F4B9A6 /* WordCardTests.swift in Sources */,
+				484979E11FB56ACD000C1E2A /* CameraVCTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -22,8 +22,9 @@ class CameraVC: UIViewController {
   }()
   var capturedImgView: UIImageView = {
     let imgView = UIImageView()
-    imgView.backgroundColor = #colorLiteral(red: 0.9385011792, green: 0.7164435983, blue: 0.3331357837, alpha: 0.8)
+    imgView.backgroundColor = UIColor(hex: "1EC545")
     imgView.layer.cornerRadius = 15
+    imgView.clipsToBounds = true
     return imgView
   }()
   var saveBtn: UIButton = {

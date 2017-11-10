@@ -13,5 +13,4 @@ struct Constants {
   let NOTI_CARD_SELECTED = Notification.Name(rawValue: "cardSelected")
   let NOTI_DRAW_COMPLETED = Notification.Name("drawCompleted")
   let NOTI_PHOTO_SELECTED = Notification.Name(rawValue: "photoSelected")
-  let NOTI_CELL_LONGPRESSED = Notification.Name("cellLongPressed")
 }

@@ -19,6 +19,10 @@ class CardListVC: UIViewController {
     let buttonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(CardListVC.addBtnTapped(_:)))
     return buttonItem
   }()
+  var editBarBtnItem: UIBarButtonItem = {
+    let buttonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: #selector(CardListVC.editBtnTapped(_:)))
+    return buttonItem
+  }()
   var collectionView: UICollectionView!
   var pinterestLayout = PinterestLayout()
   let cardManager = CardManager()
@@ -27,8 +31,7 @@ class CardListVC: UIViewController {
     super.viewDidLoad()
     self.title = "단어장"
     NotificationCenter.default.addObserver(self, selector: #selector(CardListVC.pushTracingVC(_:)), name: Constants().NOTI_CARD_SELECTED, object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(CardListVC.cellLongPressed(_:)), name: Constants().NOTI_CELL_LONGPRESSED, object: nil)
-    view.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
+    view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: UICollectionViewFlowLayout())
     collectionView.backgroundColor = UIColor.clear
     collectionView.register(WordCardCell.self, forCellWithReuseIdentifier: "WordCardCell")
@@ -40,9 +43,13 @@ class CardListVC: UIViewController {
       layout.delegate = dataProvider
     }
     dataProvider.cardManager = cardManager
+    
     addBarBtnItem.target = self
     addBarBtnItem.action = #selector(CardListVC.addBtnTapped(_:))
     navigationItem.rightBarButtonItem = addBarBtnItem
+    editBarBtnItem.target = self
+    editBarBtnItem.action = #selector(CardListVC.editBtnTapped(_:))
+    navigationItem.leftBarButtonItem = editBarBtnItem
     
     view.setNeedsUpdateConstraints()
   }
@@ -76,7 +83,7 @@ class CardListVC: UIViewController {
     nextVC.cardInfo = (cardManager, index)
     navigationController?.pushViewController(nextVC, animated: true)
   }
-  @objc func cellLongPressed(_ notification: NSNotification) {
+  @objc func editBtnTapped(_ sender: UIBarButtonItem) {
     if dataProvider.cellMode == .normal {
       dataProvider.cellMode = .delete
     } else {
