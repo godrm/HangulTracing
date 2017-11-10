@@ -60,6 +60,7 @@ class InputVC: UIViewController {
     addBtn.addTarget(self, action: #selector(InputVC.addBtnTapped(_:)), for: .touchUpInside)
     cancelBtn.addTarget(self, action: #selector(InputVC.cancelBtnTapped(_:)), for: .touchUpInside)
     view.setNeedsUpdateConstraints()
+    
   }
   
   override func updateViewConstraints() {
