@@ -8,8 +8,14 @@
 
 import UIKit
 
+enum CellMode: Int {
+  case normal
+  case delete
+}
+
 class DataProvider: NSObject {
   var cardManager: CardManager?
+  var cellMode: CellMode = .normal
 }
 
 extension DataProvider: UICollectionViewDataSource {
@@ -22,7 +28,8 @@ extension DataProvider: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     guard let cardManager = cardManager else { fatalError() }
     if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WordCardCell", for: indexPath) as? WordCardCell {
-      cell.configCell(card: cardManager.cardAt(index: indexPath.item))
+      cell.configCell(card: cardManager.cardAt(index: indexPath.item), cellMode: cellMode)
+      cell.deleteBtnDelegate = collectionView.parentViewController as! CardListVC
       return cell
     } else {
       return WordCardCell()

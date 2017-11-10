@@ -16,15 +16,10 @@ extension DeleteBtnDelegate {
   func deleteBtnTapped(sender: UIButton) {}
 }
 
-enum CellMode: Int {
-  case normal
-  case delete
-}
-
 class WordCardCell: UICollectionViewCell {
   
   weak var deleteBtnDelegate: DeleteBtnDelegate?
-  var cellMode: CellMode = .normal
+  
   var imgView: UIImageView = {
     let imgView = UIImageView()
     imgView.contentMode = .scaleAspectFill
@@ -56,8 +51,8 @@ class WordCardCell: UICollectionViewCell {
     let longPress = UILongPressGestureRecognizer(target: self, action: #selector(WordCardCell.handleLongPress(_:)))
     longPress.minimumPressDuration = 0.5
     longPress.delaysTouchesBegan = true
-    longPress.delegate = self
     self.addGestureRecognizer(longPress)
+    deleteBtn.addTarget(self, action: #selector(deleteBtnTapped), for: .touchUpInside)
     
     wordLabel.snp.makeConstraints { (make) in
       make.left.equalTo(contentView).offset(2)
@@ -80,7 +75,7 @@ class WordCardCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func configCell(card: WordCard) {
+  func configCell(card: WordCard, cellMode: CellMode) {
     
     if cellMode == .normal {
       deleteBtn.isHidden = true
@@ -95,14 +90,12 @@ class WordCardCell: UICollectionViewCell {
   @objc func deleteBtnTapped() {
     self.deleteBtnDelegate?.deleteBtnTapped(sender: deleteBtn)
   }
-}
-
-extension WordCardCell: UIGestureRecognizerDelegate {
+  
   @objc func handleLongPress(_ recognizer: UILongPressGestureRecognizer) {
-    if cellMode == .normal {
-      cellMode = .delete
-    } else {
-      cellMode = .normal
+    if recognizer.state != UIGestureRecognizerState.ended {
+      return
     }
+    NotificationCenter.default.post(name: Constants().NOTI_CELL_LONGPRESSED, object: nil)
   }
 }
+

@@ -10,7 +10,7 @@ import UIKit
 
 class CardListVC: UIViewController {
   var didSetupConstraints = false
-  
+  var cellMode: CellMode = .normal
   var dataProvider: DataProvider = {
     let provider = DataProvider()
     return provider
@@ -27,6 +27,7 @@ class CardListVC: UIViewController {
     super.viewDidLoad()
     self.title = "단어장"
     NotificationCenter.default.addObserver(self, selector: #selector(CardListVC.pushTracingVC(_:)), name: Constants().NOTI_CARD_SELECTED, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(CardListVC.cellLongPressed(_:)), name: Constants().NOTI_CELL_LONGPRESSED, object: nil)
     view.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
     collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: UICollectionViewFlowLayout())
     collectionView.backgroundColor = UIColor.clear
@@ -75,6 +76,14 @@ class CardListVC: UIViewController {
     nextVC.cardInfo = (cardManager, index)
     navigationController?.pushViewController(nextVC, animated: true)
   }
+  @objc func cellLongPressed(_ notification: NSNotification) {
+    if dataProvider.cellMode == .normal {
+      dataProvider.cellMode = .delete
+    } else {
+      dataProvider.cellMode = .normal
+    }
+    collectionView.reloadData()
+  }
 }
 
 extension CardListVC: DeleteBtnDelegate {
@@ -82,9 +91,12 @@ extension CardListVC: DeleteBtnDelegate {
     
     if let cell = sender.superview?.superview as? WordCardCell {
       if cell.superview == collectionView {
-        let indexPath = collectionView.indexPath(for: cell)
-        cardManager.completeCardAt(index: (indexPath?.item)!)
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        dataProvider.cardManager?.completeCardAt(index: indexPath.item)
         collectionView.reloadData()
+        let layout = PinterestLayout()
+        layout.delegate = dataProvider
+        collectionView.collectionViewLayout = layout
       }
     }
   }
