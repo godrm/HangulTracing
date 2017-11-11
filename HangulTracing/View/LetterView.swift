@@ -105,7 +105,7 @@ class LetterView: UIView {
     let shapeLayer = CAShapeLayer()
     shapeLayer.path = path.cgPath
     shapeLayer.fillColor = UIColor.black.cgColor
-    shapeLayer.lineWidth = UIScreen.main.bounds.width / 20
+    shapeLayer.lineWidth = UIScreen.main.bounds.width / 30
     self.layer.addSublayer(shapeLayer)
     unionPath.append(path)
   }
@@ -122,7 +122,7 @@ class LetterView: UIView {
   override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
     if let touch = touches.first {
       let currentPoint = touch.location(in: self)
-      if self.path.contains(currentPoint) {
+      if path.contains(currentPoint) {
         addLine(currentPoint)
       }
     }

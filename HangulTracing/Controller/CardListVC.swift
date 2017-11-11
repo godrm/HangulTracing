@@ -31,6 +31,7 @@ class CardListVC: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
     self.title = "단어장"
     NotificationCenter.default.addObserver(self, selector: #selector(CardListVC.pushTracingVC(_:)), name: Constants().NOTI_CARD_SELECTED, object: nil)
     view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
@@ -103,6 +104,7 @@ class CardListVC: UIViewController {
   
   @objc func gameBtnTapped(_ sender: UIBarButtonItem) {
     let gameVC = GameVC()
+    gameVC.cardManager = cardManager
     present(gameVC, animated: true, completion: nil)
   }
 }

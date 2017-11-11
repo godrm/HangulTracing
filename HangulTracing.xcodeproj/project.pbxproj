@@ -32,6 +32,7 @@
 		484979E31FB5747F000C1E2A /* UIColorExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979E21FB5747F000C1E2A /* UIColorExt.swift */; };
 		484979E71FB69DA8000C1E2A /* AddBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979E61FB69DA8000C1E2A /* AddBtn.swift */; };
 		484979E91FB6C450000C1E2A /* GameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979E81FB6C450000C1E2A /* GameVC.swift */; };
+		484979ED1FB6D7B0000C1E2A /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979EC1FB6D7B0000C1E2A /* GameView.swift */; };
 		487037911FAC3D6200A966A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487037901FAC3D6200A966A2 /* AppDelegate.swift */; };
 		487037981FAC3D6200A966A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 487037971FAC3D6200A966A2 /* Assets.xcassets */; };
 		4870379B1FAC3D6200A966A2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 487037991FAC3D6200A966A2 /* LaunchScreen.storyboard */; };
@@ -76,6 +77,7 @@
 		484979E21FB5747F000C1E2A /* UIColorExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExt.swift; sourceTree = "<group>"; };
 		484979E61FB69DA8000C1E2A /* AddBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBtn.swift; sourceTree = "<group>"; };
 		484979E81FB6C450000C1E2A /* GameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameVC.swift; sourceTree = "<group>"; };
+		484979EC1FB6D7B0000C1E2A /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		4870378D1FAC3D6200A966A2 /* HangulTracing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HangulTracing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		487037901FAC3D6200A966A2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		487037971FAC3D6200A966A2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -164,13 +166,13 @@
 		4870378F1FAC3D6200A966A2 /* HangulTracing */ = {
 			isa = PBXGroup;
 			children = (
+				487037901FAC3D6200A966A2 /* AppDelegate.swift */,
 				484979BB1FB19492000C1E2A /* Ext */,
 				484979B81FB18E26000C1E2A /* NanumBarunpenB.otf */,
 				484979AC1FB15F27000C1E2A /* Constants */,
 				487037B21FAC3DA300A966A2 /* Model */,
 				487037B11FAC3D9B00A966A2 /* View */,
 				487037B01FAC3D9200A966A2 /* Controller */,
-				487037901FAC3D6200A966A2 /* AppDelegate.swift */,
 				487037971FAC3D6200A966A2 /* Assets.xcassets */,
 				487037991FAC3D6200A966A2 /* LaunchScreen.storyboard */,
 				4870379C1FAC3D6200A966A2 /* Info.plist */,
@@ -209,6 +211,7 @@
 				484979CE1FB31F66000C1E2A /* PinterestLayout.swift */,
 				484979E61FB69DA8000C1E2A /* AddBtn.swift */,
 				48D1A2041FAC66B900F4B9A6 /* WordCard.swift */,
+				484979EC1FB6D7B0000C1E2A /* GameView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -484,6 +487,7 @@
 				484979B51FB17C41000C1E2A /* LetterView.swift in Sources */,
 				48D1A2001FAC5F3200F4B9A6 /* CardManager.swift in Sources */,
 				484979CB1FB31CFF000C1E2A /* CardListVC.swift in Sources */,
+				484979ED1FB6D7B0000C1E2A /* GameView.swift in Sources */,
 				484979E71FB69DA8000C1E2A /* AddBtn.swift in Sources */,
 				484979E91FB6C450000C1E2A /* GameVC.swift in Sources */,
 				484979B11FB16B80000C1E2A /* TracingVC.swift in Sources */,
