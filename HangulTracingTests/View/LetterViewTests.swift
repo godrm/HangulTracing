@@ -25,10 +25,6 @@ class LetterViewTests: XCTestCase {
     super.tearDown()
   }
   
-  func test_HasLetterSet() {
-    XCTAssertNotNil(letterView.letterSet)
-  }
-  
   func test_HasScreenPointsSet() {
     XCTAssertNotNil(letterView.screenPointsSet)
   }

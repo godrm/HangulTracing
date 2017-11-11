@@ -15,17 +15,19 @@ class CardListVC: UIViewController {
     let provider = DataProvider()
     return provider
   }()
-  var addBarBtnItem: UIBarButtonItem = {
-    let buttonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(CardListVC.addBtnTapped(_:)))
-    return buttonItem
-  }()
+  
   var editBarBtnItem: UIBarButtonItem = {
     let buttonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: #selector(CardListVC.editBtnTapped(_:)))
+    return buttonItem
+  }()
+  var gameBarBtnItem: UIBarButtonItem = {
+    let buttonItem = UIBarButtonItem(image: UIImage(named: "game"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(CardListVC.gameBtnTapped(_:)))
     return buttonItem
   }()
   var collectionView: UICollectionView!
   var pinterestLayout = PinterestLayout()
   let cardManager = CardManager()
+  var addBtn = AddBtn()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -36,6 +38,7 @@ class CardListVC: UIViewController {
     collectionView.backgroundColor = UIColor.clear
     collectionView.register(WordCardCell.self, forCellWithReuseIdentifier: "WordCardCell")
     view.addSubview(collectionView)
+    view.addSubview(addBtn)
     collectionView.dataSource = dataProvider
     collectionView.delegate = dataProvider
     collectionView.collectionViewLayout = pinterestLayout
@@ -44,12 +47,13 @@ class CardListVC: UIViewController {
     }
     dataProvider.cardManager = cardManager
     
-    addBarBtnItem.target = self
-    addBarBtnItem.action = #selector(CardListVC.addBtnTapped(_:))
-    navigationItem.rightBarButtonItem = addBarBtnItem
+    addBtn.addTarget(self, action: #selector(CardListVC.addBtnTapped(_:)), for: .touchUpInside)
     editBarBtnItem.target = self
     editBarBtnItem.action = #selector(CardListVC.editBtnTapped(_:))
     navigationItem.leftBarButtonItem = editBarBtnItem
+    gameBarBtnItem.target = self
+    gameBarBtnItem.action = #selector(CardListVC.gameBtnTapped(_:))
+    navigationItem.rightBarButtonItem = gameBarBtnItem
     
     view.setNeedsUpdateConstraints()
   }
@@ -61,6 +65,11 @@ class CardListVC: UIViewController {
         make.edges.equalTo(self.view)
       }
       collectionView.contentInset = UIEdgeInsets(top: 23, left: 10, bottom: 10, right: 10)
+      
+      addBtn.snp.makeConstraints({ (make) in
+        make.width.height.equalTo(70)
+        make.right.bottom.equalTo(self.view).offset(-20)
+      })
       didSetupConstraints = true
     }
     super.updateViewConstraints()
@@ -71,7 +80,7 @@ class CardListVC: UIViewController {
     collectionView.reloadData()
   }
   
-  @objc func addBtnTapped(_ sender: UIBarButtonItem) {
+  @objc func addBtnTapped(_ sender: UIButton) {
     let inputVC = InputVC()
     inputVC.cardManager = self.cardManager
     present(inputVC, animated: true, completion: nil)
@@ -90,6 +99,11 @@ class CardListVC: UIViewController {
       dataProvider.cellMode = .normal
     }
     collectionView.reloadData()
+  }
+  
+  @objc func gameBtnTapped(_ sender: UIBarButtonItem) {
+    let gameVC = GameVC()
+    present(gameVC, animated: true, completion: nil)
   }
 }
 

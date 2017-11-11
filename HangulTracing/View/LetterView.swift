@@ -12,7 +12,7 @@ import AVFoundation
 class LetterView: UIView {
   
   var letter: String!
-  var path = UIBezierPath()
+  var path: UIBezierPath!
   var screenPointsSet: Set<CGPoint>!
   var letterSet: Set<CGPoint>!
   var drawSet = Set<CGPoint>()
@@ -31,14 +31,16 @@ class LetterView: UIView {
     self.backgroundColor = UIColor(hex: "1EC545")
     setupView()
     screenPointsSet = getScreenPointsSet()
-    letterSet = getContainingPoints(tempSet: screenPointsSet, path: self.path)
   }
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func setupView() {
+  override func draw(_ rect: CGRect) {
+    path = UIBezierPath(rect: rect)
+    path.lineWidth = 10
+    
     let font = UIFont(name: "NanumBarunpen", size: UIScreen.main.bounds.width)!
     var unichars = [UniChar](letter.utf16)
     var glyphs = [CGGlyph](repeating: 0, count: unichars.count)
@@ -47,19 +49,18 @@ class LetterView: UIView {
     
     if gotGlyphs {
       let cgpath = CTFontCreatePathForGlyph(font, glyphs[0], nil)!
-      self.path = UIBezierPath(cgPath: cgpath)
-      self.path.apply(CGAffineTransform(scaleX: 1, y: -1))
-      self.path.apply(CGAffineTransform(translationX: UIScreen.main.bounds.width / 7, y: UIScreen.main.bounds.height * 3 / 5))
+      path.cgPath = cgpath
+      path.apply(CGAffineTransform(scaleX: 1, y: -1))
+      path.apply(CGAffineTransform(translationX: UIScreen.main.bounds.width / 7, y: UIScreen.main.bounds.height * 3 / 5))
       
-      let letterLayer = CAShapeLayer()
-      letterLayer.path = self.path.cgPath
-      letterLayer.strokeColor = UIColor.black.cgColor
-      letterLayer.lineWidth = UIScreen.main.bounds.width / 30
-      letterLayer.fillColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-      letterLayer.lineJoin = kCALineJoinRound
-      self.layer.addSublayer(letterLayer)
+      path.stroke()
+      UIColor.white.setFill()
+      path.fill()
     }
-    
+    letterSet = getContainingPoints(tempSet: screenPointsSet, path: path)
+  }
+  
+  func setupView() {
     addSubview(speakerBtn)
     speakerBtn.snp.makeConstraints { (make) in
       make.width.height.equalTo(50)
@@ -129,7 +130,7 @@ class LetterView: UIView {
   
   override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
     drawSet = getContainingPoints(tempSet: letterSet, path: unionPath)
-    if drawSet.count * 100 / letterSet.count >= 95 {
+    if drawSet.count * 100 / letterSet.count >= 90 {
       NotificationCenter.default.post(name: Constants().NOTI_DRAW_COMPLETED, object: nil)
     }
   }

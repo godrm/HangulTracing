@@ -44,8 +44,13 @@ class CardListVCTests: XCTestCase {
   }
   
   //UIBarButton
-  func test_Controller_HasBarBtnWithSelfAsTarget() {
+  func test_Controller_HasRightBarBtnWithSelfAsTarget() {
     let target = sut.navigationItem.rightBarButtonItem?.target
+    XCTAssertEqual(target as? CardListVC, sut)
+  }
+  
+  func test_Controller_HasLeftBarBtnWithSelfAsTarget() {
+    let target = sut.navigationItem.leftBarButtonItem?.target
     XCTAssertEqual(target as? CardListVC, sut)
   }
   
@@ -55,11 +60,7 @@ class CardListVCTests: XCTestCase {
     //버튼 띄우기
     UIApplication.shared.keyWindow?.rootViewController = sut
     
-    guard let addBtn = sut.navigationItem.rightBarButtonItem else { XCTFail(); return }
-    guard let action = addBtn.action else { XCTFail(); return }
-    
-    //클릭
-    sut.performSelector(onMainThread: action, with: addBtn, waitUntilDone: true)
+    sut.addBtnTapped(sut.addBtn)
     XCTAssertTrue(sut.presentedViewController is InputVC)
   }
   
