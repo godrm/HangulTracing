@@ -8,10 +8,12 @@
 
 import UIKit
 import CoreMotion
+import AVFoundation
 
 class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
   var didSetupConstraints = false
-  let interval = 0.01
+  var speechSynthesizer: AVSpeechSynthesizer!
+  var blurEffectView: UIVisualEffectView!
   var motionManager: CMMotionManager!
   var cardManager: CardManager?
   var scrollView: UIScrollView = {
@@ -23,24 +25,79 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
     scrollView.bounces = false
     return scrollView
   }()
-  var exitBtn: UIButton = {
-    let btn = UIButton()
-    return btn
-  }()
+  var startView: GameView!
+  var greatCount: Int!
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    greatCount = 0
+    speechSynthesizer = AVSpeechSynthesizer()
     view.backgroundColor = UIColor.white
     view.addSubview(scrollView)
-    view.addSubview(exitBtn)
-    exitBtn.setImage(UIImage(named: "delete"), for: .normal)
-    exitBtn.addTarget(self, action: #selector(GameVC.exitBtnTapped(_:)), for: .touchUpInside)
-    view.setNeedsUpdateConstraints()
+    
+    let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+    blurEffectView = UIVisualEffectView(effect: blurEffect)
+    blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    view.addSubview(blurEffectView)
+    blurEffectView.isHidden = true
+    
+    startView = GameView(frame: CGRect(), word: "핸드폰 들어!")
+    startView.exitBtnDelegate = self
+    view.addSubview(startView)
     
     motionManager = CMMotionManager()
-    motionManager.deviceMotionUpdateInterval = interval
-    motionManager.startDeviceMotionUpdates()
+    motionManager.deviceMotionUpdateInterval = 1.0 / 60
+    if motionManager.isDeviceMotionAvailable {
+      motionManager.startDeviceMotionUpdates(to: .main, withHandler: { (motion, error) in
+        if error == nil {
+          self.handleDeviceMotionUpdate(deviceMotion: motion!)
+        }
+      })
+    }
+    view.setNeedsUpdateConstraints()
+  }
+  
+  func degrees(radians:Double) -> Double {
+    return -180 / .pi * radians
+  }
+  
+  func handleDeviceMotionUpdate(deviceMotion:CMDeviceMotion) {
+    
+    let roll = degrees(radians: deviceMotion.attitude.roll)
+    if roll <= 95 && roll >= 85 && blurEffectView.isHidden && !startView.isHidden {
+      startView.isHidden = true
+    }
+    if roll <= 5.0 && roll >= -5 && blurEffectView.isHidden && startView.isHidden {
+      blurEffectView.isHidden = false
+      synthesizeSpeech(fromString: "stupid")
+    }
+    if roll <= 95 && roll >= 85 && !blurEffectView.isHidden && startView.isHidden {
+      blurEffectView.isHidden = true
+      goToNextWords()
+    }
+    if roll <= 185 && roll >= 175 && blurEffectView.isHidden && startView.isHidden {
+      blurEffectView.isHidden = false
+      synthesizeSpeech(fromString: "great")
+      greatCount = greatCount + 1
+    }
+    
+  }
+  
+  func goToNextWords() {
+    guard let cardManager = cardManager else { return }
+    let page = Int(scrollView.contentOffset.x / scrollView.bounds.size.width)
+    if page < cardManager.toDoCount - 1 {
+      UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
+        self.scrollView.contentOffset.x = self.scrollView.bounds.size.width * CGFloat(page + 1)}, completion: nil)
+    } else if page == cardManager.toDoCount - 1 {
+      let scoreView = GameView(frame: CGRect(x: UIScreen.main.bounds.width * CGFloat(cardManager.toDoCount), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), word: "\(greatCount!) 점 / \(cardManager.toDoCount)")
+      scoreView.exitBtnDelegate = self
+      scrollView.addSubview(scoreView)
+      UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
+        self.scrollView.contentOffset.x = self.scrollView.bounds.size.width * CGFloat(page + 1)}, completion: nil)
+    }
+    
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -63,9 +120,12 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
       })
       scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width * CGFloat(cardManager.toDoCount), height: UIScreen.main.bounds.height)
       
-      exitBtn.snp.makeConstraints({ (make) in
-        make.width.height.equalTo(100)
-        make.left.top.equalTo(self.view).offset(2)
+      
+      blurEffectView.snp.makeConstraints({ (make) in
+        make.edges.equalTo(self.view)
+      })
+      startView.snp.makeConstraints({ (make) in
+        make.edges.equalTo(self.view)
       })
       didSetupConstraints = true
     }
@@ -76,13 +136,21 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
     guard let cardManager = cardManager else { return }
     for i in 0..<cardManager.toDoCount {
       let view = GameView(frame: CGRect(x: UIScreen.main.bounds.width * CGFloat(i), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), word: cardManager.cardAt(index: i).word)
+      view.exitBtnDelegate = self
       scrollView.addSubview(view)
     }
   }
   
-  @objc func exitBtnTapped(_ sender: UIButton) {
-    dismiss(animated: true, completion: nil)
+  
+  func synthesizeSpeech(fromString string:String) {
+    let speechUtterence = AVSpeechUtterance(string: string)
+    speechSynthesizer.speak(speechUtterence)
   }
   
-  
+}
+
+extension GameVC: ExitBtnDelegate {
+  func exitBtnTapped(sender: UIButton) {
+    dismiss(animated: true, completion: nil)
+  }
 }

@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import AVFoundation
 
 class TracingVC: UIViewController {
   var didSetupConstraints = false
   var cardInfo: (CardManager, Int)?
   var characters = [Character]()
   var characterViews = [LetterView]()
+  var speechSynthesizer: AVSpeechSynthesizer!
   
   var scrollView: UIScrollView = {
     let scrollView = UIScrollView()
@@ -26,6 +28,7 @@ class TracingVC: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    speechSynthesizer = AVSpeechSynthesizer()
     self.title = "따라쓰세요"
     NotificationCenter.default.addObserver(self, selector: #selector(TracingVC.goToNextLetter(_:)), name: Constants().NOTI_DRAW_COMPLETED, object: nil)
     view.addSubview(scrollView)
@@ -68,13 +71,32 @@ class TracingVC: UIViewController {
   }
   
   @objc func goToNextLetter(_ notification: NSNotification) {
+    guard let cardInfo = cardInfo else { fatalError() }
+    let selectedWord = cardInfo.0.cardAt(index: cardInfo.1).word
     let page = Int(scrollView.contentOffset.x / scrollView.bounds.size.width)
     if page < characterViews.count - 1 {
       UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
         self.scrollView.contentOffset.x = self.scrollView.bounds.size.width * CGFloat(page + 1)}, completion: nil)
-    } else {
-      navigationController?.popViewController(animated: true)
+    } else if page == characterViews.count - 1 {
+      let lastView = GameView(frame: CGRect(x: UIScreen.main.bounds.width * CGFloat(characterViews.count), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), word: selectedWord)
+      lastView.exitBtnDelegate = self
+      scrollView.addSubview(lastView)
+      UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
+        self.scrollView.contentOffset.x = self.scrollView.bounds.size.width * CGFloat(page + 1)}, completion: nil)
+      synthesizeSpeech(fromString: selectedWord)
     }
     
+  }
+  
+  func synthesizeSpeech(fromString string:String) {
+    let speechUtterence = AVSpeechUtterance(string: string)
+    speechSynthesizer.speak(speechUtterence)
+  }
+  
+}
+
+extension TracingVC: ExitBtnDelegate {
+  func exitBtnTapped(sender: UIButton) {
+    navigationController?.popViewController(animated: true)
   }
 }

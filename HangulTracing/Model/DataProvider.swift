@@ -48,6 +48,6 @@ extension DataProvider: PinterestLayoutDelegate {
     guard let cardManager = cardManager else { fatalError() }
     let imgData =  cardManager.cardAt(index: indexPath.item).imgData
     guard let image = UIImage(data: imgData) else { return 0 }
-    return image.size.height / 8
+    return UIScreen.main.bounds.height / 3
   }
 }
