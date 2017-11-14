@@ -34,15 +34,22 @@ class CameraVC: UIViewController {
     btn.layer.cornerRadius = 15
     return btn
   }()
+  var exitBtn: UIButton = {
+    let btn = UIButton()
+    btn.setImage(UIImage(named: "delete"), for: .normal)
+    return btn
+  }()
   
   override func viewDidLoad() {
     super.viewDidLoad()
     view.addSubview(cameraView)
     view.addSubview(capturedImgView)
     view.addSubview(saveBtn)
+    view.addSubview(exitBtn)
     saveBtn.isHidden = true
     saveBtn.addTarget(self, action: #selector(CameraVC.saveBtnTapped(_:)), for: .touchUpInside)
     view.setNeedsUpdateConstraints()
+    exitBtn.addTarget(self, action: #selector(CameraVC.exitBtnTapped(_:)), for: .touchUpInside)
   }
   
   override func viewDidAppear(_ animated: Bool) {
@@ -66,6 +73,10 @@ class CameraVC: UIViewController {
         make.width.equalTo(75)
         make.top.equalTo(self.view).offset(20)
         make.right.equalTo(self.view).offset(-20)
+      })
+      exitBtn.snp.makeConstraints({ (make) in
+        make.width.height.equalTo(50)
+        make.top.left.equalTo(self.view).offset(8)
       })
       didSetupConstraints = true
     }
@@ -114,12 +125,14 @@ class CameraVC: UIViewController {
     cameraOutput.capturePhoto(with: settings, delegate: self)
   }
   
-  @objc func saveBtnTapped(_ sender: UITapGestureRecognizer) {
+  @objc func saveBtnTapped(_ sender: UIButton) {
     if capturedImgView.image != nil {
       NotificationCenter.default.post(name: Constants().NOTI_PHOTO_SELECTED, object: nil, userInfo: ["photoData":photoData])
       dismiss(animated: true, completion: nil)
     }
-    
+  }
+  @objc func exitBtnTapped(_ sender: UIButton) {
+    dismiss(animated: true, completion: nil)
   }
 }
 

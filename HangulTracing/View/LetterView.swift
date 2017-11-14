@@ -31,7 +31,6 @@ class LetterView: UIView {
     self.backgroundColor = UIColor(hex: "1EC545")
     setupView()
     screenPointsSet = getScreenPointsSet()
-    synthesizeSpeech(fromString: letter)
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -131,7 +130,7 @@ class LetterView: UIView {
   
   override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
     drawSet = getContainingPoints(tempSet: letterSet, path: unionPath)
-    if drawSet.count * 100 / letterSet.count >= 90 {
+    if drawSet.count * 100 / letterSet.count >= 95 {
       NotificationCenter.default.post(name: Constants().NOTI_DRAW_COMPLETED, object: nil)
     }
   }
