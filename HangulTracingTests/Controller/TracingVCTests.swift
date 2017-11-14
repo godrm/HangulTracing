@@ -48,6 +48,7 @@ class TracingVCTests: XCTestCase {
     mockTracingVC.endAppearanceTransition()
     XCTAssertTrue(mockTracingVC.getCharactersViewIsCalled)
   }
+  
 }
 
 extension TracingVCTests {

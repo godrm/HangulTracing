@@ -35,11 +35,6 @@ class WordCardCellTests: XCTestCase {
     super.tearDown()
   }
   
-  //wordLabel
-  func test_HasWordLabel() {
-    XCTAssertNotNil(cell.wordLabel)
-  }
-  
   //imgView
   func test_HasImgView() {
     XCTAssertNotNil(cell.imgView)
@@ -50,13 +45,6 @@ class WordCardCellTests: XCTestCase {
   }
   
   //configCell
-  func test_ConfigCell_SetsWordLabelText() {
-    let imgData = Data()
-    let card = WordCard(word: "text", imageData: imgData)
-    cell.configCell(card: card, cellMode: .normal)
-    XCTAssertEqual("text", cell.wordLabel.text)
-  }
-  
   func test_ConfigCell_SetsImg() {
     let imgData = Data()
     let card = WordCard(word: "temp", imageData: imgData)

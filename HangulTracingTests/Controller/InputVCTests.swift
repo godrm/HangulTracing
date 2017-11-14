@@ -36,7 +36,9 @@ class InputVCTests: XCTestCase {
   func test_Has_cameraBtn() {
     XCTAssertNotNil(sut.cameraBtn)
   }
-  
+  func test_Has_libraryBtn() {
+    XCTAssertNotNil(sut.libraryBtn)
+  }
   func test_Has_addBtn() {
     XCTAssertNotNil(sut.addBtn)
   }
@@ -77,6 +79,12 @@ class InputVCTests: XCTestCase {
     let cameraBtn = sut.cameraBtn
     guard let actions = cameraBtn.actions(forTarget: sut, forControlEvent: .touchUpInside) else { XCTFail(); return }
     XCTAssertTrue(actions.contains("cameraBtnTapped:"))
+  }
+  
+  func test_libraryBtn_HasAction() {
+    let libraryBtn = sut.libraryBtn
+    guard let actions = libraryBtn.actions(forTarget: sut, forControlEvent: .touchUpInside) else { XCTFail(); return }
+    XCTAssertTrue(actions.contains("libraryBtnTapped:"))
   }
   
   func test_cancelBtn_HasAction() {

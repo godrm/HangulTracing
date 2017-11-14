@@ -11,7 +11,17 @@ import CoreMotion
 import AVFoundation
 
 class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
+  
   var didSetupConstraints = false
+  var timerLabel: UILabel = {
+    let label = UILabel()
+    label.layer.cornerRadius = 15
+    label.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    label.textAlignment = .center
+    return label
+  }()
+  var timer: Timer!
+  var seconds = 60
   var speechSynthesizer: AVSpeechSynthesizer!
   var blurEffectView: UIVisualEffectView!
   var motionManager: CMMotionManager!
@@ -30,7 +40,7 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    timer = Timer()
     greatCount = 0
     speechSynthesizer = AVSpeechSynthesizer()
     view.backgroundColor = UIColor.white
@@ -46,6 +56,7 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
     startView.exitBtnDelegate = self
     view.addSubview(startView)
     synthesizeSpeech(fromString: "핸드폰 들어")
+    view.addSubview(timerLabel)
     
     motionManager = CMMotionManager()
     motionManager.deviceMotionUpdateInterval = 1.0 / 60
@@ -68,6 +79,7 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
     let roll = degrees(radians: deviceMotion.attitude.roll)
     if roll <= 95 && roll >= 85 && blurEffectView.isHidden && !startView.isHidden {
       startView.isHidden = true
+      startTimer()
     }
     if roll <= 5.0 && roll >= -5 && blurEffectView.isHidden && startView.isHidden {
       blurEffectView.isHidden = false
@@ -92,6 +104,7 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
       UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
         self.scrollView.contentOffset.x = self.scrollView.bounds.size.width * CGFloat(page + 1)}, completion: nil)
     } else if page == cardManager.toDoCount - 1 {
+      timer.invalidate()
       let scoreView = GameView(frame: CGRect(x: UIScreen.main.bounds.width * CGFloat(cardManager.toDoCount), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), word: "\(greatCount!) 점 / \(cardManager.toDoCount)")
       scoreView.exitBtnDelegate = self
       scrollView.addSubview(scoreView)
@@ -130,6 +143,11 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
       startView.snp.makeConstraints({ (make) in
         make.edges.equalTo(self.view)
       })
+      timerLabel.snp.makeConstraints({ (make) in
+        make.top.equalTo(self.view).offset(25)
+        make.right.equalTo(self.view).offset(-25)
+        make.width.height.equalTo(50)
+      })
       didSetupConstraints = true
     }
     super.updateViewConstraints()
@@ -150,6 +168,26 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
     speechSynthesizer.speak(speechUtterence)
   }
   
+  func startTimer() {
+    timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(GameVC.updateTimer), userInfo: nil, repeats: true)
+  }
+  
+  @objc func updateTimer() {
+    seconds -= 1
+    timerLabel.text = "\(seconds)"
+    if seconds <= 3 && seconds > 0 {
+      synthesizeSpeech(fromString: "\(seconds)초")
+    }
+    if seconds == 0 {
+      timer.invalidate()
+      motionManager.stopDeviceMotionUpdates()
+      guard let cardManager = cardManager else { return }
+      let scoreView = GameView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), word: "\(greatCount!) 점 / \(cardManager.toDoCount)")
+      scoreView.exitBtnDelegate = self
+      self.view.addSubview(scoreView)
+      synthesizeSpeech(fromString: "\(cardManager.toDoCount)개 중에 \(greatCount!)개 맞았습니다")
+    }
+  }
 }
 
 extension GameVC: ExitBtnDelegate {
