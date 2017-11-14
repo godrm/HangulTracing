@@ -31,6 +31,7 @@ class InputVC: UIViewController {
   }()
   var imageView: UIImageView = {
     let imageView = UIImageView()
+    imageView.contentMode = .scaleAspectFit
     imageView.image = UIImage(named: "empty")
     return imageView
   }()
@@ -86,42 +87,38 @@ class InputVC: UIViewController {
   override func updateViewConstraints() {
     if !didSetupConstraints {
       cardView.snp.makeConstraints({ (make) in
-        make.top.equalTo(self.view).offset(50)
+        make.top.equalTo(self.view).offset(100)
         make.bottom.equalTo(self.view).offset(-100)
         make.left.equalTo(self.view).offset(50)
         make.right.equalTo(self.view).offset(-50)
       })
       wordTextField.snp.makeConstraints({ (make) in
-        make.height.equalTo(100)
+        make.height.equalTo(50)
         make.left.right.bottom.equalTo(cardView)
       })
       imageView.snp.makeConstraints({ (make) in
         make.bottom.equalTo(wordTextField.snp.top).offset(-8)
-        make.left.right.equalTo(cardView)
-        make.top.equalTo(cardView).offset(50)
+        make.left.right.top.equalTo(cardView)
       })
       cameraBtn.snp.makeConstraints({ (make) in
         make.width.height.equalTo(50)
-        make.left.equalTo(self.view)
-        make.top.equalTo(cardView)
-        make.right.equalTo(cardView.snp.left)
+        make.bottom.equalTo(cardView.snp.top).offset(-8)
+        make.left.equalTo(self.view).offset(50)
       })
       libraryBtn.snp.makeConstraints({ (make) in
-        make.width.height.equalTo(50)
-        make.left.equalTo(self.view)
-        make.top.equalTo(cameraBtn.snp.bottom).offset(8)
-        make.right.equalTo(cardView.snp.left)
+        make.centerY.equalTo(cameraBtn)
+        make.left.equalTo(cameraBtn.snp.right).offset(8)
       })
       addBtn.snp.makeConstraints({ (make) in
         make.right.equalTo(self.view).offset(-50)
-        make.bottom.equalTo(self.view).offset(-8)
+        make.bottom.equalTo(self.view).offset(-50)
         make.top.equalTo(cardView.snp.bottom).offset(8)
         make.left.equalTo(cancelBtn.snp.right).offset(8)
         make.width.equalTo(cancelBtn)
       })
       cancelBtn.snp.makeConstraints({ (make) in
         make.left.equalTo(self.view).offset(50)
-        make.bottom.equalTo(self.view).offset(-8)
+        make.bottom.equalTo(self.view).offset(-50)
         make.top.equalTo(cardView.snp.bottom).offset(8)
       })
       didSetupConstraints = true

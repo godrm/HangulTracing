@@ -31,6 +31,7 @@ class PinterestLayout: UICollectionViewLayout {
   }
   
   override func prepare() {
+    cache = []
     guard let collectionView = collectionView else { return }
     
     //셀의 x 위치

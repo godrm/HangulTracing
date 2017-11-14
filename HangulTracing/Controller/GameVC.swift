@@ -15,9 +15,9 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
   var didSetupConstraints = false
   var timerLabel: UILabel = {
     let label = UILabel()
-    label.layer.cornerRadius = 15
-    label.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     label.textAlignment = .center
+    label.font = label.font.withSize(30)
     return label
   }()
   var timer: Timer!
@@ -79,6 +79,7 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
     let roll = degrees(radians: deviceMotion.attitude.roll)
     if roll <= 95 && roll >= 85 && blurEffectView.isHidden && !startView.isHidden {
       startView.isHidden = true
+      synthesizeSpeech(fromString: "설명을 시작하세요")
       startTimer()
     }
     if roll <= 5.0 && roll >= -5 && blurEffectView.isHidden && startView.isHidden {
@@ -146,7 +147,8 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
       timerLabel.snp.makeConstraints({ (make) in
         make.top.equalTo(self.view).offset(25)
         make.right.equalTo(self.view).offset(-25)
-        make.width.height.equalTo(50)
+        make.height.equalTo(50)
+        make.width.equalTo(100)
       })
       didSetupConstraints = true
     }
@@ -174,7 +176,7 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
   
   @objc func updateTimer() {
     seconds -= 1
-    timerLabel.text = "\(seconds)"
+    timerLabel.text = "\(seconds) 초"
     if seconds <= 3 && seconds > 0 {
       synthesizeSpeech(fromString: "\(seconds)초")
     }
