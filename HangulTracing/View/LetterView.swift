@@ -31,6 +31,7 @@ class LetterView: UIView {
     self.backgroundColor = UIColor(hex: "1EC545")
     setupView()
     screenPointsSet = getScreenPointsSet()
+    synthesizeSpeech(fromString: letter)
   }
   
   required init?(coder aDecoder: NSCoder) {

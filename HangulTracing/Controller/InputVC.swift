@@ -14,17 +14,34 @@ class InputVC: UIViewController {
   var cardManager: CardManager?
   var wordTextField: UITextField = {
     let textField = UITextField()
-    textField.borderStyle = .bezel
+    textField.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    textField.textAlignment = .center
+    textField.font = UIFont(name: "NanumBarunpen", size: 14)!
+    textField.placeholder = "공백없이 단어를 입력하세요"
     return textField
+  }()
+  var cardView: UIView = {
+    let view = UIView()
+    view.layer.borderWidth = 1
+    view.layer.borderColor = UIColor(hex: "1EC545").cgColor
+    view.backgroundColor = UIColor(hex: "1EC545")
+    view.layer.cornerRadius = 15
+    view.clipsToBounds = true
+    return view
   }()
   var imageView: UIImageView = {
     let imageView = UIImageView()
-    imageView.image = UIImage(named: "emptyImage")
+    imageView.image = UIImage(named: "empty")
     return imageView
   }()
   var cameraBtn: UIButton = {
     let btn = UIButton()
     btn.setImage(UIImage(named: "camera"), for: .normal)
+    return btn
+  }()
+  var libraryBtn: UIButton = {
+    let btn = UIButton()
+    btn.setImage(UIImage(named: "library"), for: .normal)
     return btn
   }()
   var addBtn: UIButton = {
@@ -47,16 +64,19 @@ class InputVC: UIViewController {
     super.viewDidLoad()
     view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     NotificationCenter.default.addObserver(self, selector: #selector(InputVC.photoCaptured(_:)), name: Constants().NOTI_PHOTO_SELECTED, object: nil)
-    view.addSubview(wordTextField)
-    view.addSubview(imageView)
+    view.addSubview(cardView)
+    cardView.addSubview(wordTextField)
+    cardView.addSubview(imageView)
+    view.addSubview(libraryBtn)
     view.addSubview(cameraBtn)
     view.addSubview(addBtn)
     view.addSubview(cancelBtn)
+    view.bindToKeyboard()
+    let tap = UITapGestureRecognizer(target: self, action: #selector(InputVC.closeTap))
+    view.addGestureRecognizer(tap)
     
-    wordTextField.textAlignment = .center
-    wordTextField.font = UIFont(name: "NanumBarunpen", size: 14)!
-    wordTextField.placeholder = "공백없이 단어를 입력하세요"
     cameraBtn.addTarget(self, action: #selector(InputVC.cameraBtnTapped(_:)), for: .touchUpInside)
+    libraryBtn.addTarget(self, action: #selector(InputVC.libraryBtnTapped(_:)), for: .touchUpInside)
     addBtn.addTarget(self, action: #selector(InputVC.addBtnTapped(_:)), for: .touchUpInside)
     cancelBtn.addTarget(self, action: #selector(InputVC.cancelBtnTapped(_:)), for: .touchUpInside)
     view.setNeedsUpdateConstraints()
@@ -65,38 +85,44 @@ class InputVC: UIViewController {
   
   override func updateViewConstraints() {
     if !didSetupConstraints {
-      
+      cardView.snp.makeConstraints({ (make) in
+        make.top.equalTo(self.view).offset(50)
+        make.bottom.equalTo(self.view).offset(-100)
+        make.left.equalTo(self.view).offset(50)
+        make.right.equalTo(self.view).offset(-50)
+      })
       wordTextField.snp.makeConstraints({ (make) in
-        make.top.equalTo(self.view).offset(100)
-        make.left.equalTo(self.view).offset(20)
-        make.right.equalTo(self.view).offset(-20)
-        make.height.equalTo(50)
+        make.height.equalTo(100)
+        make.left.right.bottom.equalTo(cardView)
       })
-      
       imageView.snp.makeConstraints({ (make) in
-        make.top.equalTo(wordTextField.snp.bottom).offset(30)
-        make.left.equalTo(self.view).offset(100)
-        make.height.equalTo(128)
-        make.width.equalTo(75)
+        make.bottom.equalTo(wordTextField.snp.top).offset(-8)
+        make.left.right.equalTo(cardView)
+        make.top.equalTo(cardView).offset(50)
       })
-      
       cameraBtn.snp.makeConstraints({ (make) in
-        make.centerY.equalTo(imageView)
-        make.left.equalTo(imageView.snp.right).offset(30)
-        make.height.width.equalTo(50)
+        make.width.height.equalTo(50)
+        make.left.equalTo(self.view)
+        make.top.equalTo(cardView)
+        make.right.equalTo(cardView.snp.left)
       })
-      
+      libraryBtn.snp.makeConstraints({ (make) in
+        make.width.height.equalTo(50)
+        make.left.equalTo(self.view)
+        make.top.equalTo(cameraBtn.snp.bottom).offset(8)
+        make.right.equalTo(cardView.snp.left)
+      })
       addBtn.snp.makeConstraints({ (make) in
-        make.top.equalTo(imageView.snp.bottom).offset(30)
-        make.right.equalTo(self.view).offset(-20)
-        make.height.equalTo(50)
-        make.width.equalTo(160)
+        make.right.equalTo(self.view).offset(-50)
+        make.bottom.equalTo(self.view).offset(-8)
+        make.top.equalTo(cardView.snp.bottom).offset(8)
+        make.left.equalTo(cancelBtn.snp.right).offset(8)
+        make.width.equalTo(cancelBtn)
       })
       cancelBtn.snp.makeConstraints({ (make) in
-        make.top.equalTo(imageView.snp.bottom).offset(30)
-        make.left.equalTo(self.view).offset(20)
-        make.height.equalTo(50)
-        make.width.equalTo(addBtn)
+        make.left.equalTo(self.view).offset(50)
+        make.bottom.equalTo(self.view).offset(-8)
+        make.top.equalTo(cardView.snp.bottom).offset(8)
       })
       didSetupConstraints = true
     }
@@ -106,6 +132,13 @@ class InputVC: UIViewController {
   @objc func cameraBtnTapped(_ sender: UIButton) {
     let cameraVC = CameraVC()
     present(cameraVC, animated: true, completion: nil)
+  }
+  
+  @objc func libraryBtnTapped(_ sender: UIButton) {
+    let imagePickerController = UIImagePickerController()
+    imagePickerController.delegate = self
+    imagePickerController.sourceType = UIImagePickerControllerSourceType.photoLibrary
+    present(imagePickerController, animated: true, completion: nil)
   }
   
   @objc func addBtnTapped(_ sender: UIButton) {
@@ -124,5 +157,18 @@ class InputVC: UIViewController {
     guard let photoData = notification.userInfo!["photoData"] as? Data else { fatalError() }
     capturedPhotoData = photoData
     self.imageView.image = UIImage(data: photoData)
+  }
+  @objc func closeTap() {
+    view.endEditing(true)
+  }
+}
+
+extension InputVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    guard let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
+    imageView.image = pickedImage
+    let imageData = UIImageJPEGRepresentation(pickedImage, 1)
+    capturedPhotoData = imageData
+    dismiss(animated: true, completion: nil)
   }
 }

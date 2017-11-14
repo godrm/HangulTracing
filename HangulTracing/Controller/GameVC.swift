@@ -45,6 +45,7 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
     startView = GameView(frame: CGRect(), word: "핸드폰 들어!")
     startView.exitBtnDelegate = self
     view.addSubview(startView)
+    synthesizeSpeech(fromString: "핸드폰 들어")
     
     motionManager = CMMotionManager()
     motionManager.deviceMotionUpdateInterval = 1.0 / 60
@@ -70,7 +71,7 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
     }
     if roll <= 5.0 && roll >= -5 && blurEffectView.isHidden && startView.isHidden {
       blurEffectView.isHidden = false
-      synthesizeSpeech(fromString: "stupid")
+      synthesizeSpeech(fromString: "통과")
     }
     if roll <= 95 && roll >= 85 && !blurEffectView.isHidden && startView.isHidden {
       blurEffectView.isHidden = true
@@ -78,7 +79,7 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
     }
     if roll <= 185 && roll >= 175 && blurEffectView.isHidden && startView.isHidden {
       blurEffectView.isHidden = false
-      synthesizeSpeech(fromString: "great")
+      synthesizeSpeech(fromString: "정답")
       greatCount = greatCount + 1
     }
     
@@ -94,8 +95,10 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
       let scoreView = GameView(frame: CGRect(x: UIScreen.main.bounds.width * CGFloat(cardManager.toDoCount), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), word: "\(greatCount!) 점 / \(cardManager.toDoCount)")
       scoreView.exitBtnDelegate = self
       scrollView.addSubview(scoreView)
+      synthesizeSpeech(fromString: "\(cardManager.toDoCount)개 중에 \(greatCount!)개 맞았습니다")
       UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
         self.scrollView.contentOffset.x = self.scrollView.bounds.size.width * CGFloat(page + 1)}, completion: nil)
+      motionManager.stopDeviceMotionUpdates()
     }
     
   }
