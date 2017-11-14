@@ -48,6 +48,12 @@ extension DataProvider: PinterestLayoutDelegate {
     guard let cardManager = cardManager else { fatalError() }
     let imgData =  cardManager.cardAt(index: indexPath.item).imgData
     guard let image = UIImage(data: imgData) else { return 0 }
-    return image.size.height / (6000 / UIScreen.main.bounds.height)
+    let ratio = image.size.width / image.size.height
+    let leftRightInset: CGFloat = 20.0
+    let cellPadding: CGFloat = 6.0
+    let numberOfColumn: CGFloat = 2.0
+    let cellWidth = (UIScreen.main.bounds.width - leftRightInset - cellPadding) / numberOfColumn
+    
+    return cellWidth / ratio
   }
 }

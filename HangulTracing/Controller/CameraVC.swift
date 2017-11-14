@@ -12,6 +12,7 @@ import AVFoundation
 class CameraVC: UIViewController {
   
   var didSetupConstraints = false
+  var spinner: UIActivityIndicatorView!
   var captureSession: AVCaptureSession!
   var cameraOutput: AVCapturePhotoOutput!
   var previewLayer: AVCaptureVideoPreviewLayer!
@@ -42,10 +43,13 @@ class CameraVC: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    spinner = UIActivityIndicatorView()
     view.addSubview(cameraView)
     view.addSubview(capturedImgView)
     view.addSubview(saveBtn)
     view.addSubview(exitBtn)
+    view.addSubview(spinner)
+    spinner.isHidden = true
     saveBtn.isHidden = true
     saveBtn.addTarget(self, action: #selector(CameraVC.saveBtnTapped(_:)), for: .touchUpInside)
     view.setNeedsUpdateConstraints()
@@ -77,6 +81,10 @@ class CameraVC: UIViewController {
       exitBtn.snp.makeConstraints({ (make) in
         make.width.height.equalTo(50)
         make.top.left.equalTo(self.view).offset(8)
+      })
+      spinner.snp.makeConstraints({ (make) in
+        make.width.height.equalTo(50)
+        make.center.equalTo(self.view)
       })
       didSetupConstraints = true
     }
@@ -127,8 +135,15 @@ class CameraVC: UIViewController {
   
   @objc func saveBtnTapped(_ sender: UIButton) {
     if capturedImgView.image != nil {
+      self.spinner.isHidden = false
+      self.spinner.startAnimating()
+      self.saveBtn.isEnabled = false
       NotificationCenter.default.post(name: Constants().NOTI_PHOTO_SELECTED, object: nil, userInfo: ["photoData":photoData])
-      dismiss(animated: true, completion: nil)
+      dismiss(animated: true, completion: {
+        self.saveBtn.isEnabled = true
+        self.spinner.stopAnimating()
+        self.spinner.isHidden = true
+      })
     }
   }
   @objc func exitBtnTapped(_ sender: UIButton) {

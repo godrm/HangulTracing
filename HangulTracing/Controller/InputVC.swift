@@ -12,11 +12,12 @@ class InputVC: UIViewController {
   
   var didSetupConstraints = false
   var cardManager: CardManager?
+  var spinner: UIActivityIndicatorView!
   var wordTextField: UITextField = {
     let textField = UITextField()
     textField.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     textField.textAlignment = .center
-    textField.font = UIFont(name: "NanumBarunpen", size: 14)!
+    textField.font = textField.font?.withSize(20)
     textField.placeholder = "공백없이 단어를 입력하세요"
     return textField
   }()
@@ -31,7 +32,7 @@ class InputVC: UIViewController {
   }()
   var imageView: UIImageView = {
     let imageView = UIImageView()
-    imageView.contentMode = .scaleAspectFit
+    imageView.contentMode = .scaleAspectFill
     imageView.image = UIImage(named: "empty")
     return imageView
   }()
@@ -63,6 +64,7 @@ class InputVC: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    spinner = UIActivityIndicatorView()
     view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     NotificationCenter.default.addObserver(self, selector: #selector(InputVC.photoCaptured(_:)), name: Constants().NOTI_PHOTO_SELECTED, object: nil)
     view.addSubview(cardView)
@@ -72,6 +74,8 @@ class InputVC: UIViewController {
     view.addSubview(cameraBtn)
     view.addSubview(addBtn)
     view.addSubview(cancelBtn)
+    view.addSubview(spinner)
+    spinner.isHidden = true
     view.bindToKeyboard()
     let tap = UITapGestureRecognizer(target: self, action: #selector(InputVC.closeTap))
     view.addGestureRecognizer(tap)
@@ -121,21 +125,39 @@ class InputVC: UIViewController {
         make.bottom.equalTo(self.view).offset(-50)
         make.top.equalTo(cardView.snp.bottom).offset(8)
       })
+      spinner.snp.makeConstraints({ (make) in
+        make.center.equalTo(self.view)
+        make.width.height.equalTo(50)
+      })
       didSetupConstraints = true
     }
     super.updateViewConstraints()
   }
   
   @objc func cameraBtnTapped(_ sender: UIButton) {
+    cameraBtn.isEnabled = false
+    spinner.isHidden = false
+    spinner.startAnimating()
     let cameraVC = CameraVC()
-    present(cameraVC, animated: true, completion: nil)
+    present(cameraVC, animated: true) {
+      self.spinner.stopAnimating()
+      self.spinner.isHidden = true
+      self.cameraBtn.isEnabled = true
+    }
   }
   
   @objc func libraryBtnTapped(_ sender: UIButton) {
+    libraryBtn.isEnabled = false
+    spinner.isHidden = false
+    spinner.startAnimating()
     let imagePickerController = UIImagePickerController()
     imagePickerController.delegate = self
     imagePickerController.sourceType = UIImagePickerControllerSourceType.photoLibrary
-    present(imagePickerController, animated: true, completion: nil)
+    present(imagePickerController, animated: true) {
+      self.spinner.stopAnimating()
+      self.spinner.isHidden = true
+      self.libraryBtn.isEnabled = true
+    }
   }
   
   @objc func addBtnTapped(_ sender: UIButton) {

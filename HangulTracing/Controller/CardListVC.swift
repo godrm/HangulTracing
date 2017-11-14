@@ -31,7 +31,7 @@ class CardListVC: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    setupCard()
     self.title = "단어장"
     NotificationCenter.default.addObserver(self, selector: #selector(CardListVC.pushTracingVC(_:)), name: Constants().NOTI_CARD_SELECTED, object: nil)
     view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
@@ -79,6 +79,17 @@ class CardListVC: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     collectionView.reloadData()
+  }
+  
+  func setupCard() {
+    if cardManager.toDoCount < 6 {
+      cardManager.addCard(newCard: WordCard(word: "고양이", imageData: Constants().catImgData!))
+      cardManager.addCard(newCard: WordCard(word: "개", imageData: Constants().dogImgData!))
+      cardManager.addCard(newCard: WordCard(word: "오리", imageData: Constants().duckImgData!))
+      cardManager.addCard(newCard: WordCard(word: "코끼리", imageData: Constants().elephantImgData!))
+      cardManager.addCard(newCard: WordCard(word: "얼룩말", imageData: Constants().zebraImgData!))
+      cardManager.addCard(newCard: WordCard(word: "기린", imageData: Constants().giraffeImgData!))
+    }
   }
   
   @objc func addBtnTapped(_ sender: UIButton) {

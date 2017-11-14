@@ -52,11 +52,11 @@ class GameView: UIView {
     exitBtn.addTarget(self, action: #selector(GameView.exitBtnTapped), for: .touchUpInside)
     
     wordLabel.snp.makeConstraints { (make) in
-      make.left.top.equalTo(self).offset(50)
-      make.bottom.right.equalTo(self).offset(-50)
+      make.left.top.equalTo(self).offset(10)
+      make.bottom.right.equalTo(self).offset(-10)
     }
     exitBtn.snp.makeConstraints({ (make) in
-      make.width.height.equalTo(100)
+      make.width.height.equalTo(50)
       make.left.top.equalTo(self).offset(2)
     })
   }
