@@ -45,7 +45,6 @@ class TracingVC: UIViewController {
       })
       
       scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width * CGFloat(characters.count), height: UIScreen.main.bounds.height - 44.0)
-      
       didSetupConstraints = true
     }
     super.updateViewConstraints()

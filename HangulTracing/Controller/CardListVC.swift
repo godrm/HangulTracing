@@ -31,6 +31,7 @@ class CardListVC: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
     setupCard()
     self.title = "단어장"
     NotificationCenter.default.addObserver(self, selector: #selector(CardListVC.pushTracingVC(_:)), name: Constants().NOTI_CARD_SELECTED, object: nil)
