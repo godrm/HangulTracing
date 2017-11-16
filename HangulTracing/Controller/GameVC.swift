@@ -9,11 +9,13 @@
 import UIKit
 import CoreMotion
 import AVFoundation
+import AVKit
 import Photos
 
 class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
   
   var didSetupConstraints = false
+  var playerVC: PlayerVC?
   private let session = AVCaptureSession()
   private let sessionQueue = DispatchQueue(label: "session queue")
   private enum SessionSetupResult {
@@ -423,18 +425,29 @@ extension GameVC: AVCaptureFileOutputRecordingDelegate {
             creationRequest.addResource(with: .video, fileURL: outputFileURL, options: options)
           }, completionHandler: { success, error in
             if success {
+              print("-----------", outputFileURL)
               let alertController = UIAlertController(title: "알림", message: "영상이 성공적으로 저장되었습니다", preferredStyle: .alert)
-              alertController.addAction(UIAlertAction(title: NSLocalizedString("닫기", comment: "Alert OK button"),
-                                                      style: .cancel,
-                                                      handler: nil))
+              alertController
+                .addAction(UIAlertAction(
+                  title: NSLocalizedString("닫기", comment: "Alert OK button"),
+                  style: .cancel,
+                  handler: nil))
+              alertController
+                .addAction(UIAlertAction(
+                  title: NSLocalizedString("영상보기", comment: "Alert button to open video"),
+                  style: .`default`,
+                  handler: { _ in
+                    
+                    self.playVideo()
+                    
+                }))
               self.present(alertController, animated: true, completion: nil)
             }
             if !success {
               print("Could not save movie to photo library: \(String(describing: error))")
             }
             cleanUp()
-          }
-          )
+          })
         } else {
           cleanUp()
         }
@@ -444,4 +457,31 @@ extension GameVC: AVCaptureFileOutputRecordingDelegate {
     }
     
   }
+  
+  func playVideo() {
+    
+    let sortOptions = PHFetchOptions()
+    let imageManager = PHCachingImageManager()
+    
+    sortOptions.fetchLimit = 1
+    sortOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+    guard let lastVideoAsset = PHAsset.fetchAssets(with: sortOptions).lastObject else { fatalError() }
+    imageManager.requestAVAsset(forVideo: lastVideoAsset, options: nil, resultHandler: {(asset: AVAsset?, _: AVAudioMix?, _: [AnyHashable : Any]?) -> Void in
+      if let urlAsset = asset as? AVURLAsset {
+        DispatchQueue.main.async {
+          let localVideoUrl: URL = urlAsset.url as URL
+          let player = AVPlayer(url: localVideoUrl)
+          self.playerVC = PlayerVC()
+          guard let playerVC = self.playerVC else { return }
+          playerVC.player = player
+          self.present(playerVC, animated: true, completion: {
+            playerVC.player?.play()
+          })
+        }
+      }
+    })
+    
+  }
 }
+
+
