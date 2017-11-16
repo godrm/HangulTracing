@@ -16,6 +16,7 @@ enum CellMode: Int {
 class DataProvider: NSObject {
   var cardManager: CardManager?
   var cellMode: CellMode = .normal
+  
 }
 
 extension DataProvider: UICollectionViewDataSource {

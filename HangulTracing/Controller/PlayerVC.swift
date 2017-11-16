@@ -17,15 +17,4 @@ class PlayerVC: AVPlayerViewController, orientationIsOnlyLandScapeRight {
     view.clipsToBounds = true
   }
   
-  
-//  override func viewDidLayoutSubviews() {
-//    super.viewDidLayoutSubviews()
-//
-//    self.view.snp.makeConstraints { make in
-//      make.width.equalTo(UIScreen.main.bounds.width * 3 / 5)
-//      make.height.equalTo(UIScreen.main.bounds.height * 3 / 5)
-//      make.centerX.equalTo(UIScreen.main.bounds.width/2)
-//      make.centerY.equalTo(UIScreen.main.bounds.height/2)
-//    }
-//  }
 }

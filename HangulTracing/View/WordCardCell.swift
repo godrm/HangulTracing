@@ -35,8 +35,6 @@ class WordCardCell: UICollectionViewCell {
     super.init(frame: frame)
     
     contentView.layer.cornerRadius = 15
-    contentView.layer.borderColor = UIColor(hex: "1EC545").cgColor
-    contentView.layer.borderWidth = 1
     contentView.layer.masksToBounds = true
     contentView.addSubview(imgView)
     contentView.addSubview(deleteBtn)

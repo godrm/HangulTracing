@@ -247,8 +247,10 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
   
   func inputCardToScrollView() {
     guard let cardManager = cardManager else { return }
+    let wordsArr: [String] = cardManager.toDoCards.map({ $0.word })
+    let shuffledWordsArr = wordsArr.getShuffledArr() as! [String]
     for i in 0..<cardManager.toDoCount {
-      let view = GameView(frame: CGRect(x: UIScreen.main.bounds.width * CGFloat(i), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), word: cardManager.cardAt(index: i).word)
+      let view = GameView(frame: CGRect(x: UIScreen.main.bounds.width * CGFloat(i), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), word: shuffledWordsArr[i])
       view.exitBtnDelegate = self
       scrollView.addSubview(view)
     }
