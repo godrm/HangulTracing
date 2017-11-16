@@ -128,7 +128,9 @@ class CameraVC: UIViewController {
   @objc func didTapCameraView() {
     cameraView.isUserInteractionEnabled = false
     
-    let settings = AVCapturePhotoSettings()
+    //let settings = AVCapturePhotoSettings()
+    let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg,
+                                                         AVVideoCompressionPropertiesKey: [AVVideoQualityKey : NSNumber(value: 0.1)]])
     settings.previewPhotoFormat = settings.embeddedThumbnailPhotoFormat
     cameraOutput.capturePhoto(with: settings, delegate: self)
   }

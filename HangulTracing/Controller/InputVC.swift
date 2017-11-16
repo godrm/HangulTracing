@@ -34,6 +34,7 @@ class InputVC: UIViewController {
     let imageView = UIImageView()
     imageView.contentMode = .scaleAspectFill
     imageView.image = UIImage(named: "empty")
+    imageView.clipsToBounds = true
     return imageView
   }()
   var cameraBtn: UIButton = {
@@ -186,7 +187,8 @@ extension InputVC: UIImagePickerControllerDelegate, UINavigationControllerDelega
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
     guard let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
     imageView.image = pickedImage
-    let imageData = UIImageJPEGRepresentation(pickedImage, 1)
+    let downSizedImg = pickedImage.downSizeImageWith(downRatio: 0.1)
+    let imageData = UIImageJPEGRepresentation(downSizedImg, 1)
     capturedPhotoData = imageData
     dismiss(animated: true, completion: nil)
   }
