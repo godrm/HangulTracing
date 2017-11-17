@@ -10,6 +10,9 @@ import UIKit
 
 class CardListVC: UIViewController {
   var didSetupConstraints = false
+  var selectedCell: WordCardCell?
+  let transition = PopAnimator()
+  var blurEffectView: UIVisualEffectView!
   var cellMode: CellMode = .normal
   var dataProvider: DataProvider = {
     let provider = DataProvider()
@@ -34,7 +37,6 @@ class CardListVC: UIViewController {
     
     setupCard()
     self.title = "단어장"
-    NotificationCenter.default.addObserver(self, selector: #selector(CardListVC.pushTracingVC(_:)), name: Constants().NOTI_CARD_SELECTED, object: nil)
     view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
     collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: UICollectionViewFlowLayout())
     collectionView.backgroundColor = UIColor.clear
@@ -57,6 +59,11 @@ class CardListVC: UIViewController {
     gameBarBtnItem.action = #selector(CardListVC.gameBtnTapped(_:))
     navigationItem.rightBarButtonItem = gameBarBtnItem
     
+    let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+    blurEffectView = UIVisualEffectView(effect: blurEffect)
+    blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    view.addSubview(blurEffectView)
+    blurEffectView.isHidden = true
     view.setNeedsUpdateConstraints()
   }
   
@@ -71,6 +78,9 @@ class CardListVC: UIViewController {
       addBtn.snp.makeConstraints({ (make) in
         make.width.height.equalTo(70)
         make.right.bottom.equalTo(self.view).offset(-20)
+      })
+      blurEffectView.snp.makeConstraints({ (make) in
+        make.edges.equalTo(self.view)
       })
       didSetupConstraints = true
     }
@@ -99,12 +109,6 @@ class CardListVC: UIViewController {
     present(inputVC, animated: true, completion: nil)
   }
   
-  @objc func pushTracingVC(_ notification: NSNotification) {
-    guard let index = notification.userInfo!["index"] as? Int else { fatalError() }
-    let nextVC = TracingVC()
-    nextVC.cardInfo = (cardManager, index)
-    navigationController?.pushViewController(nextVC, animated: true)
-  }
   @objc func editBtnTapped(_ sender: UIBarButtonItem) {
     if dataProvider.cellMode == .normal {
       dataProvider.cellMode = .delete
@@ -134,5 +138,35 @@ extension CardListVC: DeleteBtnDelegate {
         collectionView.collectionViewLayout = layout
       }
     }
+  }
+}
+
+//extension CardListVC: UIPopoverPresentationControllerDelegate {
+//  func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+//    return .none
+//  }
+//
+//  func prepareForPopoverPresentation(_ popoverPresentationController: UIPopoverPresentationController) {
+//    blurEffectView.isHidden = false
+//  }
+//
+//  func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
+//    blurEffectView.isHidden = true
+//  }
+//}
+
+extension CardListVC: UIViewControllerTransitioningDelegate {
+  
+  func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    guard let selectedCell = selectedCell as? WordCardCell else { fatalError() }
+    transition.originFrame = selectedCell.convert(selectedCell.frame, to: nil)
+    
+    transition.presenting = true
+    
+    return transition
+  }
+  func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    transition.presenting = false
+    return transition
   }
 }

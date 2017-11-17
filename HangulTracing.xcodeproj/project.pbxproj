@@ -37,6 +37,8 @@
 		484B620A1FBD729F00AE065F /* PlayerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484B62091FBD729F00AE065F /* PlayerVC.swift */; };
 		484B620C1FBD7BDC00AE065F /* UIImageExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484B620B1FBD7BDC00AE065F /* UIImageExt.swift */; };
 		484B620E1FBD8FB600AE065F /* Shuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484B620D1FBD8FB600AE065F /* Shuffle.swift */; };
+		484B62101FBE7FC600AE065F /* CellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484B620F1FBE7FC600AE065F /* CellVC.swift */; };
+		484B62121FBEDD9700AE065F /* PopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484B62111FBEDD9700AE065F /* PopAnimator.swift */; };
 		487037911FAC3D6200A966A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487037901FAC3D6200A966A2 /* AppDelegate.swift */; };
 		487037981FAC3D6200A966A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 487037971FAC3D6200A966A2 /* Assets.xcassets */; };
 		4870379B1FAC3D6200A966A2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 487037991FAC3D6200A966A2 /* LaunchScreen.storyboard */; };
@@ -86,6 +88,8 @@
 		484B62091FBD729F00AE065F /* PlayerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerVC.swift; sourceTree = "<group>"; };
 		484B620B1FBD7BDC00AE065F /* UIImageExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExt.swift; sourceTree = "<group>"; };
 		484B620D1FBD8FB600AE065F /* Shuffle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shuffle.swift; sourceTree = "<group>"; };
+		484B620F1FBE7FC600AE065F /* CellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellVC.swift; sourceTree = "<group>"; };
+		484B62111FBEDD9700AE065F /* PopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopAnimator.swift; sourceTree = "<group>"; };
 		4870378D1FAC3D6200A966A2 /* HangulTracing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HangulTracing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		487037901FAC3D6200A966A2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		487037971FAC3D6200A966A2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -210,6 +214,7 @@
 				484979CA1FB31CFF000C1E2A /* CardListVC.swift */,
 				484979E81FB6C450000C1E2A /* GameVC.swift */,
 				484B62091FBD729F00AE065F /* PlayerVC.swift */,
+				484B620F1FBE7FC600AE065F /* CellVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -232,6 +237,7 @@
 				48D1A1FF1FAC5F3200F4B9A6 /* CardManager.swift */,
 				484979CC1FB31DE3000C1E2A /* DataProvider.swift */,
 				48D1A2041FAC66B900F4B9A6 /* WordCard.swift */,
+				484B62111FBEDD9700AE065F /* PopAnimator.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -495,6 +501,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				484B62121FBEDD9700AE065F /* PopAnimator.swift in Sources */,
 				484979DD1FB54B73000C1E2A /* UIViewExt.swift in Sources */,
 				484979B51FB17C41000C1E2A /* LetterView.swift in Sources */,
 				48D1A2001FAC5F3200F4B9A6 /* CardManager.swift in Sources */,
@@ -503,6 +510,7 @@
 				484B620C1FBD7BDC00AE065F /* UIImageExt.swift in Sources */,
 				484979E71FB69DA8000C1E2A /* AddBtn.swift in Sources */,
 				484B620A1FBD729F00AE065F /* PlayerVC.swift in Sources */,
+				484B62101FBE7FC600AE065F /* CellVC.swift in Sources */,
 				484979E91FB6C450000C1E2A /* GameVC.swift in Sources */,
 				484979B11FB16B80000C1E2A /* TracingVC.swift in Sources */,
 				484979C51FB2FED5000C1E2A /* InputVC.swift in Sources */,

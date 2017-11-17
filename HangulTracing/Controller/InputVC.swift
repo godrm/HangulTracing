@@ -65,6 +65,7 @@ class InputVC: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
     spinner = UIActivityIndicatorView()
     view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     NotificationCenter.default.addObserver(self, selector: #selector(InputVC.photoCaptured(_:)), name: Constants().NOTI_PHOTO_SELECTED, object: nil)
@@ -171,6 +172,7 @@ class InputVC: UIViewController {
   
   @objc func cancelBtnTapped(_ sender: UIButton) {
     dismiss(animated: true, completion: nil)
+    
   }
   
   @objc func photoCaptured(_ notification: NSNotification) {

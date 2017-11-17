@@ -385,6 +385,9 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
 
 extension GameVC: ExitBtnDelegate {
   func exitBtnTapped(sender: UIButton) {
+    timer = nil
+    speechSynthesizer = nil
+    motionManager.stopDeviceMotionUpdates()
     dismiss(animated: true, completion: nil)
   }
 }

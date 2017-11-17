@@ -44,6 +44,7 @@ class WordCardCell: UICollectionViewCell {
     imgView.snp.makeConstraints { (make) in
       make.edges.equalTo(contentView)
     }
+    
     deleteBtn.snp.makeConstraints { (make) in
       make.left.top.equalTo(contentView)
       make.width.height.equalTo(40)

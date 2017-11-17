@@ -35,16 +35,20 @@ class DataProviderTests: XCTestCase {
   
   //collectionview test할때 reloadData 해줘야 함
   //numberofRows
-  func test_NumberOfRowsInFirstSection_IsToDoCount() {
+  func test_setupCard_Input6Cards() {
+    XCTAssertEqual(collectionView.numberOfItems(inSection: 0), 6)
+  }
+  
+  func test_NumberOfRowsInFirstSection_IsToDoCountPlusSetupCard() {
     let first = WordCard(word: "one", imageData: Data())
     let second = WordCard(word: "two", imageData: Data())
     provider.cardManager?.addCard(newCard: first)
-    XCTAssertEqual(collectionView.numberOfItems(inSection: 0), 1)
+    XCTAssertEqual(collectionView.numberOfItems(inSection: 0), 7)
     
     provider.cardManager?.addCard(newCard: second)
     collectionView.reloadData()
     controller.view.layoutIfNeeded()
-    XCTAssertEqual(collectionView.numberOfItems(inSection: 0), 2)
+    XCTAssertEqual(collectionView.numberOfItems(inSection: 0), 8)
   }
   
   //cellForItemAt

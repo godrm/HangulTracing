@@ -40,7 +40,35 @@ extension DataProvider: UICollectionViewDataSource {
 
 extension DataProvider: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    NotificationCenter.default.post(name: Constants().NOTI_CARD_SELECTED, object: self, userInfo: ["index": indexPath.item])
+    guard let cardManager = cardManager else { fatalError() }
+    guard let parentVC = collectionView.parentViewController as? CardListVC else { fatalError() }
+    
+    let cell = collectionView.cellForItem(at: indexPath) as! WordCardCell
+    parentVC.selectedCell = cell
+    let imgHeight = cell.imgView.bounds.height
+    let imgWidth = cell.imgView.bounds.width
+    let viewWidth = UIScreen.main.bounds.width - 100
+    let viewHeight = imgHeight * viewWidth / imgWidth
+
+    let cellVC = CellVC()
+    cellVC.cardManager = cardManager
+    cellVC.index = indexPath.item
+    cellVC.configView(card: cardManager.cardAt(index: indexPath.item))
+//    cellVC.preferredContentSize = CGSize(width: viewWidth, height: viewHeight)
+//    cellVC.modalPresentationStyle = .popover
+//    cellVC.modalTransitionStyle = .crossDissolve
+//    cellVC.popoverPresentationController?.backgroundColor = UIColor.clear
+//    cellVC.popoverPresentationController?.delegate = parentVC as! UIPopoverPresentationControllerDelegate
+//    cellVC.popoverPresentationController?.sourceRect = CGRect(x: parentVC.view.bounds.midX, y: parentVC.view.bounds.midY, width: 0, height: 0)
+//    cellVC.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.init(rawValue: 0)
+//    cellVC.popoverPresentationController?.sourceView = parentVC.view
+//    parentVC.present(cellVC, animated: true) {
+//      cellVC.flip()
+//    }
+    cellVC.transitioningDelegate = parentVC as! UIViewControllerTransitioningDelegate
+    parentVC.present(cellVC, animated: true) {
+      cellVC.flip()
+    }
   }
 }
 

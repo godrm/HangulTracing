@@ -45,6 +45,9 @@ class GameView: UIView {
     wordLabel.text = words
     wordLabel.textAlignment = .center
     wordLabel.font = wordLabel.font.withSize(100)
+    wordLabel.adjustsFontSizeToFitWidth = true
+    wordLabel.baselineAdjustment = .alignCenters
+    wordLabel.minimumScaleFactor = 0.1
     wordLabel.textColor = UIColor.white
     addSubview(wordLabel)
     addSubview(exitBtn)
