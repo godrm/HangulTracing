@@ -49,25 +49,18 @@ extension DataProvider: UICollectionViewDelegate {
     let imgWidth = cell.imgView.bounds.width
     let viewWidth = UIScreen.main.bounds.width - 100
     let viewHeight = imgHeight * viewWidth / imgWidth
+    let centerX = UIScreen.main.bounds.width / 2
+    let centerY = UIScreen.main.bounds.height / 2
 
-    let cellVC = CellVC()
+    let cellVC = CellVC(viewFrame: CGRect(x: centerX - viewWidth / 2, y: centerY - viewHeight / 2, width: viewWidth, height: viewHeight))
     cellVC.cardManager = cardManager
     cellVC.index = indexPath.item
     cellVC.configView(card: cardManager.cardAt(index: indexPath.item))
-//    cellVC.preferredContentSize = CGSize(width: viewWidth, height: viewHeight)
-//    cellVC.modalPresentationStyle = .popover
-//    cellVC.modalTransitionStyle = .crossDissolve
-//    cellVC.popoverPresentationController?.backgroundColor = UIColor.clear
-//    cellVC.popoverPresentationController?.delegate = parentVC as! UIPopoverPresentationControllerDelegate
-//    cellVC.popoverPresentationController?.sourceRect = CGRect(x: parentVC.view.bounds.midX, y: parentVC.view.bounds.midY, width: 0, height: 0)
-//    cellVC.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.init(rawValue: 0)
-//    cellVC.popoverPresentationController?.sourceView = parentVC.view
-//    parentVC.present(cellVC, animated: true) {
-//      cellVC.flip()
-//    }
     cellVC.transitioningDelegate = parentVC as! UIViewControllerTransitioningDelegate
+    
     parentVC.present(cellVC, animated: true) {
-      cellVC.flip()
+      cellVC.flip(completion: { (success) in
+      })
     }
   }
 }

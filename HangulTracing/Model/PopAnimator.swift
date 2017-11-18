@@ -22,11 +22,12 @@ class PopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
   
   func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
     let containerView = transitionContext.containerView
-    let toView = transitionContext.view(forKey: .to)!
-    let herbView = presenting ? toView : transitionContext.view(forKey: .from)!
     
-    let initialFrame = presenting ? originFrame : herbView.frame
-    let finalFrame = presenting ? herbView.frame : originFrame
+    guard let toView = transitionContext.view(forKey: .to) else { return }
+    let cellView = presenting ? toView : transitionContext.view(forKey: .from)!
+    
+    let initialFrame = presenting ? originFrame : cellView.bounds
+    let finalFrame = presenting ? cellView.bounds : originFrame
     
     let xScaleFactor = presenting ?
       initialFrame.width / finalFrame.width :
@@ -39,21 +40,21 @@ class PopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     let scaleTransform = CGAffineTransform(scaleX: xScaleFactor, y: yScaleFactor)
     
     if presenting {
-      herbView.transform = scaleTransform
-      herbView.center = CGPoint(
+      cellView.transform = scaleTransform
+      cellView.center = CGPoint(
         x: initialFrame.midX,
         y: initialFrame.midY)
-      herbView.clipsToBounds = true
+      cellView.clipsToBounds = true
     }
     
     containerView.addSubview(toView)
-    containerView.bringSubview(toFront: herbView)
+    containerView.bringSubview(toFront: cellView)
     
     UIView.animate(withDuration: duration, delay:0.0,
                    usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0,
                    animations: {
-                    herbView.transform = self.presenting ? CGAffineTransform.identity : scaleTransform
-                    herbView.center = CGPoint(x: finalFrame.midX, y: finalFrame.midY)
+                    cellView.transform = self.presenting ? CGAffineTransform.identity : scaleTransform
+                    cellView.center = CGPoint(x: finalFrame.midX, y: finalFrame.midY)
     }, completion: { _ in
       if !self.presenting {
         self.dismissCompletion?()

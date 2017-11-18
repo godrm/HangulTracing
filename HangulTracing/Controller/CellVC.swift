@@ -9,10 +9,10 @@
 import UIKit
 
 class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
+  var viewFrame: CGRect!
   var didSetupConstraints = false
   var cardManager: CardManager?
   var index: Int?
-  
   var imgView: UIImageView = {
     let imgView = UIImageView()
     imgView.contentMode = .scaleAspectFill
@@ -21,14 +21,14 @@ class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
   
   var backView: UIView = {
     let view = UIView()
-    view.backgroundColor = UIColor(hex: "1EC545")
+    view.backgroundColor = UIColor(hex: "FECB2F")
     return view
   }()
   var isBackViewShowing = false
   var wordLabel: UILabel = {
     let label = UILabel()
     label.backgroundColor = UIColor.clear
-    label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    label.textColor = UIColor(hex: "063796")
     label.textAlignment = .center
     label.font = label.font.withSize(50)
     label.baselineAdjustment = .alignCenters
@@ -40,32 +40,42 @@ class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    view.backgroundColor = UIColor.clear
     
-    view.layer.cornerRadius = 15
-    view.layer.masksToBounds = true
+    imgView.layer.cornerRadius = 15
+    imgView.clipsToBounds = true
+    backView.layer.cornerRadius = 15
+    backView.clipsToBounds = true
     view.addSubview(imgView)
     view.addSubview(backView)
     tracingBtn = UIButton()
-    tracingBtn.layer.cornerRadius = 15
-    tracingBtn.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)
+    tracingBtn.backgroundColor = UIColor(hex: "063796")
     tracingBtn.setTitle("따라쓰기", for: .normal)
     tracingBtn.addTarget(self, action: #selector(CellVC.tracingBtnTapped(_:)), for: .touchUpInside)
     backView.addSubview(wordLabel)
+    let dismissTap = UITapGestureRecognizer(target: self, action: #selector(CellVC.wordLBLTapped))
+    wordLabel.addGestureRecognizer(dismissTap)
+    wordLabel.isUserInteractionEnabled = true
     backView.addSubview(tracingBtn)
     backView.isHidden = true
     
     view.setNeedsUpdateConstraints()
   }
   
+  init(viewFrame: CGRect) {
+    self.viewFrame = viewFrame
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func updateViewConstraints() {
     if !didSetupConstraints {
       
-      imgView.snp.makeConstraints { (make) in
-        make.edges.equalTo(view)
-      }
-      backView.snp.makeConstraints { (make) in
-        make.edges.equalTo(view)
-      }
+      imgView.frame = viewFrame
+      backView.frame = viewFrame
       tracingBtn.snp.makeConstraints({ (make) in
         make.left.bottom.right.equalTo(backView)
         make.height.equalTo(80)
@@ -81,21 +91,25 @@ class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
     super.updateViewConstraints()
   }
   
-  func flip() {
+  func flip(completion: @escaping (_ Success: Bool) -> ()) {
     if isBackViewShowing {
       
       UIView.transition(from: backView,
                         to: imgView,
                         duration: 1.0,
                         options: [.transitionFlipFromLeft, .showHideTransitionViews],
-                        completion:nil)
+                        completion:{ (success) in
+                          completion(true)
+      })
     } else {
       
       UIView.transition(from: imgView,
                         to: backView,
                         duration: 1.0,
                         options: [.transitionFlipFromRight, .showHideTransitionViews],
-                        completion: nil)
+                        completion: { (success) in
+                          completion(true)
+      })
     }
     isBackViewShowing = !isBackViewShowing
   }
@@ -105,17 +119,23 @@ class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
     imgView.image = UIImage(data: card.imgData)
   }
   
+  @objc func wordLBLTapped() {
+    
+    flip { (success) in
+      self.presentingViewController?.dismiss(animated: true, completion: nil)
+    }
+  }
+  
   @objc func tracingBtnTapped(_ sender: UIButton) {
-//    guard let cardManager = cardManager else { return }
-//    guard let index = index else { return }
-//    let nextVC = TracingVC()
-//    nextVC.cardInfo = (cardManager, index)
-//    guard let nav = presentingViewController as? UINavigationController else { return }
-//    guard let cardListVC = nav.viewControllers.first as? CardListVC else { return }
-//    dismiss(animated: true) {
-//      nav.pushViewController(nextVC, animated: true)
-//      cardListVC.blurEffectView.isHidden = true
-//    }
-    presentingViewController?.dismiss(animated: true, completion: nil)
+    
+    guard let cardManager = cardManager else { return }
+    guard let index = index else { return }
+    let nextVC = TracingVC()
+    nextVC.cardInfo = (cardManager, index)
+    
+    guard let nav = presentingViewController as? UINavigationController else { return }
+    dismiss(animated: true) {
+      nav.pushViewController(nextVC, animated: true)
+    }
   }
 }

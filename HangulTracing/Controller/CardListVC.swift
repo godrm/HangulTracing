@@ -12,7 +12,6 @@ class CardListVC: UIViewController {
   var didSetupConstraints = false
   var selectedCell: WordCardCell?
   let transition = PopAnimator()
-  var blurEffectView: UIVisualEffectView!
   var cellMode: CellMode = .normal
   var dataProvider: DataProvider = {
     let provider = DataProvider()
@@ -37,7 +36,7 @@ class CardListVC: UIViewController {
     
     setupCard()
     self.title = "단어장"
-    view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+    view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: UICollectionViewFlowLayout())
     collectionView.backgroundColor = UIColor.clear
     collectionView.register(WordCardCell.self, forCellWithReuseIdentifier: "WordCardCell")
@@ -59,11 +58,10 @@ class CardListVC: UIViewController {
     gameBarBtnItem.action = #selector(CardListVC.gameBtnTapped(_:))
     navigationItem.rightBarButtonItem = gameBarBtnItem
     
-    let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
-    blurEffectView = UIVisualEffectView(effect: blurEffect)
-    blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    view.addSubview(blurEffectView)
-    blurEffectView.isHidden = true
+    transition.dismissCompletion = {
+      self.selectedCell?.isHidden = false
+    }
+    
     view.setNeedsUpdateConstraints()
   }
   
@@ -79,9 +77,7 @@ class CardListVC: UIViewController {
         make.width.height.equalTo(70)
         make.right.bottom.equalTo(self.view).offset(-20)
       })
-      blurEffectView.snp.makeConstraints({ (make) in
-        make.edges.equalTo(self.view)
-      })
+      
       didSetupConstraints = true
     }
     super.updateViewConstraints()
@@ -89,7 +85,7 @@ class CardListVC: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    collectionView.reloadData()
+    //collectionView.reloadData()
   }
   
   func setupCard() {
@@ -141,32 +137,20 @@ extension CardListVC: DeleteBtnDelegate {
   }
 }
 
-//extension CardListVC: UIPopoverPresentationControllerDelegate {
-//  func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
-//    return .none
-//  }
-//
-//  func prepareForPopoverPresentation(_ popoverPresentationController: UIPopoverPresentationController) {
-//    blurEffectView.isHidden = false
-//  }
-//
-//  func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
-//    blurEffectView.isHidden = true
-//  }
-//}
-
 extension CardListVC: UIViewControllerTransitioningDelegate {
   
   func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
     guard let selectedCell = selectedCell as? WordCardCell else { fatalError() }
-    transition.originFrame = selectedCell.convert(selectedCell.frame, to: nil)
+    transition.originFrame = selectedCell.convert(selectedCell.bounds, to: nil)
     
     transition.presenting = true
+    selectedCell.isHidden = true
     
     return transition
   }
   func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
     transition.presenting = false
+    
     return transition
   }
 }
