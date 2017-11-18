@@ -8,6 +8,7 @@ target 'HangulTracing' do
   # Pods for HangulTracing
   pod 'SnapKit', '~> 4.0.0'
   pod 'RealmSwift'
+  pod 'Reveal-SDK', configurations: ['Debug']
 
   target 'HangulTracingTests' do
     inherit! :search_paths

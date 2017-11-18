@@ -49,8 +49,8 @@ class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
     view.addSubview(imgView)
     view.addSubview(backView)
     tracingBtn = UIButton()
-    tracingBtn.backgroundColor = UIColor(hex: "063796")
-    tracingBtn.setTitle("따라쓰기", for: .normal)
+    //tracingBtn.backgroundColor = UIColor(hex: "063796")
+    tracingBtn.setImage(UIImage(named: "tracing"), for: .normal)
     tracingBtn.addTarget(self, action: #selector(CellVC.tracingBtnTapped(_:)), for: .touchUpInside)
     backView.addSubview(wordLabel)
     let dismissTap = UITapGestureRecognizer(target: self, action: #selector(CellVC.wordLBLTapped))
@@ -76,13 +76,12 @@ class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
       
       imgView.frame = viewFrame
       backView.frame = viewFrame
-      tracingBtn.snp.makeConstraints({ (make) in
-        make.left.bottom.right.equalTo(backView)
-        make.height.equalTo(80)
+      wordLabel.snp.makeConstraints({ (make) in
+        make.edges.equalTo(backView)
       })
-      wordLabel.snp.makeConstraints { (make) in
-        make.top.left.right.equalTo(backView)
-        make.bottom.equalTo(tracingBtn.snp.top)
+      tracingBtn.snp.makeConstraints { (make) in
+        make.top.right.equalTo(backView)
+        make.width.height.equalTo(50)
       }
       
       
@@ -132,10 +131,10 @@ class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
     guard let index = index else { return }
     let nextVC = TracingVC()
     nextVC.cardInfo = (cardManager, index)
-    
     guard let nav = presentingViewController as? UINavigationController else { return }
     dismiss(animated: true) {
       nav.pushViewController(nextVC, animated: true)
     }
+    
   }
 }
