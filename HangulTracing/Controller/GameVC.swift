@@ -54,7 +54,7 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    UIApplication.shared.isIdleTimerDisabled = true
     requestAVAuth()
     sessionQueue.async {
       self.configureSession()
@@ -387,6 +387,7 @@ extension GameVC: ExitBtnDelegate {
   func exitBtnTapped(sender: UIButton) {
     timer.invalidate()
     motionManager.stopDeviceMotionUpdates()
+    UIApplication.shared.isIdleTimerDisabled = false
     dismiss(animated: true, completion: nil)
   }
 }

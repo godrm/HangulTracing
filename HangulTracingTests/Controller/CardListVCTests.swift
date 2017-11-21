@@ -16,7 +16,10 @@ class CardListVCTests: XCTestCase {
   override func setUp() {
     super.setUp()
     sut = CardListVC()
+    sut.category = Category(category: "동물")
+    sut.cardManager = CardManager(categoryTitle: "동물")
     _ = sut.view
+    
   }
   
   override func tearDown() {
@@ -24,7 +27,7 @@ class CardListVCTests: XCTestCase {
     super.tearDown()
   }
   
-  //tableView
+  //collectionView
   func test_CollectionView_IsNotNil_AfterViewDidLoad() {
     XCTAssertNotNil(sut.collectionView)
   }
@@ -49,17 +52,12 @@ class CardListVCTests: XCTestCase {
     XCTAssertEqual(target as? CardListVC, sut)
   }
   
-  func test_Controller_HasLeftBarBtnWithSelfAsTarget() {
-    let target = sut.navigationItem.leftBarButtonItem?.target
-    XCTAssertEqual(target as? CardListVC, sut)
-  }
-  
   func test_WhenAddBtnTapped_PresentInputVC() {
     XCTAssertNil(sut.presentedViewController)
-    
+
     //버튼 띄우기
     UIApplication.shared.keyWindow?.rootViewController = sut
-    
+
     sut.addBtnTapped(sut.addBtn)
     XCTAssertTrue(sut.presentedViewController is InputVC)
   }
@@ -71,27 +69,3 @@ class CardListVCTests: XCTestCase {
   
   
 }
-
-extension CardListVCTests {
-  
-  //reload 확인
-  class MockCollectionView: UICollectionView {
-    var reloadIsCalled = false
-    
-    override func reloadData() {
-      reloadIsCalled = true
-      super.reloadData()
-    }
-  }
-  
-  //pushVC 확인
-  class MockNavigationController: UINavigationController {
-    var pushedVC: UIViewController?
-    
-    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
-      pushedVC = viewController
-      super.pushViewController(viewController, animated: animated)
-    }
-  }
-}
-

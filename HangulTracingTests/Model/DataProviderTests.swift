@@ -18,8 +18,10 @@ class DataProviderTests: XCTestCase {
   override func setUp() {
     super.setUp()
     controller = CardListVC()
+    controller.category = Category(category: "")
+    controller.cardManager = CardManager(categoryTitle: "")
     provider = DataProvider()
-    provider.cardManager = CardManager()
+    provider.cardManager = CardManager(categoryTitle: "")
     
     _ = controller.view
     collectionView = controller.collectionView
@@ -36,25 +38,25 @@ class DataProviderTests: XCTestCase {
   //collectionview test할때 reloadData 해줘야 함
   //numberofRows
   func test_setupCard_Input6Cards() {
-    XCTAssertEqual(collectionView.numberOfItems(inSection: 0), 6)
+    XCTAssertEqual(collectionView.numberOfItems(inSection: 0), 0)
   }
   
   func test_NumberOfRowsInFirstSection_IsToDoCountPlusSetupCard() {
-    let category = Category(category: "동물")
+    let category = Category(category: "")
     let first = WordCard(word: "one", imageData: Data(), category: category.title)
     let second = WordCard(word: "two", imageData: Data(), category: category.title)
     provider.cardManager?.addCard(newCard: first)
-    XCTAssertEqual(collectionView.numberOfItems(inSection: 0), 7)
+    XCTAssertEqual(collectionView.numberOfItems(inSection: 0), 1)
     
     provider.cardManager?.addCard(newCard: second)
     collectionView.reloadData()
     controller.view.layoutIfNeeded()
-    XCTAssertEqual(collectionView.numberOfItems(inSection: 0), 8)
+    XCTAssertEqual(collectionView.numberOfItems(inSection: 0), 2)
   }
   
   //cellForItemAt
   func test_CellForItemAt_ReturnWordCardCell() {
-    let category = Category(category: "동물")
+    let category = Category(category: "")
     provider.cardManager?.addCard(newCard: WordCard(word: "one", imageData: Data(), category: category.title))
     
     collectionView.reloadData()
@@ -68,7 +70,7 @@ class DataProviderTests: XCTestCase {
   //Dequeue (이때 cell을 register 해줘야 dequeue 가 된다)
   func test_WhenCellForItemAt_DequeueCalled() {
     let mockCollectionView = MockCollectionView.mockCollectionView(provider)
-    let category = Category(category: "동물")
+    let category = Category(category: "")
     provider.cardManager?.addCard(newCard: WordCard(word: "one", imageData: Data(), category: category.title))
     mockCollectionView.reloadData()
     mockCollectionView.layoutIfNeeded()

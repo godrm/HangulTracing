@@ -17,7 +17,7 @@ class CardManagerTests: XCTestCase {
   override func setUp() {
     super.setUp()
     testRealm = try! Realm()
-    sut = CardManager()
+    sut = CardManager(categoryTitle: "동물")
     sut.realm = testRealm
     
     try! sut.realm.write {
@@ -35,7 +35,7 @@ class CardManagerTests: XCTestCase {
   
   //toDoCount
   func test_ToDoCount_Initially_SameAsRealmObjectsCount() {
-    XCTAssertEqual(sut.toDoCount, sut.realm.objects(WordCard.self).count)
+    XCTAssertEqual(sut.toDoCount, 0)
   }
   
   //addCard
@@ -51,6 +51,7 @@ class CardManagerTests: XCTestCase {
     let newCard = WordCard(word: "same", imageData: Data(), category: category.title)
     let card = WordCard(word: "same", imageData: Data(), category: category.title)
     sut.addCard(newCard: newCard)
+    XCTAssertEqual(sut.toDoCount, 1)
     sut.addCard(newCard: card)
     XCTAssertEqual(sut.toDoCount, 1)
   }
@@ -64,8 +65,8 @@ class CardManagerTests: XCTestCase {
     XCTAssertEqual(newCard.word, sut.cardAt(index: 0).word)
   }
   
-  //completeCardAt
-  func test_CompleteCardAt_ChangesCounts() {
+  //removeCardAt
+  func test_removeCardAt_ChangesCounts() {
     let category = Category(category: "동물")
     let newCard = WordCard(word: "same", imageData: Data(), category: category.title)
     sut.addCard(newCard: newCard)
@@ -75,7 +76,7 @@ class CardManagerTests: XCTestCase {
     XCTAssertEqual(sut.toDoCount, 0)
   }
   
-  func test_CompleteCardAt_RemoveItFromToDoCards() {
+  func test_removeCardAt_RemoveItFromToDoCards() {
     let category = Category(category: "동물")
     let first = WordCard(word: "one", imageData: Data(), category: category.title)
     let second = WordCard(word: "two", imageData: Data(), category: category.title)
@@ -88,12 +89,7 @@ class CardManagerTests: XCTestCase {
   
   //removeAll
   func test_removeAll_CountsToBeZero() {
-    let category = Category(category: "동물")
-    let first = WordCard(word: "one", imageData: Data(), category: category.title)
-    let second = WordCard(word: "two", imageData: Data(), category: category.title)
-    sut.addCard(newCard: first)
-    sut.addCard(newCard: second)
-    sut.removeCardAt(index: 0)
+    
     
     sut.removeAll()
     XCTAssertEqual(sut.toDoCount, 0)

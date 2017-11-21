@@ -46,6 +46,8 @@
 		487037981FAC3D6200A966A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 487037971FAC3D6200A966A2 /* Assets.xcassets */; };
 		4870379B1FAC3D6200A966A2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 487037991FAC3D6200A966A2 /* LaunchScreen.storyboard */; };
 		48AD6F3F1FC3C06D0054FBD5 /* UICollectionViewCellExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48AD6F3E1FC3C06D0054FBD5 /* UICollectionViewCellExt.swift */; };
+		48AD6F401FC40C1E0054FBD5 /* UIImageExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484B620B1FBD7BDC00AE065F /* UIImageExt.swift */; };
+		48AD6F411FC415E60054FBD5 /* PinterestLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979CE1FB31F66000C1E2A /* PinterestLayout.swift */; };
 		48D1A2001FAC5F3200F4B9A6 /* CardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A1FF1FAC5F3200F4B9A6 /* CardManager.swift */; };
 		48D1A2031FAC63BE00F4B9A6 /* CardManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A2021FAC63BE00F4B9A6 /* CardManagerTests.swift */; };
 		48D1A2051FAC66B900F4B9A6 /* WordCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D1A2041FAC66B900F4B9A6 /* WordCard.swift */; };
@@ -558,6 +560,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48AD6F411FC415E60054FBD5 /* PinterestLayout.swift in Sources */,
 				484979B71FB17C4F000C1E2A /* LetterViewTests.swift in Sources */,
 				484979D71FB455B1000C1E2A /* WordCardCellTests.swift in Sources */,
 				484979B31FB16B90000C1E2A /* TracingVCTests.swift in Sources */,
@@ -568,6 +571,7 @@
 				484979DB1FB4564D000C1E2A /* CardListVCTests.swift in Sources */,
 				484979DF1FB56ABC000C1E2A /* InputVCTests.swift in Sources */,
 				48D1A2071FAC673B00F4B9A6 /* WordCardTests.swift in Sources */,
+				48AD6F401FC40C1E0054FBD5 /* UIImageExt.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

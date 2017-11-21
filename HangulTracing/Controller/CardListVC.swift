@@ -24,7 +24,10 @@ class CardListVC: UIViewController {
     let buttonItem = UIBarButtonItem(image: UIImage(named: "game"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(CardListVC.gameBtnTapped(_:)))
     return buttonItem
   }()
-  var collectionView: UICollectionView!
+  var collectionView: UICollectionView = {
+    let view = UICollectionView(frame: UIScreen.main.bounds, collectionViewLayout: PinterestLayout())
+    return view
+  }()
   var addBtn = AddBtn()
   
   override func viewDidLoad() {
@@ -33,13 +36,12 @@ class CardListVC: UIViewController {
     title = category.title
     dataProvider.cardManager = cardManager
     view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-    collectionView = UICollectionView(frame: UIScreen.main.bounds, collectionViewLayout: PinterestLayout())
+    //collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: PinterestLayout())
     collectionView.backgroundColor = UIColor.clear
     collectionView.register(WordCardCell.self, forCellWithReuseIdentifier: "WordCardCell")
-    
     collectionView.dataSource = dataProvider
     collectionView.delegate = dataProvider
-    if let layout = collectionView?.collectionViewLayout as? PinterestLayout {
+    if let layout = collectionView.collectionViewLayout as? PinterestLayout {
       layout.delegate = dataProvider
     }
     

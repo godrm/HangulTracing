@@ -17,7 +17,7 @@ class InputVCTests: XCTestCase {
     super.setUp()
     sut = InputVC()
     _ = sut.view
-    sut.cardManager = CardManager()
+    sut.cardManager = CardManager(categoryTitle: "")
   }
   
   override func tearDown() {

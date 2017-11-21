@@ -17,7 +17,8 @@ class WordCardCellTests: XCTestCase {
   override func setUp() {
     super.setUp()
     let cardListVC = CardListVC()
-    
+    cardListVC.category = Category(category: "")
+    cardListVC.cardManager = CardManager(categoryTitle: "")
     //viewdidload
     _ = cardListVC.view
     collectionView = cardListVC.collectionView
