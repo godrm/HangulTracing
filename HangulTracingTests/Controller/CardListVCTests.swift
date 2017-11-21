@@ -64,19 +64,6 @@ class CardListVCTests: XCTestCase {
     XCTAssertTrue(sut.presentedViewController is InputVC)
   }
   
-  func test_WhenAddedCard_CollectionViewReloaded() {
-    let mockCollectionView = MockCollectionView(frame: CGRect(), collectionViewLayout: UICollectionViewFlowLayout())
-    sut.collectionView = mockCollectionView
-    sut.dataProvider.cardManager?.addCard(newCard: WordCard(word: "test", imageData: Data()))
-
-    //viewwillappear
-    sut.beginAppearanceTransition(true, animated: true)
-    sut.endAppearanceTransition()
-    sut.collectionView.layoutIfNeeded()
-    
-    XCTAssertTrue(mockCollectionView.reloadIsCalled)
-  }
-  
   //cardManager
   func test_ViewDidLoad_SetsCardManagerToDataProvider() {
     XCTAssertTrue(sut.cardManager === sut.dataProvider.cardManager)

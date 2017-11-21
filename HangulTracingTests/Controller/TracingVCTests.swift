@@ -30,8 +30,9 @@ class TracingVCTests: XCTestCase {
   }
   
   func test_getCharactersView_MakeView_SameAsCharatersCount() {
-    let cardManager = CardManager()
-    cardManager.addCard(newCard: WordCard(word: "test", imageData: Data()))
+    let category = Category(category: "동물")
+    let cardManager = CardManager(category: category.title)
+    cardManager.addCard(newCard: WordCard(word: "test", imageData: Data(), category: category.title))
     sut.cardInfo = (cardManager, 0)
     sut.getCharactersView()
     
@@ -41,8 +42,9 @@ class TracingVCTests: XCTestCase {
   
   func test_WhenViewWillAppear_Call_getCharactersView() {
     let mockTracingVC = MockTracingVC()
-    let cardManager = CardManager()
-    cardManager.addCard(newCard: WordCard(word: "test", imageData: Data()))
+    let category = Category(category: "동물")
+    let cardManager = CardManager(category: category.title)
+    cardManager.addCard(newCard: WordCard(word: "test", imageData: Data(), category: category.title))
     mockTracingVC.cardInfo = (cardManager, 0)
     mockTracingVC.beginAppearanceTransition(true, animated: true)
     mockTracingVC.endAppearanceTransition()

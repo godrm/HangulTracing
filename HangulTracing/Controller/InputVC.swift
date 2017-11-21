@@ -11,6 +11,7 @@ import UIKit
 class InputVC: UIViewController {
   
   var didSetupConstraints = false
+  var category: Category?
   var cardManager: CardManager?
   var spinner: UIActivityIndicatorView!
   var wordTextField: UITextField = {
@@ -18,21 +19,21 @@ class InputVC: UIViewController {
     textField.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     textField.textAlignment = .center
     textField.font = textField.font?.withSize(20)
-    textField.placeholder = "공백없이 단어를 입력하세요"
+    textField.placeholder = "단어를 입력하세요"
     return textField
   }()
   var cardView: UIView = {
     let view = UIView()
     view.layer.borderWidth = 1
-    view.layer.borderColor = UIColor(hex: "1EC545").cgColor
-    view.backgroundColor = UIColor(hex: "1EC545")
+    view.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    view.backgroundColor = UIColor.clear
     view.layer.cornerRadius = 15
     view.clipsToBounds = true
     return view
   }()
   var imageView: UIImageView = {
     let imageView = UIImageView()
-    imageView.contentMode = .scaleAspectFill
+    imageView.contentMode = .scaleAspectFit
     imageView.image = UIImage(named: "empty")
     imageView.clipsToBounds = true
     return imageView
@@ -49,14 +50,14 @@ class InputVC: UIViewController {
   }()
   var addBtn: UIButton = {
     let btn = UIButton()
-    btn.backgroundColor = #colorLiteral(red: 0.09182383865, green: 0.6374981999, blue: 0.09660141915, alpha: 1)
+    btn.backgroundColor = UIColor(hex: "EC204B")
     btn.setTitle("ADD", for: .normal)
     btn.layer.cornerRadius = 15
     return btn
   }()
   var cancelBtn: UIButton = {
     let btn = UIButton()
-    btn.backgroundColor = #colorLiteral(red: 0.9385011792, green: 0.7164435983, blue: 0.3331357837, alpha: 0.8)
+    btn.backgroundColor = UIColor(hex: "C3D53F")
     btn.setTitle("CANCEL", for: .normal)
     btn.layer.cornerRadius = 15
     return btn
@@ -67,7 +68,7 @@ class InputVC: UIViewController {
     super.viewDidLoad()
     
     spinner = UIActivityIndicatorView()
-    view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    view.backgroundColor = UIColor(hex: "2ABEE5")
     NotificationCenter.default.addObserver(self, selector: #selector(InputVC.photoCaptured(_:)), name: Constants().NOTI_PHOTO_SELECTED, object: nil)
     view.addSubview(cardView)
     cardView.addSubview(wordTextField)
@@ -164,9 +165,15 @@ class InputVC: UIViewController {
   
   @objc func addBtnTapped(_ sender: UIButton) {
     guard let text = wordTextField.text , !text.components(separatedBy: " ").joined(separator: "").isEmpty else { return }
+    guard let category = category else { return }
     let filterdText = text.components(separatedBy: " ").joined(separator: "")
     guard let photoData = capturedPhotoData else { return }
-    cardManager?.addCard(newCard: WordCard(word: filterdText, imageData: photoData))
+    cardManager?.addCard(newCard: WordCard(word: filterdText, imageData: photoData, category: category.title))
+    
+    guard let nav = presentingViewController as? UINavigationController else { return }
+    guard let cardListVC = nav.viewControllers[1] as? CardListVC else { return }
+    cardListVC.collectionView.reloadData()
+    
     dismiss(animated: true, completion: nil)
   }
   

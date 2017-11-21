@@ -14,10 +14,13 @@ class CardManager: NSObject {
   var realm: Realm!
   var toDoCards: Results<WordCard>!
   var toDoCount: Int { return toDoCards.count }
+  var categoryTitle: String!
   
-  override init() {
+  convenience init(categoryTitle: String) {
+    self.init()
+    self.categoryTitle = categoryTitle
     realm = try! Realm()
-    toDoCards = realm.objects(WordCard.self)
+    toDoCards = realm.objects(WordCard.self).filter("category = %@", categoryTitle)
   }
   
   func addCard(newCard: WordCard) {
@@ -33,7 +36,7 @@ class CardManager: NSObject {
     return toDoCards[index]
   }
   
-  func completeCardAt(index: Int) {
+  func removeCardAt(index: Int) {
     try! realm.write {
       realm.delete(toDoCards[index])
     }
@@ -41,7 +44,7 @@ class CardManager: NSObject {
   
   func removeAll() {
     try! realm.write {
-      realm.deleteAll()
+      realm.delete(toDoCards)
     }
   }
 }

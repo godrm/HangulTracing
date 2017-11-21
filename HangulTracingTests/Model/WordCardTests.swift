@@ -23,14 +23,16 @@ class WordCardTests: XCTestCase {
   
   //word
   func test_Init_WhenGivenWord_SetsWord() {
-    let wordCard = WordCard(word: "다람쥐", imageData: Data())
+    let category = Category(category: "동물")
+    let wordCard = WordCard(word: "다람쥐", imageData: Data(), category: category.title)
     XCTAssertEqual(wordCard.word, "다람쥐")
   }
   
   //imgData
   func test_Init_WhenGivenData_SetsImgData() {
     let testData = Data()
-    let wordCard = WordCard(word: "test", imageData: testData)
+    let category = Category(category: "동물")
+    let wordCard = WordCard(word: "test", imageData: testData, category: category.title)
     XCTAssertEqual(wordCard.imgData, testData)
   }
 }

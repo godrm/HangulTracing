@@ -40,14 +40,16 @@ class CardManagerTests: XCTestCase {
   
   //addCard
   func test_AddCard_IncreaseToDoCountToOne() {
-    let newCard = WordCard(word: "new", imageData: Data())
+    let category = Category(category: "동물")
+    let newCard = WordCard(word: "test", imageData: Data(), category: category.title)
     sut.addCard(newCard: newCard)
     XCTAssertEqual(sut.toDoCount, 1)
   }
   
   func test_WhenSameCardAdded_NotIncreaseToDoCount() {
-    let newCard = WordCard(word: "same", imageData: Data())
-    let card = WordCard(word: "same", imageData: Data())
+    let category = Category(category: "동물")
+    let newCard = WordCard(word: "same", imageData: Data(), category: category.title)
+    let card = WordCard(word: "same", imageData: Data(), category: category.title)
     sut.addCard(newCard: newCard)
     sut.addCard(newCard: card)
     XCTAssertEqual(sut.toDoCount, 1)
@@ -55,7 +57,8 @@ class CardManagerTests: XCTestCase {
   
   //cardAt
   func test_CardAt_AfterAddingCard_ReturnsThatCard() {
-    let newCard = WordCard(word: "new", imageData: Data())
+    let category = Category(category: "동물")
+    let newCard = WordCard(word: "same", imageData: Data(), category: category.title)
     sut.addCard(newCard: newCard)
     
     XCTAssertEqual(newCard.word, sut.cardAt(index: 0).word)
@@ -63,31 +66,34 @@ class CardManagerTests: XCTestCase {
   
   //completeCardAt
   func test_CompleteCardAt_ChangesCounts() {
-    let newCard = WordCard(word: "temp", imageData: Data())
+    let category = Category(category: "동물")
+    let newCard = WordCard(word: "same", imageData: Data(), category: category.title)
     sut.addCard(newCard: newCard)
     XCTAssertEqual(sut.toDoCount, 1)
     
-    sut.completeCardAt(index: 0)
+    sut.removeCardAt(index: 0)
     XCTAssertEqual(sut.toDoCount, 0)
   }
   
   func test_CompleteCardAt_RemoveItFromToDoCards() {
-    let first = WordCard(word: "one", imageData: Data())
-    let second = WordCard(word: "two", imageData: Data())
+    let category = Category(category: "동물")
+    let first = WordCard(word: "one", imageData: Data(), category: category.title)
+    let second = WordCard(word: "two", imageData: Data(), category: category.title)
     sut.addCard(newCard: first)
     sut.addCard(newCard: second)
-    sut.completeCardAt(index: 0)
+    sut.removeCardAt(index: 0)
     
     XCTAssertEqual(second.word, sut.cardAt(index: 0).word)
   }
   
   //removeAll
   func test_removeAll_CountsToBeZero() {
-    let first = WordCard(word: "one", imageData: Data())
-    let second = WordCard(word: "two", imageData: Data())
+    let category = Category(category: "동물")
+    let first = WordCard(word: "one", imageData: Data(), category: category.title)
+    let second = WordCard(word: "two", imageData: Data(), category: category.title)
     sut.addCard(newCard: first)
     sut.addCard(newCard: second)
-    sut.completeCardAt(index: 0)
+    sut.removeCardAt(index: 0)
     
     sut.removeAll()
     XCTAssertEqual(sut.toDoCount, 0)

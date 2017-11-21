@@ -385,8 +385,7 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
 
 extension GameVC: ExitBtnDelegate {
   func exitBtnTapped(sender: UIButton) {
-    timer = nil
-    speechSynthesizer = nil
+    timer.invalidate()
     motionManager.stopDeviceMotionUpdates()
     dismiss(animated: true, completion: nil)
   }
@@ -430,7 +429,7 @@ extension GameVC: AVCaptureFileOutputRecordingDelegate {
             creationRequest.addResource(with: .video, fileURL: outputFileURL, options: options)
           }, completionHandler: { success, error in
             if success {
-              print("-----------", outputFileURL)
+              
               let alertController = UIAlertController(title: "알림", message: "영상이 성공적으로 저장되었습니다", preferredStyle: .alert)
               alertController
                 .addAction(UIAlertAction(

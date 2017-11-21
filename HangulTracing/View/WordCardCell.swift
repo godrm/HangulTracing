@@ -35,11 +35,11 @@ class WordCardCell: UICollectionViewCell {
     super.init(frame: frame)
     
     contentView.layer.cornerRadius = 15
-    contentView.layer.masksToBounds = true
+    contentView.clipsToBounds = true
     contentView.addSubview(imgView)
     contentView.addSubview(deleteBtn)
     deleteBtn.isHidden = true
-    deleteBtn.addTarget(self, action: #selector(deleteBtnTapped), for: .touchUpInside)
+    deleteBtn.addTarget(self, action: #selector(WordCardCell.deleteBtnTapped), for: .touchUpInside)
 
     imgView.snp.makeConstraints { (make) in
       make.edges.equalTo(contentView)
@@ -49,6 +49,7 @@ class WordCardCell: UICollectionViewCell {
       make.left.top.equalTo(contentView)
       make.width.height.equalTo(40)
     }
+    addLongPressGesture()
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -61,6 +62,7 @@ class WordCardCell: UICollectionViewCell {
       deleteBtn.isHidden = true
     } else {
       deleteBtn.isHidden = false
+      wiggle()
     }
     imgView.image = UIImage(data: card.imgData)
   }

@@ -47,14 +47,16 @@ class WordCardCellTests: XCTestCase {
   //configCell
   func test_ConfigCell_SetsImg() {
     let imgData = Data()
-    let card = WordCard(word: "temp", imageData: imgData)
+    let category = Category(category: "동물")
+    let card = WordCard(word: "temp", imageData: imgData, category: category.title)
     cell.configCell(card: card, cellMode: .normal)
     XCTAssertEqual(UIImage(data: imgData), cell.imgView.image)
   }
   
   func test_WhenCellModeIsDelete_DeleteBtnIsShowing() {
     let imgData = Data()
-    let card = WordCard(word: "temp", imageData: imgData)
+    let category = Category(category: "동물")
+    let card = WordCard(word: "temp", imageData: imgData, category: category.title)
     cell.configCell(card: card, cellMode: .delete)
     XCTAssertFalse(cell.deleteBtn.isHidden)
   }

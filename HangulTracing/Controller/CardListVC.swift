@@ -11,6 +11,8 @@ import UIKit
 class CardListVC: UIViewController {
   var didSetupConstraints = false
   var selectedCell: WordCardCell?
+  var category: Category?
+  var cardManager: CardManager?
   let transition = PopAnimator()
   var cellMode: CellMode = .normal
   var dataProvider: DataProvider = {
@@ -18,42 +20,34 @@ class CardListVC: UIViewController {
     return provider
   }()
   
-  var editBarBtnItem: UIBarButtonItem = {
-    let buttonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: #selector(CardListVC.editBtnTapped(_:)))
-    return buttonItem
-  }()
   var gameBarBtnItem: UIBarButtonItem = {
     let buttonItem = UIBarButtonItem(image: UIImage(named: "game"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(CardListVC.gameBtnTapped(_:)))
     return buttonItem
   }()
   var collectionView: UICollectionView!
-  var pinterestLayout = PinterestLayout()
-  let cardManager = CardManager()
   var addBtn = AddBtn()
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    setupCard()
-    self.title = "단어장"
+    guard let category = category else { return }
+    title = category.title
+    dataProvider.cardManager = cardManager
     view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-    collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: UICollectionViewFlowLayout())
+    collectionView = UICollectionView(frame: UIScreen.main.bounds, collectionViewLayout: PinterestLayout())
     collectionView.backgroundColor = UIColor.clear
     collectionView.register(WordCardCell.self, forCellWithReuseIdentifier: "WordCardCell")
-    view.addSubview(collectionView)
-    view.addSubview(addBtn)
+    
     collectionView.dataSource = dataProvider
     collectionView.delegate = dataProvider
-    collectionView.collectionViewLayout = pinterestLayout
     if let layout = collectionView?.collectionViewLayout as? PinterestLayout {
       layout.delegate = dataProvider
     }
-    dataProvider.cardManager = cardManager
+    
+    view.addSubview(collectionView)
+    view.addSubview(addBtn)
     
     addBtn.addTarget(self, action: #selector(CardListVC.addBtnTapped(_:)), for: .touchUpInside)
-    editBarBtnItem.target = self
-    editBarBtnItem.action = #selector(CardListVC.editBtnTapped(_:))
-    navigationItem.leftBarButtonItem = editBarBtnItem
+
     gameBarBtnItem.target = self
     gameBarBtnItem.action = #selector(CardListVC.gameBtnTapped(_:))
     navigationItem.rightBarButtonItem = gameBarBtnItem
@@ -83,35 +77,12 @@ class CardListVC: UIViewController {
     super.updateViewConstraints()
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    //collectionView.reloadData()
-  }
-  
-  func setupCard() {
-    if cardManager.toDoCount < 6 {
-      cardManager.addCard(newCard: WordCard(word: "고양이", imageData: Constants().catImgData!))
-      cardManager.addCard(newCard: WordCard(word: "개", imageData: Constants().dogImgData!))
-      cardManager.addCard(newCard: WordCard(word: "오리", imageData: Constants().duckImgData!))
-      cardManager.addCard(newCard: WordCard(word: "코끼리", imageData: Constants().elephantImgData!))
-      cardManager.addCard(newCard: WordCard(word: "얼룩말", imageData: Constants().zebraImgData!))
-      cardManager.addCard(newCard: WordCard(word: "기린", imageData: Constants().giraffeImgData!))
-    }
-  }
-  
   @objc func addBtnTapped(_ sender: UIButton) {
+    guard let category = category else { fatalError() }
     let inputVC = InputVC()
     inputVC.cardManager = self.cardManager
+    inputVC.category = category
     present(inputVC, animated: true, completion: nil)
-  }
-  
-  @objc func editBtnTapped(_ sender: UIBarButtonItem) {
-    if dataProvider.cellMode == .normal {
-      dataProvider.cellMode = .delete
-    } else {
-      dataProvider.cellMode = .normal
-    }
-    collectionView.reloadData()
   }
   
   @objc func gameBtnTapped(_ sender: UIBarButtonItem) {
@@ -123,17 +94,25 @@ class CardListVC: UIViewController {
 
 extension CardListVC: DeleteBtnDelegate {
   func deleteBtnTapped(sender: UIButton) {
-    
-    if let cell = sender.superview?.superview as? WordCardCell {
-      if cell.superview == collectionView {
-        guard let indexPath = collectionView.indexPath(for: cell) else { return }
-        dataProvider.cardManager?.completeCardAt(index: indexPath.item)
-        collectionView.reloadData()
-        let layout = PinterestLayout()
-        layout.delegate = dataProvider
-        collectionView.collectionViewLayout = layout
+    let alert = UIAlertController(title: "알림", message: "이 단어를 정말 삭제하시겠습니까?", preferredStyle: .alert)
+    let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { (action) in
+      if let cell = sender.superview?.superview as? WordCardCell {
+        if cell.superview == self.collectionView {
+          guard let indexPath = self.collectionView.indexPath(for: cell) else { return }
+          self.dataProvider.cardManager?.removeCardAt(index: indexPath.item)
+          self.collectionView.reloadData()
+          let layout = PinterestLayout()
+          layout.delegate = self.self.dataProvider
+          self.collectionView.collectionViewLayout = layout
+        }
       }
     }
+    let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+    alert.addAction(cancelAction)
+    alert.addAction(deleteAction)
+    present(alert, animated: true, completion: nil)
+    
+    
   }
 }
 

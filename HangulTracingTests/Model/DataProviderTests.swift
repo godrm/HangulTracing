@@ -40,8 +40,9 @@ class DataProviderTests: XCTestCase {
   }
   
   func test_NumberOfRowsInFirstSection_IsToDoCountPlusSetupCard() {
-    let first = WordCard(word: "one", imageData: Data())
-    let second = WordCard(word: "two", imageData: Data())
+    let category = Category(category: "동물")
+    let first = WordCard(word: "one", imageData: Data(), category: category.title)
+    let second = WordCard(word: "two", imageData: Data(), category: category.title)
     provider.cardManager?.addCard(newCard: first)
     XCTAssertEqual(collectionView.numberOfItems(inSection: 0), 7)
     
@@ -53,7 +54,8 @@ class DataProviderTests: XCTestCase {
   
   //cellForItemAt
   func test_CellForItemAt_ReturnWordCardCell() {
-    provider.cardManager?.addCard(newCard: WordCard(word: "one", imageData: Data()))
+    let category = Category(category: "동물")
+    provider.cardManager?.addCard(newCard: WordCard(word: "one", imageData: Data(), category: category.title))
     
     collectionView.reloadData()
     controller.view.layoutIfNeeded()
@@ -66,8 +68,8 @@ class DataProviderTests: XCTestCase {
   //Dequeue (이때 cell을 register 해줘야 dequeue 가 된다)
   func test_WhenCellForItemAt_DequeueCalled() {
     let mockCollectionView = MockCollectionView.mockCollectionView(provider)
-    
-    provider.cardManager?.addCard(newCard: WordCard(word: "one", imageData: Data()))
+    let category = Category(category: "동물")
+    provider.cardManager?.addCard(newCard: WordCard(word: "one", imageData: Data(), category: category.title))
     mockCollectionView.reloadData()
     mockCollectionView.layoutIfNeeded()
     
@@ -75,24 +77,7 @@ class DataProviderTests: XCTestCase {
     XCTAssertTrue(mockCollectionView.dequeueIsCalled)
   }
   
-  //notification sender
-  func test_SelectingACell_SendsNotification() {
-    let card = WordCard(word: "one", imageData: Data())
-    provider.cardManager?.addCard(newCard: card)
-    
-    //index가 0일 것이다
-    expectation(forNotification: Constants().NOTI_CARD_SELECTED, object: nil) { (notification) -> Bool in
-      guard let index = notification.userInfo?["index"] as? Int else {
-        return false
-      }
-      return index == 0
-    }
-    
-    //셀 클릭
-    collectionView.delegate?.collectionView!(collectionView, didSelectItemAt: IndexPath(item: 0, section: 0))
-    
-    waitForExpectations(timeout: 3, handler: nil)
-  }
+  
 }
 
 
