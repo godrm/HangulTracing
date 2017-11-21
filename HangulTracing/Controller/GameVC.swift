@@ -95,10 +95,10 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
     view.addSubview(blurEffectView)
     blurEffectView.isHidden = true
     
-    startView = GameView(frame: CGRect(), word: "핸드폰 들어!")
+    startView = GameView(frame: CGRect(), word: "핸드폰을 세워보세요")
     startView.exitBtnDelegate = self
     view.addSubview(startView)
-    synthesizeSpeech(fromString: "핸드폰 들어")
+    synthesizeSpeech(fromString: "핸드폰을 세워보세요")
     view.addSubview(timerLabel)
   }
   
@@ -385,7 +385,9 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
 
 extension GameVC: ExitBtnDelegate {
   func exitBtnTapped(sender: UIButton) {
-    timer.invalidate()
+    if timer != nil {
+      timer.invalidate()
+    }
     motionManager.stopDeviceMotionUpdates()
     UIApplication.shared.isIdleTimerDisabled = false
     dismiss(animated: true, completion: nil)
