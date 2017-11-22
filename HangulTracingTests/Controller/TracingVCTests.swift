@@ -29,16 +29,16 @@ class TracingVCTests: XCTestCase {
     XCTAssertNotNil(sut.scrollView)
   }
   
-  func test_getCharactersView_MakeView_SameAsCharatersCount() {
-    let category = Category(category: "동물")
-    let cardManager = CardManager(categoryTitle: category.title)
-    cardManager.addCard(newCard: WordCard(word: "test", imageData: Data(), category: category.title))
-    sut.cardInfo = (cardManager, 0)
-    sut.getCharactersView()
-    
-    let subViewCounts = sut.scrollView.subviews.count
-    XCTAssertEqual(4, subViewCounts)
-  }
+//  func test_getCharactersView_MakeView_SameAsCharatersCount() {
+//    let category = Category(category: "동물")
+//    let cardManager = CardManager(categoryTitle: category.title)
+//    cardManager.addCard(newCard: WordCard(word: "test", imageData: Data(), category: category.title))
+//    sut.cardInfo = (cardManager, 0)
+//    sut.getCharactersView()
+//
+//    let subViewCounts = sut.scrollView.subviews.count
+//    XCTAssertEqual(4, subViewCounts)
+//  }
   
   func test_WhenViewWillAppear_Call_getCharactersView() {
     let mockTracingVC = MockTracingVC()

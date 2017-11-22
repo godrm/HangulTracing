@@ -18,7 +18,7 @@ class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
     imgView.contentMode = .scaleAspectFill
     return imgView
   }()
-  
+  var audioPlayer = SoundPlayer()
   var backView: UIView = {
     let view = UIView()
     view.backgroundColor = UIColor(hex: "FECB2F")
@@ -49,7 +49,9 @@ class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
     view.addSubview(imgView)
     view.addSubview(backView)
     tracingBtn = UIButton()
-    //tracingBtn.backgroundColor = UIColor(hex: "063796")
+    tracingBtn.layer.borderColor = UIColor(hex: "063796").cgColor
+    tracingBtn.layer.borderWidth = 1
+    tracingBtn.layer.cornerRadius = 15
     tracingBtn.setImage(UIImage(named: "tracing"), for: .normal)
     tracingBtn.addTarget(self, action: #selector(CellVC.tracingBtnTapped(_:)), for: .touchUpInside)
     backView.addSubview(wordLabel)
@@ -129,6 +131,7 @@ class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
     
     guard let cardManager = cardManager else { return }
     guard let index = index else { return }
+    audioPlayer.playSoundEffect(name: "writing", extender: "mp3")
     let nextVC = TracingVC()
     nextVC.cardInfo = (cardManager, index)
     guard let nav = presentingViewController as? UINavigationController else { return }
@@ -137,4 +140,5 @@ class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
     }
     
   }
+  
 }

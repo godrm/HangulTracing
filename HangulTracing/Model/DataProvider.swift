@@ -16,7 +16,7 @@ enum CellMode: Int {
 class DataProvider: NSObject {
   var cardManager: CardManager?
   var cellMode: CellMode = .normal
-  
+  var audioPlayer = SoundPlayer()
 }
 
 extension DataProvider: UICollectionViewDataSource {
@@ -42,7 +42,7 @@ extension DataProvider: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     guard let cardManager = cardManager else { fatalError() }
     guard let parentVC = collectionView.parentViewController as? CardListVC else { fatalError() }
-    
+    audioPlayer.playSoundEffect(name: "open", extender: "wav")
     let cell = collectionView.cellForItem(at: indexPath) as! WordCardCell
     parentVC.selectedCell = cell
     let imgHeight = cell.imgView.bounds.height

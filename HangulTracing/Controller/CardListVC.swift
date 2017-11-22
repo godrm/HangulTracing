@@ -36,7 +36,6 @@ class CardListVC: UIViewController {
     title = category.title
     dataProvider.cardManager = cardManager
     view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-    //collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: PinterestLayout())
     collectionView.backgroundColor = UIColor.clear
     collectionView.register(WordCardCell.self, forCellWithReuseIdentifier: "WordCardCell")
     collectionView.dataSource = dataProvider
@@ -92,6 +91,7 @@ class CardListVC: UIViewController {
     gameVC.cardManager = cardManager
     present(gameVC, animated: true, completion: nil)
   }
+  
 }
 
 extension CardListVC: DeleteBtnDelegate {

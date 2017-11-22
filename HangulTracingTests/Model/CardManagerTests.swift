@@ -90,7 +90,6 @@ class CardManagerTests: XCTestCase {
   //removeAll
   func test_removeAll_CountsToBeZero() {
     
-    
     sut.removeAll()
     XCTAssertEqual(sut.toDoCount, 0)
   }

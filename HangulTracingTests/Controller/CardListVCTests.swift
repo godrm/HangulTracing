@@ -27,6 +27,18 @@ class CardListVCTests: XCTestCase {
     super.tearDown()
   }
   
+  func test_HasTitle() {
+    XCTAssertEqual(sut.title, "동물")
+  }
+  
+  func test_HasCollectionView() {
+    XCTAssertNotNil(sut.collectionView)
+  }
+  
+  func test_HasAddBtn() {
+    XCTAssertNotNil(sut.addBtn)
+  }
+  
   //collectionView
   func test_CollectionView_IsNotNil_AfterViewDidLoad() {
     XCTAssertNotNil(sut.collectionView)
@@ -42,6 +54,10 @@ class CardListVCTests: XCTestCase {
     XCTAssertTrue(sut.collectionView.delegate is DataProvider)
   }
   
+//  func test_collectionViewLayout_SameAsPinterestLayout() {
+//    XCTAssertTrue(sut.collectionView.collectionViewLayout is PinterestLayout)
+//  }
+  
   func test_WhenViewDidLoad_DataSourceAndDelegateAreSame() {
     XCTAssertEqual(sut.collectionView.dataSource as? DataProvider, sut.collectionView.delegate as? DataProvider)
   }
@@ -52,6 +68,7 @@ class CardListVCTests: XCTestCase {
     XCTAssertEqual(target as? CardListVC, sut)
   }
   
+  //addBtn
   func test_WhenAddBtnTapped_PresentInputVC() {
     XCTAssertNil(sut.presentedViewController)
 
@@ -66,6 +83,5 @@ class CardListVCTests: XCTestCase {
   func test_ViewDidLoad_SetsCardManagerToDataProvider() {
     XCTAssertTrue(sut.cardManager === sut.dataProvider.cardManager)
   }
-  
   
 }

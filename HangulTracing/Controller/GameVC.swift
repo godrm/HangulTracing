@@ -16,6 +16,7 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
   
   var didSetupConstraints = false
   var playerVC: PlayerVC?
+  var audioPlayer = SoundPlayer()
   private let session = AVCaptureSession()
   private let sessionQueue = DispatchQueue(label: "session queue")
   private enum SessionSetupResult {
@@ -98,7 +99,6 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
     startView = GameView(frame: CGRect(), word: "핸드폰을 세워보세요")
     startView.exitBtnDelegate = self
     view.addSubview(startView)
-    synthesizeSpeech(fromString: "핸드폰을 세워보세요")
     view.addSubview(timerLabel)
   }
   
@@ -125,7 +125,7 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
       
       startMovieRecording()
       startView.isHidden = true
-      synthesizeSpeech(fromString: "설명을 시작하세요")
+      audioPlayer.playSoundEffect(name: "whistle", extender: "wav")
       startTimer()
     }
     if roll <= 5.0 && roll >= -5 && blurEffectView.isHidden && startView.isHidden {
@@ -156,7 +156,7 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
       let scoreView = GameView(frame: CGRect(x: UIScreen.main.bounds.width * CGFloat(cardManager.toDoCount), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), word: "\(greatCount!) 점 / \(cardManager.toDoCount)")
       scoreView.exitBtnDelegate = self
       scrollView.addSubview(scoreView)
-      synthesizeSpeech(fromString: "\(cardManager.toDoCount)개 중에 \(greatCount!)개 맞았습니다")
+      audioPlayer.playSoundEffect(name: "cheering", extender: "wav")
       UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
         self.scrollView.contentOffset.x = self.scrollView.bounds.size.width * CGFloat(page + 1)}, completion: nil)
       motionManager.stopDeviceMotionUpdates()
@@ -278,7 +278,7 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
       let scoreView = GameView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), word: "\(greatCount!) 점 / \(cardManager.toDoCount)")
       scoreView.exitBtnDelegate = self
       self.view.addSubview(scoreView)
-      synthesizeSpeech(fromString: "\(cardManager.toDoCount)개 중에 \(greatCount!)개 맞았습니다")
+      audioPlayer.playSoundEffect(name: "cheering", extender: "wav")
       stopMovieRecording()
     }
   }

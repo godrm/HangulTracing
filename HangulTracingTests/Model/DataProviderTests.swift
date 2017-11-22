@@ -36,11 +36,16 @@ class DataProviderTests: XCTestCase {
   }
   
   //collectionview test할때 reloadData 해줘야 함
-  //numberofRows
-  func test_setupCard_Input6Cards() {
-    XCTAssertEqual(collectionView.numberOfItems(inSection: 0), 0)
+  
+  func test_HasCellMode() {
+    XCTAssertNotNil(provider.cellMode)
   }
   
+  func test_HasAudioPlayer() {
+    XCTAssertNotNil(provider.audioPlayer)
+  }
+  
+  //numberofitems
   func test_NumberOfRowsInFirstSection_IsToDoCountPlusSetupCard() {
     let category = Category(category: "")
     let first = WordCard(word: "one", imageData: Data(), category: category.title)
@@ -79,6 +84,18 @@ class DataProviderTests: XCTestCase {
     XCTAssertTrue(mockCollectionView.dequeueIsCalled)
   }
   
+  func test_WhenSelectingCell_presentCellVC() {
+    UIApplication.shared.keyWindow?.rootViewController = controller
+    
+    let category = Category(category: "")
+    provider.cardManager?.addCard(newCard: WordCard(word: "one", imageData: Data(), category: category.title))
+    
+    collectionView.reloadData()
+    controller.view.layoutIfNeeded()
+    
+    collectionView.delegate?.collectionView!(collectionView, didSelectItemAt: IndexPath(item: 0, section: 0))
+    XCTAssertTrue(controller.presentedViewController is CellVC)
+  }
   
 }
 

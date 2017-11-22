@@ -25,7 +25,7 @@ class CategoryVC: UIViewController {
     categoryDataProvider.categoryManager = categoryManager
     
     setupCard()
-    title = "카테고리"
+    title = "단어장"
     view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     collectionView = UICollectionView(frame: view.frame, collectionViewLayout: UICollectionViewFlowLayout())
     collectionView.backgroundColor = UIColor.clear

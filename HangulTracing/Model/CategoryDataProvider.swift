@@ -11,8 +11,9 @@ import UIKit
 class CategoryDataProvider: NSObject {
   var categoryManager: CategoryManager?
   var cellMode: CellMode = .normal
-  fileprivate let itemsPerRow: CGFloat = 3
-  fileprivate let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
+  let itemsPerRow: CGFloat = 3
+  let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
+  var audioPlayer = SoundPlayer()
 }
 
 extension CategoryDataProvider: UICollectionViewDataSource {
@@ -37,6 +38,7 @@ extension CategoryDataProvider: UICollectionViewDataSource {
 extension CategoryDataProvider: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     guard let categoryManager = categoryManager else { fatalError() }
+    audioPlayer.playSoundEffect(name: "enter", extender: "wav")
     let category = categoryManager.categories[indexPath.item]
     let cardListVC = CardListVC()
     cardListVC.category = category

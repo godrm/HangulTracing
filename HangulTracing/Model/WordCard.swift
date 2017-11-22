@@ -9,19 +9,6 @@
 import Foundation
 import RealmSwift
 
-class Category: Object {
-  @objc dynamic var title: String = ""
-  
-  convenience init(category: String) {
-    self.init()
-    self.title = category
-  }
-  
-  override static func primaryKey() -> String? {
-    return "title"
-  }
-}
-
 class WordCard: Object {
   
   @objc dynamic var word: String = ""
