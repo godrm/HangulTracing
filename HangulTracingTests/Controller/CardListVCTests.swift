@@ -54,10 +54,6 @@ class CardListVCTests: XCTestCase {
     XCTAssertTrue(sut.collectionView.delegate is DataProvider)
   }
   
-//  func test_collectionViewLayout_SameAsPinterestLayout() {
-//    XCTAssertTrue(sut.collectionView.collectionViewLayout is PinterestLayout)
-//  }
-  
   func test_WhenViewDidLoad_DataSourceAndDelegateAreSame() {
     XCTAssertEqual(sut.collectionView.dataSource as? DataProvider, sut.collectionView.delegate as? DataProvider)
   }

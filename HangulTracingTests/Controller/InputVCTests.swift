@@ -58,13 +58,20 @@ class InputVCTests: XCTestCase {
   }
   
 //  func test_WhenGivenTextAndIMG_AddBtn_Call_Dismiss() {
-//    let cardListVC = CardListVC()
-//    UIApplication.shared.keyWindow?.rootViewController = cardListVC
+//    let categoryVC = CategoryVC()
+//    let mockNav = MockNavigationController(rootViewController: categoryVC)
+//    UIApplication.shared.keyWindow?.rootViewController = mockNav
+//    _ = categoryVC.view
+//    categoryVC.collectionView.delegate?.collectionView!(categoryVC.collectionView, didSelectItemAt: IndexPath(item: 0, section: 0))
+//    guard let cardListVC = mockNav.pushedVC as? CardListVC else { fatalError() }
 //    let mockInputVC = MockInputVC()
+//    mockInputVC.category = Category(category: "동물")
+//    mockInputVC.cardManager = CardManager(categoryTitle: "동물")
 //    cardListVC.present(mockInputVC, animated: true, completion: nil)
 //    _ = mockInputVC.view
-//    mockInputVC.wordTextField.text = "가나초콜릿"
-//    mockInputVC.capturedPhotoData = Data()
+//    mockInputVC.wordTextField.text = "개"
+//    mockInputVC.capturedPhotoData = Constants().dogImgData!
+//
 //    let addBtn: UIButton = mockInputVC.addBtn
 //    mockInputVC.addBtnTapped(addBtn)
 //    XCTAssertTrue(mockInputVC.dismissIsCalled)
@@ -116,6 +123,14 @@ extension InputVCTests {
     override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
       dismissIsCalled = true
       completionHandler?()
+    }
+  }
+  
+  class MockNavigationController: UINavigationController {
+    var pushedVC: UIViewController?
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+      pushedVC = viewController
+      super.pushViewController(viewController, animated: animated)
     }
   }
 }
