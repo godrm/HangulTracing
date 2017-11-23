@@ -29,7 +29,7 @@ class CategoryDataProviderTests: XCTestCase {
   }
   
   override func tearDown() {
-    provider.categoryManager?.removeAll()
+    provider.categoryManager?.makeRealmEmpty()
     super.tearDown()
   }
   

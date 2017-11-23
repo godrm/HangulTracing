@@ -44,4 +44,11 @@ class CategoryManager: NSObject {
       realm.delete(categories)
     }
   }
+  
+  //테스트코드용
+  func makeRealmEmpty() {
+    try! realm.write {
+      realm.deleteAll()
+    }
+  }
 }

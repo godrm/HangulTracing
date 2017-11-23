@@ -31,7 +31,7 @@ class DataProviderTests: XCTestCase {
   }
   
   override func tearDown() {
-    provider.cardManager?.removeAll()
+    provider.cardManager?.makeRealmEmpty()
     super.tearDown()
   }
   

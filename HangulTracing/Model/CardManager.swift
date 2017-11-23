@@ -47,4 +47,11 @@ class CardManager: NSObject {
       realm.delete(toDoCards)
     }
   }
+  
+  //테스트코드용
+  func makeRealmEmpty() {
+    try! realm.write {
+      realm.deleteAll()
+    }
+  }
 }

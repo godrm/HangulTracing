@@ -22,7 +22,7 @@ class CellVCTests: XCTestCase {
   }
   
   override func tearDown() {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    sut.cardManager?.makeRealmEmpty()
     super.tearDown()
   }
   
@@ -63,23 +63,22 @@ class CellVCTests: XCTestCase {
     XCTAssertTrue(mockCellVC.flipIsCalled)
   }
   
-//  func test_WhenTracingBtnTapped_PushTracingVC() {
+//  func test_WhenTracingBtnTapped_dismissCellVC() {
 //    let cardListVC = CardListVC()
-//    let mockNav = MockNavigationController(rootViewController: cardListVC)
-//    UIApplication.shared.keyWindow?.rootViewController = mockNav
 //    cardListVC.category = Category(category: "동물")
 //    cardListVC.cardManager = CardManager(categoryTitle: "동물")
-//    cardListVC.cardManager?.addCard(newCard: WordCard(word: "사슴", imageData: Data(), category: "동물"))
-//     _ = cardListVC.view
-//    cardListVC.collectionView.reloadData()
-//    cardListVC.collectionView.layoutIfNeeded()
+//    let mockNav = MockNavigationController(rootViewController: cardListVC)
+//    let mockCellVC = MockCellVC(viewFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
+//    mockCellVC.cardManager = CardManager(categoryTitle: "동물")
+//    mockCellVC.index = 0
+//    mockCellVC.configView(card: CardManager(categoryTitle: "동물").cardAt(index: 0))
+//    mockCellVC.transitioningDelegate = cardListVC
+//    _ = cardListVC.view
+//    cardListVC.present(mockCellVC, animated: true, completion: nil)
+//    _ = mockCellVC.view
+//    mockCellVC.tracingBtnTapped(mockCellVC.tracingBtn)
 //
-//    cardListVC.collectionView.delegate?.collectionView!(cardListVC.collectionView, didSelectItemAt: IndexPath(item: 0, section: 0))
-//    guard let cellVC = cardListVC.presentedViewController as? CellVC else { fatalError() }
-//    _ = cellVC.view
-//    cellVC.tracingBtnTapped(cellVC.tracingBtn)
-//
-//    XCTAssertTrue(mockNav.pushedVC is TracingVC)
+//    XCTAssertTrue(mockCellVC.dismissIsCalled)
 //  }
 }
 
@@ -90,6 +89,12 @@ extension CellVCTests {
     override func flip(completion: @escaping (Bool) -> ()) {
       flipIsCalled = true
       super.flip(completion: completion)
+    }
+    
+    var dismissIsCalled = false
+    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+      dismissIsCalled = true
+      super.dismiss(animated: flag, completion: completion)
     }
   }
   

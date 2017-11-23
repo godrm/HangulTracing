@@ -17,10 +17,12 @@ class CategoryVCTests: XCTestCase {
     super.setUp()
     sut = CategoryVC()
     _ = sut.view
+    
+    //card 가 셋업되어 있다
   }
   
   override func tearDown() {
-    sut.categoryManager.removeAll()
+    sut.categoryManager.makeRealmEmpty()
     super.tearDown()
   }
   

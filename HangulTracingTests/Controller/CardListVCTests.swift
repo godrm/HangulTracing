@@ -23,7 +23,7 @@ class CardListVCTests: XCTestCase {
   }
   
   override func tearDown() {
-    sut.dataProvider.cardManager?.removeAll()
+    sut.dataProvider.cardManager?.makeRealmEmpty()
     super.tearDown()
   }
   

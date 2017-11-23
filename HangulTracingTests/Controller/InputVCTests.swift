@@ -21,7 +21,7 @@ class InputVCTests: XCTestCase {
   }
   
   override func tearDown() {
-    sut.cardManager?.removeAll()
+    sut.cardManager?.makeRealmEmpty()
     super.tearDown()
   }
   
