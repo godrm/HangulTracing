@@ -14,34 +14,34 @@ import Photos
 
 class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
   
-  var didSetupConstraints = false
-  var playerVC: PlayerVC?
-  var audioPlayer = SoundPlayer()
+  private(set) var didSetupConstraints = false
+  private(set) var playerVC: PlayerVC?
+  private(set) var audioPlayer = SoundPlayer()
   private let session = AVCaptureSession()
   private let sessionQueue = DispatchQueue(label: "session queue")
-  private enum SessionSetupResult {
+  enum SessionSetupResult {
     case success
     case notAuthorized
     case configurationFailed
   }
-  private var setupResult: SessionSetupResult = .success
-  var videoDeviceInput: AVCaptureDeviceInput!
-  private var movieFileOutput: AVCaptureMovieFileOutput?
-  private var backgroundRecordingID: UIBackgroundTaskIdentifier?
-  var timerLabel: UILabel = {
+  private(set) var setupResult: SessionSetupResult = .success
+  private(set) var videoDeviceInput: AVCaptureDeviceInput!
+  private(set) var movieFileOutput: AVCaptureMovieFileOutput?
+  private(set) var backgroundRecordingID: UIBackgroundTaskIdentifier?
+  private(set) var timerLabel: UILabel = {
     let label = UILabel()
     label.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     label.textAlignment = .center
     label.font = label.font.withSize(30)
     return label
   }()
-  var timer: Timer!
-  var seconds = 60
-  var speechSynthesizer: AVSpeechSynthesizer!
-  var blurEffectView: UIVisualEffectView!
-  var motionManager: CMMotionManager!
-  var cardManager: CardManager?
-  var scrollView: UIScrollView = {
+  private(set) var timer: Timer!
+  private(set) var seconds = 60
+  private(set) var speechSynthesizer: AVSpeechSynthesizer!
+  private(set) var blurEffectView: UIVisualEffectView!
+  private(set) var motionManager: CMMotionManager!
+  private(set) var cardManager: CardManager?
+  private(set) var scrollView: UIScrollView = {
     let scrollView = UIScrollView()
     scrollView.showsHorizontalScrollIndicator = false
     scrollView.showsVerticalScrollIndicator = false
@@ -50,8 +50,8 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
     scrollView.bounces = false
     return scrollView
   }()
-  var startView: GameView!
-  var greatCount: Int!
+  private(set) var startView: GameView!
+  private(set) var greatCount: Int!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -64,6 +64,10 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
     setupMotionManager()
     
     view.setNeedsUpdateConstraints()
+  }
+  
+  func setCardManager(manager: CardManager) {
+    self.cardManager = manager
   }
   
   func requestAVAuth() {

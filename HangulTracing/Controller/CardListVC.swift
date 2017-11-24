@@ -9,30 +9,27 @@
 import UIKit
 
 class CardListVC: UIViewController {
-  var didSetupConstraints = false
-  var selectedCell: WordCardCell?
-  var category: Category?
-  var cardManager: CardManager?
-  let transition = PopAnimator()
-  var cellMode: CellMode = .normal
-  var dataProvider: DataProvider = {
+  private(set) var didSetupConstraints = false
+  private(set) var selectedCell: WordCardCell?
+  private(set) var spinner: UIActivityIndicatorView!
+  private(set) var category: Category?
+  private(set) var cardManager: CardManager?
+  private let transition = PopAnimator()
+  private(set) var cellMode: CellMode = .normal
+  private(set) var dataProvider: DataProvider = {
     let provider = DataProvider()
     return provider
   }()
   
-//  var gameBarBtnItem: UIBarButtonItem = {
-//    let buttonItem = UIBarButtonItem(image: UIImage(named: "game"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(CardListVC.gameBtnTapped(_:)))
-//    return buttonItem
-//  }()
-  var editBarBtnItem: UIBarButtonItem = {
+  private(set) var editBarBtnItem: UIBarButtonItem = {
     let buttonItem = UIBarButtonItem(title: "EDIT", style: UIBarButtonItemStyle.plain, target: self, action: #selector(CategoryVC.editBtnTapped(_:)))
     return buttonItem
   }()
-  var collectionView: UICollectionView = {
+  private(set) var collectionView: UICollectionView = {
     let view = UICollectionView(frame: UIScreen.main.bounds, collectionViewLayout: PinterestLayout())
     return view
   }()
-  var addBtn = AddBtn()
+  private(set) var addBtn = AddBtn()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -40,6 +37,8 @@ class CardListVC: UIViewController {
     title = category.title
     dataProvider.cardManager = cardManager
     view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+    spinner = UIActivityIndicatorView()
+    spinner.color = UIColor.black
     collectionView.backgroundColor = UIColor.clear
     collectionView.register(WordCardCell.self, forCellWithReuseIdentifier: "WordCardCell")
     collectionView.dataSource = dataProvider
@@ -50,8 +49,9 @@ class CardListVC: UIViewController {
     
     view.addSubview(collectionView)
     view.addSubview(addBtn)
-    
     addBtn.addTarget(self, action: #selector(CardListVC.addBtnTapped(_:)), for: .touchUpInside)
+    view.addSubview(spinner)
+    spinner.isHidden = true
 
     editBarBtnItem.target = self
     editBarBtnItem.action = #selector(CardListVC.editBtnTapped(_:))
@@ -62,6 +62,15 @@ class CardListVC: UIViewController {
     }
     
     view.setNeedsUpdateConstraints()
+  }
+  
+  func setCategoryAndManager(category: Category, manager: CardManager) {
+    self.category = category
+    self.cardManager = manager
+  }
+  
+  func setSelectedCell(cell: WordCardCell) {
+    self.selectedCell = cell
   }
   
   override func updateViewConstraints() {
@@ -76,7 +85,10 @@ class CardListVC: UIViewController {
         make.width.height.equalTo(70)
         make.right.bottom.equalTo(self.view).offset(-20)
       })
-      
+      spinner.snp.makeConstraints({ (make) in
+        make.center.equalTo(self.view)
+        make.width.height.equalTo(50)
+      })
       didSetupConstraints = true
     }
     super.updateViewConstraints()
@@ -85,7 +97,7 @@ class CardListVC: UIViewController {
   @objc func addBtnTapped(_ sender: UIButton) {
     
     let popUpVC = PopUpVC()
-    popUpVC.cardListVC = self
+    popUpVC.setCardListVC(vc: self)
     popUpVC.preferredContentSize = CGSize(width: 100, height: 100)
     popUpVC.modalPresentationStyle = .popover
     popUpVC.popoverPresentationController?.delegate = self
@@ -105,6 +117,15 @@ class CardListVC: UIViewController {
     collectionView.reloadData()
   }
   
+  func startSpinner() {
+    spinner.startAnimating()
+    spinner.isHidden = false
+  }
+  
+  func stopSpinner() {
+    spinner.stopAnimating()
+    spinner.isHidden = true
+  }
 }
 
 extension CardListVC: DeleteBtnDelegate {

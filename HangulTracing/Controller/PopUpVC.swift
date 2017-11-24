@@ -9,11 +9,11 @@
 import UIKit
 
 class PopUpVC: UIViewController {
-  var popUpView: UIView!
-  var cardListVC: CardListVC!
-  var didSetupConstraints = false
-  var addCardBtn: UIButton!
-  var gameBtn: UIButton!
+  private(set) var popUpView: UIView!
+  private(set) var cardListVC: CardListVC!
+  private(set) var didSetupConstraints = false
+  private(set) var addCardBtn: UIButton!
+  private(set) var gameBtn: UIButton!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -37,6 +37,10 @@ class PopUpVC: UIViewController {
     view.setNeedsUpdateConstraints()
   }
   
+  func setCardListVC(vc: CardListVC) {
+    self.cardListVC = vc
+  }
+  
   override func updateViewConstraints() {
     if !didSetupConstraints {
       popUpView.snp.makeConstraints({ (make) in
@@ -58,7 +62,7 @@ class PopUpVC: UIViewController {
   
   @objc func addCardBtnTapped(_ sender: UIButton) {
     let inputVC = InputVC()
-    inputVC.cardListVC = self.cardListVC
+    inputVC.setCardListVC(vc: self.cardListVC)
     dismiss(animated: true) {
       self.cardListVC.present(inputVC, animated: true, completion: nil)
     }
@@ -66,7 +70,8 @@ class PopUpVC: UIViewController {
   
   @objc func gameBtnTapped(_ sender: UIButton) {
     let gameVC = GameVC()
-    gameVC.cardManager = cardListVC.cardManager
+    guard let cardManager = cardListVC.cardManager else { return }
+    gameVC.setCardManager(manager: cardManager)
     dismiss(animated: true) {
       self.cardListVC.present(gameVC, animated: true, completion: nil)
     }

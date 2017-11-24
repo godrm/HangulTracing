@@ -18,12 +18,12 @@ extension ExitBtnDelegate {
 
 class GameView: UIView {
   weak var exitBtnDelegate: ExitBtnDelegate?
-  var words: String
-  var wordLabel: UILabel = {
+  private(set) var words: String
+  private(set) var wordLabel: UILabel = {
     let label = UILabel()
     return label
   }()
-  var exitBtn: UIButton = {
+  private(set) var exitBtn: UIButton = {
     let btn = UIButton()
     return btn
   }()

@@ -10,12 +10,12 @@ import UIKit
 
 class InputVC: UIViewController {
   
-  var didSetupConstraints = false
-  var category: Category?
-  var cardManager: CardManager?
-  var cardListVC: CardListVC!
-  var spinner: UIActivityIndicatorView!
-  var wordTextField: UITextField = {
+  private(set) var didSetupConstraints = false
+  private(set) var category: Category?
+  private(set) var cardManager: CardManager?
+  private(set) var cardListVC: CardListVC!
+  private(set) var spinner: UIActivityIndicatorView!
+  private(set) var wordTextField: UITextField = {
     let textField = UITextField()
     textField.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     textField.textAlignment = .center
@@ -23,7 +23,7 @@ class InputVC: UIViewController {
     textField.placeholder = "단어를 입력하세요"
     return textField
   }()
-  var cardView: UIView = {
+  private(set) var cardView: UIView = {
     let view = UIView()
     view.layer.borderWidth = 1
     view.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -32,31 +32,31 @@ class InputVC: UIViewController {
     view.clipsToBounds = true
     return view
   }()
-  var imageView: UIImageView = {
+  private(set) var imageView: UIImageView = {
     let imageView = UIImageView()
     imageView.contentMode = .scaleAspectFit
     imageView.image = UIImage(named: "empty")
     imageView.clipsToBounds = true
     return imageView
   }()
-  var cameraBtn: UIButton = {
+  private(set) var cameraBtn: UIButton = {
     let btn = UIButton()
     btn.setImage(UIImage(named: "camera"), for: .normal)
     return btn
   }()
-  var libraryBtn: UIButton = {
+  private(set) var libraryBtn: UIButton = {
     let btn = UIButton()
     btn.setImage(UIImage(named: "library"), for: .normal)
     return btn
   }()
-  var addBtn: UIButton = {
+  private(set) var addBtn: UIButton = {
     let btn = UIButton()
     btn.backgroundColor = UIColor(hex: "F35C4C")
     btn.setTitle("ADD", for: .normal)
     btn.layer.cornerRadius = 15
     return btn
   }()
-  var cancelBtn: UIButton = {
+  private(set) var cancelBtn: UIButton = {
     let btn = UIButton()
     btn.backgroundColor = UIColor(hex: "F8CF41")
     btn.setTitle("CANCEL", for: .normal)
@@ -139,6 +139,10 @@ class InputVC: UIViewController {
       didSetupConstraints = true
     }
     super.updateViewConstraints()
+  }
+  
+  func setCardListVC(vc: CardListVC) {
+    self.cardListVC = vc
   }
   
   @objc func cameraBtnTapped(_ sender: UIButton) {

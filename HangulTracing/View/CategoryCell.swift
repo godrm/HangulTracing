@@ -9,18 +9,21 @@
 import UIKit
 
 class DeleteBtn: UIButton {
-  var parentCell: UICollectionViewCell?
+  private(set) var parentCell: UICollectionViewCell?
+  func setParentCell(cell: UICollectionViewCell) {
+    self.parentCell = cell
+  }
 }
 
 class CategoryCell: UICollectionViewCell {
   var deleteBtnDelegate: DeleteBtnDelegate?
-  var titleLabel: UILabel = {
+  private(set) var titleLabel: UILabel = {
     let label = UILabel()
     label.textAlignment = .center
     label.textColor = UIColor(hex: "65418F")
     return label
   }()
-  var deleteBtn: DeleteBtn = {
+  private(set) var deleteBtn: DeleteBtn = {
     let btn = DeleteBtn()
     btn.setImage(UIImage(named: "delete"), for: .normal)
     return btn
@@ -34,7 +37,7 @@ class CategoryCell: UICollectionViewCell {
     contentView.addSubview(titleLabel)
     contentView.addSubview(deleteBtn)
     deleteBtn.isHidden = true
-    deleteBtn.parentCell = self
+    deleteBtn.setParentCell(cell: self)
     deleteBtn.addTarget(self, action: #selector(CategoryCell.deleteBtnTapped), for: .touchUpInside)
     
     titleLabel.snp.makeConstraints { (make) in

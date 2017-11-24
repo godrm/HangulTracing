@@ -20,12 +20,12 @@ class WordCardCell: UICollectionViewCell {
   
   weak var deleteBtnDelegate: DeleteBtnDelegate?
   
-  var imgView: UIImageView = {
+  private(set) var imgView: UIImageView = {
     let imgView = UIImageView()
     imgView.contentMode = .scaleAspectFill
     return imgView
   }()
-  var deleteBtn: DeleteBtn = {
+  private(set) var deleteBtn: DeleteBtn = {
     let btn = DeleteBtn()
     btn.setImage(UIImage(named: "delete"), for: .normal)
     return btn
@@ -39,7 +39,7 @@ class WordCardCell: UICollectionViewCell {
     contentView.addSubview(imgView)
     contentView.addSubview(deleteBtn)
     deleteBtn.isHidden = true
-    deleteBtn.parentCell = self
+    deleteBtn.setParentCell(cell: self)
     deleteBtn.addTarget(self, action: #selector(WordCardCell.deleteBtnTapped), for: .touchUpInside)
 
     imgView.snp.makeConstraints { (make) in

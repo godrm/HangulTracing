@@ -9,28 +9,28 @@
 import UIKit
 
 class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
-  var viewFrame: CGRect!
-  var nav: UINavigationController!
-  var didSetupConstraints = false
-  var cardManager: CardManager?
-  var index: Int?
-  var imgView: UIImageView = {
+  private(set) var viewFrame: CGRect!
+  private(set) var cardListVC: CardListVC!
+  private(set) var didSetupConstraints = false
+  private(set) var cardManager: CardManager?
+  private(set) var index: Int?
+  private(set) var imgView: UIImageView = {
     let imgView = UIImageView()
     imgView.contentMode = .scaleAspectFill
     imgView.layer.cornerRadius = 15
     imgView.clipsToBounds = true
     return imgView
   }()
-  var audioPlayer = SoundPlayer()
-  var backView: UIView = {
+  private(set) var audioPlayer = SoundPlayer()
+  private(set) var backView: UIView = {
     let view = UIView()
     view.layer.cornerRadius = 15
     view.clipsToBounds = true
     view.backgroundColor = UIColor(hex: "FED230")
     return view
   }()
-  var isBackViewShowing = false
-  var wordLabel: UILabel = {
+  private(set) var isBackViewShowing = false
+  private(set) var wordLabel: UILabel = {
     let label = UILabel()
     label.backgroundColor = UIColor.clear
     label.textColor = UIColor(hex: "65418F")
@@ -41,7 +41,7 @@ class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
     label.minimumScaleFactor = 0.1
     return label
   }()
-  var tracingBtn: UIButton = {
+  private(set) var tracingBtn: UIButton = {
     let btn = UIButton()
     btn.layer.cornerRadius = 15
     btn.setImage(UIImage(named: "tracing"), for: .normal)
@@ -72,6 +72,12 @@ class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  func setInit(index: Int, vc: CardListVC, manager: CardManager) {
+    self.index = index
+    self.cardListVC = vc
+    self.cardManager = manager
   }
   
   override func updateViewConstraints() {
@@ -123,21 +129,23 @@ class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
   }
   
   @objc func wordLBLTapped() {
-    
+    guard let nav = cardListVC.navigationController else { return }
     flip { (success) in
-      self.nav.dismiss(animated: true, completion: nil)
+      nav.dismiss(animated: true, completion: nil)
     }
   }
   
   @objc func tracingBtnTapped(_ sender: UIButton) {
-    
+    cardListVC.startSpinner()
+    guard let nav = cardListVC.navigationController else { return }
     guard let cardManager = cardManager else { return }
     guard let index = index else { return }
     audioPlayer.playSoundEffect(name: "writing", extender: "mp3")
     let nextVC = TracingVC()
-    nextVC.cardInfo = (cardManager, index)
+    nextVC.setCardInfo(manager: cardManager, index: index)
     dismiss(animated: true) {
-      self.nav.pushViewController(nextVC, animated: true)
+      nav.pushViewController(nextVC, animated: true)
+      self.cardListVC.stopSpinner()
     }
     
   }

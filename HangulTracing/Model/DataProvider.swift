@@ -44,7 +44,7 @@ extension DataProvider: UICollectionViewDelegate {
     guard let parentVC = collectionView.parentViewController as? CardListVC else { fatalError() }
     audioPlayer.playSoundEffect(name: "open", extender: "wav")
     let cell = collectionView.cellForItem(at: indexPath) as! WordCardCell
-    parentVC.selectedCell = cell
+    parentVC.setSelectedCell(cell: cell)
     let imgHeight = cell.imgView.bounds.height
     let imgWidth = cell.imgView.bounds.width
     let viewWidth = UIScreen.main.bounds.width - 100
@@ -53,9 +53,7 @@ extension DataProvider: UICollectionViewDelegate {
     let centerY = UIScreen.main.bounds.height / 2
 
     let cellVC = CellVC(viewFrame: CGRect(x: centerX - viewWidth / 2, y: centerY - viewHeight / 2, width: viewWidth, height: viewHeight))
-    cellVC.cardManager = cardManager
-    cellVC.nav = parentVC.navigationController
-    cellVC.index = indexPath.item
+    cellVC.setInit(index: indexPath.item, vc: parentVC, manager: cardManager)
     cellVC.configView(card: cardManager.cardAt(index: indexPath.item))
     cellVC.transitioningDelegate = parentVC as! UIViewControllerTransitioningDelegate
     

@@ -16,8 +16,8 @@ class InputVCTests: XCTestCase {
   override func setUp() {
     super.setUp()
     sut = InputVC()
-    sut.cardManager = CardManager(categoryTitle: "")
-    sut.cardListVC = CardListVC()
+    sut.setCardListVC(vc: CardListVC())
+    
     _ = sut.view
     
   }
@@ -67,9 +67,8 @@ class InputVCTests: XCTestCase {
     categoryVC.collectionView.delegate?.collectionView!(categoryVC.collectionView, didSelectItemAt: IndexPath(item: 0, section: 0))
     guard let cardListVC = mockNav.pushedVC as? CardListVC else { fatalError() }
     let mockInputVC = MockInputVC()
-    mockInputVC.category = Category(category: "동물")
-    mockInputVC.cardManager = CardManager(categoryTitle: "동물")
-    mockInputVC.cardListVC = cardListVC
+    mockInputVC.setCardListVC(vc: cardListVC)
+    
     cardListVC.present(mockInputVC, animated: true, completion: nil)
     _ = mockInputVC.view
     mockInputVC.wordTextField.text = "개"

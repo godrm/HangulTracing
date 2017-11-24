@@ -41,8 +41,7 @@ extension CategoryDataProvider: UICollectionViewDelegate {
     audioPlayer.playSoundEffect(name: "enter", extender: "wav")
     let category = categoryManager.categories[indexPath.item]
     let cardListVC = CardListVC()
-    cardListVC.category = category
-    cardListVC.cardManager = CardManager(categoryTitle: category.title)
+    cardListVC.setCategoryAndManager(category: category, manager: CardManager(categoryTitle: category.title))
     guard let parentVC = collectionView.parentViewController as? CategoryVC else { return }
     parentVC.navigationController?.pushViewController(cardListVC, animated: true)
   }

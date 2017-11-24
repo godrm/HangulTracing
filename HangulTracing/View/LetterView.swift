@@ -11,18 +11,18 @@ import AVFoundation
 
 class LetterView: UIView {
   
-  var letter: String!
-  var path: UIBezierPath!
-  var screenPointsSet: Set<CGPoint>!
-  var letterSet: Set<CGPoint>!
-  var drawSet = Set<CGPoint>()
-  var unionPath = UIBezierPath()
-  var speakerBtn: UIButton = {
+  private(set) var letter: String!
+  private(set) var path: UIBezierPath!
+  private(set) var screenPointsSet: Set<CGPoint>!
+  private(set) var letterSet: Set<CGPoint>!
+  private(set) var drawSet = Set<CGPoint>()
+  private(set) var unionPath = UIBezierPath()
+  private(set) var speakerBtn: UIButton = {
     let btn = UIButton()
     btn.setImage(UIImage(named: "speaker"), for: .normal)
     return btn
   }()
-  var speechSynthesizer = AVSpeechSynthesizer()
+  private(set) var speechSynthesizer = AVSpeechSynthesizer()
   
   init(frame: CGRect, letter: String) {
     self.letter = letter

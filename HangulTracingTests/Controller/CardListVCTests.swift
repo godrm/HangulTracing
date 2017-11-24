@@ -16,8 +16,8 @@ class CardListVCTests: XCTestCase {
   override func setUp() {
     super.setUp()
     sut = CardListVC()
-    sut.category = Category(category: "동물")
-    sut.cardManager = CardManager(categoryTitle: "동물")
+    sut.setCategoryAndManager(category: Category(category: "동물"), manager: CardManager(categoryTitle: "동물"))
+    
     _ = sut.view
     sut.collectionView.reloadData()
     sut.collectionView.layoutIfNeeded()
@@ -81,7 +81,7 @@ class CardListVCTests: XCTestCase {
     UIApplication.shared.keyWindow?.rootViewController = sut
 
     sut.addBtnTapped(sut.addBtn)
-    XCTAssertTrue(sut.presentedViewController is InputVC)
+    XCTAssertTrue(sut.presentedViewController is PopUpVC)
   }
   
   //cardManager

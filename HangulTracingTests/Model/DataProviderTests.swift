@@ -18,8 +18,8 @@ class DataProviderTests: XCTestCase {
   override func setUp() {
     super.setUp()
     controller = CardListVC()
-    controller.category = Category(category: "")
-    controller.cardManager = CardManager(categoryTitle: "")
+    controller.setCategoryAndManager(category: Category(category: ""), manager: CardManager(categoryTitle: ""))
+    
     provider = DataProvider()
     provider.cardManager = CardManager(categoryTitle: "")
     

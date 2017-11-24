@@ -19,7 +19,8 @@ class TracingVCTests: XCTestCase {
     let cardManager = CardManager(categoryTitle: "동물")
     let catCard = WordCard(word: "고양이", imageData: Constants().catImgData!, category: "동물")
     cardManager.addCard(newCard: catCard)
-    sut.cardInfo = (cardManager, 0)
+    sut.setCardInfo(manager: cardManager, index: 0)
+    
     _ = sut.view
   }
   
@@ -43,7 +44,8 @@ class TracingVCTests: XCTestCase {
     let mockTracingVC = MockTracingVC()
     let category = Category(category: "동물")
     let cardManager = CardManager(categoryTitle: category.title)
-    mockTracingVC.cardInfo = (cardManager, 0)
+    
+    mockTracingVC.setCardInfo(manager: cardManager, index: 0)
     UIApplication.shared.keyWindow?.rootViewController = mockTracingVC
     mockTracingVC.beginAppearanceTransition(true, animated: true)
     mockTracingVC.endAppearanceTransition()

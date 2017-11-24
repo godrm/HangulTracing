@@ -10,13 +10,13 @@ import UIKit
 import AVFoundation
 
 class TracingVC: UIViewController {
-  var didSetupConstraints = false
-  var cardInfo: (CardManager, Int)?
-  var characters = [Character]()
-  var characterViews = [LetterView]()
-  var speechSynthesizer: AVSpeechSynthesizer!
+  private(set) var didSetupConstraints = false
+  private(set) var cardInfo: (CardManager, Int)?
+  private(set) var characters = [Character]()
+  private(set) var characterViews = [LetterView]()
+  private(set) var speechSynthesizer: AVSpeechSynthesizer!
   
-  var scrollView: UIScrollView = {
+  private(set) var scrollView: UIScrollView = {
     let scrollView = UIScrollView()
     scrollView.showsHorizontalScrollIndicator = false
     scrollView.showsVerticalScrollIndicator = false
@@ -48,6 +48,10 @@ class TracingVC: UIViewController {
       didSetupConstraints = true
     }
     super.updateViewConstraints()
+  }
+  
+  func setCardInfo(manager: CardManager, index: Int) {
+    self.cardInfo = (manager, index)
   }
   
   override func viewWillAppear(_ animated: Bool) {

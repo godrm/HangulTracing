@@ -10,15 +10,15 @@ import UIKit
 
 class CategoryVC: UIViewController {
   
-  var categoryManager: CategoryManager!
-  var didSetupConstraints = false
-  var categoryDataProvider: CategoryDataProvider = {
+  private(set) var categoryManager: CategoryManager!
+  private(set) var didSetupConstraints = false
+  private(set) var categoryDataProvider: CategoryDataProvider = {
     let provider = CategoryDataProvider()
     return provider
   }()
-  var collectionView: UICollectionView!
-  var addBtn = AddBtn()
-  var editBarBtnItem: UIBarButtonItem = {
+  private(set) var collectionView: UICollectionView!
+  private(set) var addBtn = AddBtn()
+  private(set) var editBarBtnItem: UIBarButtonItem = {
     let buttonItem = UIBarButtonItem(title: "EDIT", style: UIBarButtonItemStyle.plain, target: self, action: #selector(CategoryVC.editBtnTapped(_:)))
     return buttonItem
   }()
@@ -28,7 +28,6 @@ class CategoryVC: UIViewController {
     
     categoryManager = CategoryManager()
     categoryDataProvider.categoryManager = categoryManager
-    
     setupCard()
     title = "단어장"
     view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
