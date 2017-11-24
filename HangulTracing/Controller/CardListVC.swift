@@ -83,10 +83,17 @@ class CardListVC: UIViewController {
   }
   
   @objc func addBtnTapped(_ sender: UIButton) {
-    guard let category = category else { fatalError() }
-    let inputVC = InputVC()
-    inputVC.cardListVC = self
-    present(inputVC, animated: true, completion: nil)
+    
+    let popUpVC = PopUpVC()
+    popUpVC.cardListVC = self
+    popUpVC.preferredContentSize = CGSize(width: 100, height: 100)
+    popUpVC.modalPresentationStyle = .popover
+    popUpVC.popoverPresentationController?.delegate = self
+    popUpVC.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.init(rawValue: 0)
+    popUpVC.popoverPresentationController?.sourceRect = sender.bounds
+    popUpVC.popoverPresentationController?.sourceView = sender
+    
+    present(popUpVC, animated: true, completion: nil)
   }
   
   @objc func editBtnTapped(_ sender: UIBarButtonItem) {
@@ -97,12 +104,6 @@ class CardListVC: UIViewController {
     }
     collectionView.reloadData()
   }
-  
-//  @objc func gameBtnTapped(_ sender: UIBarButtonItem) {
-//    let gameVC = GameVC()
-//    gameVC.cardManager = cardManager
-//    present(gameVC, animated: true, completion: nil)
-//  }
   
 }
 
@@ -145,5 +146,11 @@ extension CardListVC: UIViewControllerTransitioningDelegate {
     transition.presenting = false
     
     return transition
+  }
+}
+
+extension CardListVC: UIPopoverPresentationControllerDelegate {
+  func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+    return .none
   }
 }
