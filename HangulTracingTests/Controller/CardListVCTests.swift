@@ -19,7 +19,8 @@ class CardListVCTests: XCTestCase {
     sut.category = Category(category: "동물")
     sut.cardManager = CardManager(categoryTitle: "동물")
     _ = sut.view
-    
+    sut.collectionView.reloadData()
+    sut.collectionView.layoutIfNeeded()
   }
   
   override func tearDown() {
@@ -37,6 +38,14 @@ class CardListVCTests: XCTestCase {
   
   func test_HasAddBtn() {
     XCTAssertNotNil(sut.addBtn)
+  }
+  
+  func test_HasDataProvider() {
+    XCTAssertNotNil(sut.dataProvider)
+  }
+  
+  func test_HasEditBarBtnItem() {
+    XCTAssertNotNil(sut.editBarBtnItem)
   }
   
   //collectionView
@@ -78,6 +87,17 @@ class CardListVCTests: XCTestCase {
   //cardManager
   func test_ViewDidLoad_SetsCardManagerToDataProvider() {
     XCTAssertTrue(sut.cardManager === sut.dataProvider.cardManager)
+  }
+  
+  func test_deleteBtnTapped_presentUIAlertController() {
+    UIApplication.shared.keyWindow?.rootViewController = sut
+    XCTAssertNil(sut.presentedViewController)
+    sut.cardManager?.addCard(newCard: WordCard(word: "고양이", imageData: Constants().catImgData!, category: "동물"))
+    sut.collectionView.reloadData()
+    sut.collectionView.layoutIfNeeded()
+    guard let wordCardCell = sut.collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as? WordCardCell else { fatalError() }
+    sut.deleteBtnTapped(sender: wordCardCell.deleteBtn)
+    XCTAssertTrue(sut.presentedViewController is UIAlertController)
   }
   
 }

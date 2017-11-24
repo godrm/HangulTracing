@@ -18,9 +18,14 @@ class CategoryVC: UIViewController {
   }()
   var collectionView: UICollectionView!
   var addBtn = AddBtn()
+  var editBarBtnItem: UIBarButtonItem = {
+    let buttonItem = UIBarButtonItem(title: "EDIT", style: UIBarButtonItemStyle.plain, target: self, action: #selector(CategoryVC.editBtnTapped(_:)))
+    return buttonItem
+  }()
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
     categoryManager = CategoryManager()
     categoryDataProvider.categoryManager = categoryManager
     
@@ -35,6 +40,9 @@ class CategoryVC: UIViewController {
     view.addSubview(collectionView)
     view.addSubview(addBtn)
     addBtn.addTarget(self, action: #selector(CategoryVC.addBtnTapped(_:)), for: .touchUpInside)
+    editBarBtnItem.target = self
+    editBarBtnItem.action = #selector(CategoryVC.editBtnTapped(_:))
+    navigationItem.rightBarButtonItem = editBarBtnItem
     view.setNeedsUpdateConstraints()
   }
   
@@ -112,14 +120,23 @@ class CategoryVC: UIViewController {
     alert.addAction(addAction)
     present(alert, animated: true, completion: nil)
   }
+  
+  @objc func editBtnTapped(_ sender: UIBarButtonItem) {
+    if categoryDataProvider.cellMode == .normal {
+      categoryDataProvider.cellMode = .delete
+    } else {
+      categoryDataProvider.cellMode = .normal
+    }
+    collectionView.reloadData()
+  }
 
 }
 
 extension CategoryVC: DeleteBtnDelegate {
-  func deleteBtnTapped(sender: UIButton) {
+  func deleteBtnTapped(sender: DeleteBtn) {
     let alert = UIAlertController(title: "알림", message: "해당 카테고리의 단어들이 모두 삭제됩니다. 정말 삭제하시겠습니까?", preferredStyle: .alert)
     let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { (action) in
-      if let cell = sender.superview?.superview as? CategoryCell {
+      if let cell = sender.parentCell as? CategoryCell {
         if cell.superview == self.collectionView {
           guard let indexPath = self.collectionView.indexPath(for: cell) else { return }
           self.categoryDataProvider.categoryManager?.removeCategoryAt(index: indexPath.item)

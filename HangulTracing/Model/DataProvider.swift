@@ -54,6 +54,7 @@ extension DataProvider: UICollectionViewDelegate {
 
     let cellVC = CellVC(viewFrame: CGRect(x: centerX - viewWidth / 2, y: centerY - viewHeight / 2, width: viewWidth, height: viewHeight))
     cellVC.cardManager = cardManager
+    cellVC.nav = parentVC.navigationController
     cellVC.index = indexPath.item
     cellVC.configView(card: cardManager.cardAt(index: indexPath.item))
     cellVC.transitioningDelegate = parentVC as! UIViewControllerTransitioningDelegate

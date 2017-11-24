@@ -20,8 +20,12 @@ class CardListVC: UIViewController {
     return provider
   }()
   
-  var gameBarBtnItem: UIBarButtonItem = {
-    let buttonItem = UIBarButtonItem(image: UIImage(named: "game"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(CardListVC.gameBtnTapped(_:)))
+//  var gameBarBtnItem: UIBarButtonItem = {
+//    let buttonItem = UIBarButtonItem(image: UIImage(named: "game"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(CardListVC.gameBtnTapped(_:)))
+//    return buttonItem
+//  }()
+  var editBarBtnItem: UIBarButtonItem = {
+    let buttonItem = UIBarButtonItem(title: "EDIT", style: UIBarButtonItemStyle.plain, target: self, action: #selector(CategoryVC.editBtnTapped(_:)))
     return buttonItem
   }()
   var collectionView: UICollectionView = {
@@ -49,9 +53,9 @@ class CardListVC: UIViewController {
     
     addBtn.addTarget(self, action: #selector(CardListVC.addBtnTapped(_:)), for: .touchUpInside)
 
-    gameBarBtnItem.target = self
-    gameBarBtnItem.action = #selector(CardListVC.gameBtnTapped(_:))
-    navigationItem.rightBarButtonItem = gameBarBtnItem
+    editBarBtnItem.target = self
+    editBarBtnItem.action = #selector(CardListVC.editBtnTapped(_:))
+    navigationItem.rightBarButtonItem = editBarBtnItem
     
     transition.dismissCompletion = {
       self.selectedCell?.isHidden = false
@@ -81,24 +85,32 @@ class CardListVC: UIViewController {
   @objc func addBtnTapped(_ sender: UIButton) {
     guard let category = category else { fatalError() }
     let inputVC = InputVC()
-    inputVC.cardManager = self.cardManager
-    inputVC.category = category
+    inputVC.cardListVC = self
     present(inputVC, animated: true, completion: nil)
   }
   
-  @objc func gameBtnTapped(_ sender: UIBarButtonItem) {
-    let gameVC = GameVC()
-    gameVC.cardManager = cardManager
-    present(gameVC, animated: true, completion: nil)
+  @objc func editBtnTapped(_ sender: UIBarButtonItem) {
+    if dataProvider.cellMode == .normal {
+      dataProvider.cellMode = .delete
+    } else {
+      dataProvider.cellMode = .normal
+    }
+    collectionView.reloadData()
   }
+  
+//  @objc func gameBtnTapped(_ sender: UIBarButtonItem) {
+//    let gameVC = GameVC()
+//    gameVC.cardManager = cardManager
+//    present(gameVC, animated: true, completion: nil)
+//  }
   
 }
 
 extension CardListVC: DeleteBtnDelegate {
-  func deleteBtnTapped(sender: UIButton) {
+  func deleteBtnTapped(sender: DeleteBtn) {
     let alert = UIAlertController(title: "알림", message: "이 단어를 정말 삭제하시겠습니까?", preferredStyle: .alert)
     let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { (action) in
-      if let cell = sender.superview?.superview as? WordCardCell {
+      if let cell = sender.parentCell as? WordCardCell {
         if cell.superview == self.collectionView {
           guard let indexPath = self.collectionView.indexPath(for: cell) else { return }
           self.dataProvider.cardManager?.removeCardAt(index: indexPath.item)

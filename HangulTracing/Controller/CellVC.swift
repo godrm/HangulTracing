@@ -10,25 +10,30 @@ import UIKit
 
 class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
   var viewFrame: CGRect!
+  var nav: UINavigationController!
   var didSetupConstraints = false
   var cardManager: CardManager?
   var index: Int?
   var imgView: UIImageView = {
     let imgView = UIImageView()
     imgView.contentMode = .scaleAspectFill
+    imgView.layer.cornerRadius = 15
+    imgView.clipsToBounds = true
     return imgView
   }()
   var audioPlayer = SoundPlayer()
   var backView: UIView = {
     let view = UIView()
-    view.backgroundColor = UIColor(hex: "FECB2F")
+    view.layer.cornerRadius = 15
+    view.clipsToBounds = true
+    view.backgroundColor = UIColor(hex: "FED230")
     return view
   }()
   var isBackViewShowing = false
   var wordLabel: UILabel = {
     let label = UILabel()
     label.backgroundColor = UIColor.clear
-    label.textColor = UIColor(hex: "063796")
+    label.textColor = UIColor(hex: "65418F")
     label.textAlignment = .center
     label.font = label.font.withSize(50)
     label.baselineAdjustment = .alignCenters
@@ -36,23 +41,19 @@ class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
     label.minimumScaleFactor = 0.1
     return label
   }()
-  var tracingBtn: UIButton!
+  var tracingBtn: UIButton = {
+    let btn = UIButton()
+    btn.layer.cornerRadius = 15
+    btn.setImage(UIImage(named: "tracing"), for: .normal)
+    return btn
+  }()
   
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = UIColor.clear
-    
-    imgView.layer.cornerRadius = 15
-    imgView.clipsToBounds = true
-    backView.layer.cornerRadius = 15
-    backView.clipsToBounds = true
     view.addSubview(imgView)
     view.addSubview(backView)
-    tracingBtn = UIButton()
-    tracingBtn.layer.borderColor = UIColor(hex: "063796").cgColor
-    tracingBtn.layer.borderWidth = 1
-    tracingBtn.layer.cornerRadius = 15
-    tracingBtn.setImage(UIImage(named: "tracing"), for: .normal)
+    
     tracingBtn.addTarget(self, action: #selector(CellVC.tracingBtnTapped(_:)), for: .touchUpInside)
     backView.addSubview(wordLabel)
     let dismissTap = UITapGestureRecognizer(target: self, action: #selector(CellVC.wordLBLTapped))
@@ -109,6 +110,7 @@ class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
                         duration: 1.0,
                         options: [.transitionFlipFromRight, .showHideTransitionViews],
                         completion: { (success) in
+                          self.animateTracingBtn()
                           completion(true)
       })
     }
@@ -123,7 +125,7 @@ class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
   @objc func wordLBLTapped() {
     
     flip { (success) in
-      self.presentingViewController?.dismiss(animated: true, completion: nil)
+      self.nav.dismiss(animated: true, completion: nil)
     }
   }
   
@@ -134,11 +136,21 @@ class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
     audioPlayer.playSoundEffect(name: "writing", extender: "mp3")
     let nextVC = TracingVC()
     nextVC.cardInfo = (cardManager, index)
-    guard let nav = presentingViewController as? UINavigationController else { return }
     dismiss(animated: true) {
-      nav.pushViewController(nextVC, animated: true)
+      self.nav.pushViewController(nextVC, animated: true)
     }
     
+  }
+  
+  func animateTracingBtn() {
+    tracingBtn.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+    UIView.animate(withDuration: 2.0, delay: 0, usingSpringWithDamping: 0.2,
+                   initialSpringVelocity: 6.0, options: .allowUserInteraction,
+                   animations: { [weak self] in
+                    self?.tracingBtn.transform = .identity
+                  }, completion: { (finished) in
+                      self.animateTracingBtn()
+                  })
   }
   
 }

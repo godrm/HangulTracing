@@ -13,6 +13,7 @@ class InputVC: UIViewController {
   var didSetupConstraints = false
   var category: Category?
   var cardManager: CardManager?
+  var cardListVC: CardListVC!
   var spinner: UIActivityIndicatorView!
   var wordTextField: UITextField = {
     let textField = UITextField()
@@ -50,14 +51,14 @@ class InputVC: UIViewController {
   }()
   var addBtn: UIButton = {
     let btn = UIButton()
-    btn.backgroundColor = UIColor(hex: "EC204B")
+    btn.backgroundColor = UIColor(hex: "F35C4C")
     btn.setTitle("ADD", for: .normal)
     btn.layer.cornerRadius = 15
     return btn
   }()
   var cancelBtn: UIButton = {
     let btn = UIButton()
-    btn.backgroundColor = UIColor(hex: "C3D53F")
+    btn.backgroundColor = UIColor(hex: "F8CF41")
     btn.setTitle("CANCEL", for: .normal)
     btn.layer.cornerRadius = 15
     return btn
@@ -66,9 +67,12 @@ class InputVC: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    guard let cardListVC = cardListVC as? CardListVC else { return }
+    category = cardListVC.category
+    cardManager = cardListVC.cardManager
     
     spinner = UIActivityIndicatorView()
-    view.backgroundColor = UIColor(hex: "2ABEE5")
+    view.backgroundColor = UIColor(hex: "1EBBBC")
     NotificationCenter.default.addObserver(self, selector: #selector(InputVC.photoCaptured(_:)), name: Constants().NOTI_PHOTO_SELECTED, object: nil)
     view.addSubview(cardView)
     cardView.addSubview(wordTextField)
@@ -169,9 +173,10 @@ class InputVC: UIViewController {
     let filterdText = text.components(separatedBy: " ").joined(separator: "")
     guard let photoData = capturedPhotoData else { return }
     cardManager?.addCard(newCard: WordCard(word: filterdText, imageData: photoData, category: category.title))
-    
-    guard let nav = presentingViewController as? UINavigationController else { return }
-    guard let cardListVC = nav.viewControllers[1] as? CardListVC else { return }
+//
+//    guard let nav = presentingViewController as? UINavigationController else { return }
+//    guard let cardListVC = nav.viewControllers[1] as? CardListVC else { return }
+    guard let cardListVC = self.cardListVC else { return }
     cardListVC.collectionView.reloadData()
     
     dismiss(animated: true, completion: nil)

@@ -34,6 +34,10 @@ class CellVCTests: XCTestCase {
     XCTAssertNotNil(sut.imgView)
   }
   
+  func test_imgViewContentmode_aspectFill() {
+    XCTAssertEqual(sut.imgView.contentMode, .scaleAspectFill)
+  }
+  
   func test_HasAudioPlayer() {
     XCTAssertNotNil(sut.audioPlayer)
   }
@@ -63,23 +67,25 @@ class CellVCTests: XCTestCase {
     XCTAssertTrue(mockCellVC.flipIsCalled)
   }
   
-//  func test_WhenTracingBtnTapped_dismissCellVC() {
-//    let cardListVC = CardListVC()
-//    cardListVC.category = Category(category: "동물")
-//    cardListVC.cardManager = CardManager(categoryTitle: "동물")
-//    let mockNav = MockNavigationController(rootViewController: cardListVC)
-//    let mockCellVC = MockCellVC(viewFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
-//    mockCellVC.cardManager = CardManager(categoryTitle: "동물")
-//    mockCellVC.index = 0
-//    mockCellVC.configView(card: CardManager(categoryTitle: "동물").cardAt(index: 0))
-//    mockCellVC.transitioningDelegate = cardListVC
-//    _ = cardListVC.view
-//    cardListVC.present(mockCellVC, animated: true, completion: nil)
-//    _ = mockCellVC.view
-//    mockCellVC.tracingBtnTapped(mockCellVC.tracingBtn)
-//
-//    XCTAssertTrue(mockCellVC.dismissIsCalled)
-//  }
+  func test_WhenTracingBtnTapped_dismissCellVC() {
+    let cardListVC = CardListVC()
+    cardListVC.category = Category(category: "동물")
+    cardListVC.cardManager = CardManager(categoryTitle: "동물")
+    cardListVC.cardManager?.addCard(newCard: WordCard(word: "고양이", imageData: Constants().catImgData!, category: "동물"))
+    let mockNav = MockNavigationController(rootViewController: cardListVC)
+    let mockCellVC = MockCellVC(viewFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
+    mockCellVC.nav = mockNav
+    mockCellVC.cardManager = CardManager(categoryTitle: "동물")
+    mockCellVC.index = 0
+    mockCellVC.configView(card: CardManager(categoryTitle: "동물").cardAt(index: 0))
+    mockCellVC.transitioningDelegate = cardListVC
+    _ = cardListVC.view
+    cardListVC.present(mockCellVC, animated: true, completion: nil)
+    _ = mockCellVC.view
+    mockCellVC.tracingBtnTapped(mockCellVC.tracingBtn)
+
+    XCTAssertTrue(mockCellVC.dismissIsCalled)
+  }
 }
 
 

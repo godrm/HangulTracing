@@ -32,7 +32,7 @@ class GameView: UIView {
     self.words = word
     super.init(frame: frame)
     
-    self.backgroundColor = UIColor(hex: "1EC545")
+    self.backgroundColor = UIColor(hex: "54BB60")
     setupView()
   }
   

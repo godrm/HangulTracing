@@ -9,11 +9,11 @@
 import UIKit
 
 protocol DeleteBtnDelegate: class {
-  func deleteBtnTapped(sender: UIButton)
+  func deleteBtnTapped(sender: DeleteBtn)
 }
 
 extension DeleteBtnDelegate {
-  func deleteBtnTapped(sender: UIButton) {}
+  func deleteBtnTapped(sender: DeleteBtn) {}
 }
 
 class WordCardCell: UICollectionViewCell {
@@ -25,8 +25,8 @@ class WordCardCell: UICollectionViewCell {
     imgView.contentMode = .scaleAspectFill
     return imgView
   }()
-  var deleteBtn: UIButton = {
-    let btn = UIButton()
+  var deleteBtn: DeleteBtn = {
+    let btn = DeleteBtn()
     btn.setImage(UIImage(named: "delete"), for: .normal)
     return btn
   }()
@@ -39,6 +39,7 @@ class WordCardCell: UICollectionViewCell {
     contentView.addSubview(imgView)
     contentView.addSubview(deleteBtn)
     deleteBtn.isHidden = true
+    deleteBtn.parentCell = self
     deleteBtn.addTarget(self, action: #selector(WordCardCell.deleteBtnTapped), for: .touchUpInside)
 
     imgView.snp.makeConstraints { (make) in
@@ -49,7 +50,6 @@ class WordCardCell: UICollectionViewCell {
       make.left.top.equalTo(contentView)
       make.width.height.equalTo(40)
     }
-    addLongPressGesture()
   }
   
   required init?(coder aDecoder: NSCoder) {

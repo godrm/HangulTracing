@@ -27,7 +27,7 @@ class AddBtn: UIButton {
   override func draw(_ rect: CGRect) {
     let path = UIBezierPath(ovalIn: rect)
     
-    UIColor.red.setFill()
+    UIColor(hex: "5F9EF2").setFill()
     path.fill()
     
     let plusWidth: CGFloat = min(bounds.width, bounds.height) * Constants.plusButtonScale

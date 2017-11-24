@@ -26,6 +26,10 @@ class CategoryVCTests: XCTestCase {
     super.tearDown()
   }
   
+  func test_HasCategoryProvider() {
+    XCTAssertNotNil(sut.categoryDataProvider)
+  }
+  
   func test_HasCategoryManager() {
     XCTAssertNotNil(sut.categoryManager)
   }
@@ -71,6 +75,17 @@ class CategoryVCTests: XCTestCase {
     
     UIApplication.shared.keyWindow?.rootViewController = sut
     sut.addBtnTapped(sut.addBtn)
+    XCTAssertTrue(sut.presentedViewController is UIAlertController)
+  }
+  
+  func test_deleteBtnTapped_presentUIAlertController() {
+    XCTAssertNil(sut.presentedViewController)
+    
+    UIApplication.shared.keyWindow?.rootViewController = sut
+    sut.collectionView.reloadData()
+    sut.collectionView.layoutIfNeeded()
+    guard let categoryCell = sut.collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as? CategoryCell else { fatalError() }
+    sut.deleteBtnTapped(sender: categoryCell.deleteBtn)
     XCTAssertTrue(sut.presentedViewController is UIAlertController)
   }
 }
