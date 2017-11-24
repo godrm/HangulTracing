@@ -86,7 +86,7 @@ class CategoryVC: UIViewController {
       cardManager.addCard(newCard: WordCard(word: "피자", imageData: Constants().pizzaImgData!, category: "음식"))
       cardManager.addCard(newCard: WordCard(word: "의자", imageData: Constants().chairImgData!, category: "사물"))
       cardManager.addCard(newCard: WordCard(word: "라면", imageData: Constants().ramienImgData!, category: "음식"))
-      cardManager.addCard(newCard: WordCard(word: "김", imageData: Constants().gimImgData!, category: "음식"))
+      cardManager.addCard(newCard: WordCard(word: "햄버거", imageData: Constants().hamburgurImgData!, category: "음식"))
       cardManager.addCard(newCard: WordCard(word: "고추", imageData: Constants().pepperImgData!, category: "음식"))
       cardManager.addCard(newCard: WordCard(word: "사자", imageData: Constants().lionImgData!, category: "동물"))
       cardManager.addCard(newCard: WordCard(word: "호랑이", imageData: Constants().tigerImgData!, category: "동물"))

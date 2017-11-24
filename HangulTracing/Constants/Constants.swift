@@ -28,7 +28,7 @@ struct Constants {
   let ttokppokkiImgData = UIImageJPEGRepresentation((UIImage(named: "ttokppokki")?.downSizeImageWith(downRatio: 0.5))!, 1)
   let socksImgData = UIImageJPEGRepresentation((UIImage(named: "socks")?.downSizeImageWith(downRatio: 0.5))!, 1)
   let chickenImgData = UIImageJPEGRepresentation((UIImage(named: "chicken")?.downSizeImageWith(downRatio: 0.5))!, 1)
-  let gimImgData = UIImageJPEGRepresentation((UIImage(named: "gim")?.downSizeImageWith(downRatio: 0.5))!, 1)
+  let hamburgurImgData = UIImageJPEGRepresentation((UIImage(named: "hamburgur")?.downSizeImageWith(downRatio: 0.5))!, 1)
   let lionImgData = UIImageJPEGRepresentation((UIImage(named: "lion")?.downSizeImageWith(downRatio: 0.5))!, 1)
   let ramienImgData = UIImageJPEGRepresentation((UIImage(named: "ramien")?.downSizeImageWith(downRatio: 0.5))!, 1)
   let tigerImgData = UIImageJPEGRepresentation((UIImage(named: "tiger")?.downSizeImageWith(downRatio: 0.5))!, 1)
