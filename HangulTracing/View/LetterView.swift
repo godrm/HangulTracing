@@ -105,7 +105,7 @@ class LetterView: UIView {
     let shapeLayer = CAShapeLayer()
     shapeLayer.path = path.cgPath
     shapeLayer.fillColor = UIColor.black.cgColor
-    shapeLayer.lineWidth = UIScreen.main.bounds.width / 30
+    shapeLayer.lineWidth = UIScreen.main.bounds.width / 100
     self.layer.addSublayer(shapeLayer)
     unionPath.append(path)
   }

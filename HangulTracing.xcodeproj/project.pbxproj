@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		44ED2227C34A2DD12A2FB21E /* Pods_HangulTracingTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDF5C07A6797CBFBD7394FE1 /* Pods_HangulTracingTests.framework */; };
+		4802982D1FC836D400A5DB3A /* PopUpBtnVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4802982C1FC836D400A5DB3A /* PopUpBtnVC.swift */; };
 		484979AE1FB15F37000C1E2A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979AD1FB15F37000C1E2A /* Constants.swift */; };
 		484979AF1FB1659B000C1E2A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979AD1FB15F37000C1E2A /* Constants.swift */; };
 		484979B11FB16B80000C1E2A /* TracingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979B01FB16B80000C1E2A /* TracingVC.swift */; };
@@ -81,6 +82,7 @@
 
 /* Begin PBXFileReference section */
 		373FFA930EF7B5507EF3477D /* Pods-HangulTracing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HangulTracing.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HangulTracing/Pods-HangulTracing.debug.xcconfig"; sourceTree = "<group>"; };
+		4802982C1FC836D400A5DB3A /* PopUpBtnVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpBtnVC.swift; sourceTree = "<group>"; };
 		484979AD1FB15F37000C1E2A /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		484979B01FB16B80000C1E2A /* TracingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingVC.swift; sourceTree = "<group>"; };
 		484979B21FB16B90000C1E2A /* TracingVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingVCTests.swift; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 				484B620F1FBE7FC600AE065F /* CellVC.swift */,
 				484B62161FC01F1100AE065F /* CategoryVC.swift */,
 				48770E3E1FC7EEC20057159A /* PopUpVC.swift */,
+				4802982C1FC836D400A5DB3A /* PopUpBtnVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -608,6 +611,7 @@
 				48770E3F1FC7EEC20057159A /* PopUpVC.swift in Sources */,
 				484979CF1FB31F66000C1E2A /* PinterestLayout.swift in Sources */,
 				484979CD1FB31DE3000C1E2A /* DataProvider.swift in Sources */,
+				4802982D1FC836D400A5DB3A /* PopUpBtnVC.swift in Sources */,
 				484979C91FB31711000C1E2A /* WordCardCell.swift in Sources */,
 				484979E31FB5747F000C1E2A /* UIColorExt.swift in Sources */,
 				48D1A2051FAC66B900F4B9A6 /* WordCard.swift in Sources */,

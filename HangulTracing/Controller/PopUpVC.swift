@@ -61,19 +61,23 @@ class PopUpVC: UIViewController {
   }
   
   @objc func addCardBtnTapped(_ sender: UIButton) {
+    cardListVC.startSpinner()
     let inputVC = InputVC()
     inputVC.setCardListVC(vc: self.cardListVC)
     dismiss(animated: true) {
       self.cardListVC.present(inputVC, animated: true, completion: nil)
+      self.cardListVC.stopSpinner()
     }
   }
   
   @objc func gameBtnTapped(_ sender: UIButton) {
+    cardListVC.startSpinner()
     let gameVC = GameVC()
     guard let cardManager = cardListVC.cardManager else { return }
     gameVC.setCardManager(manager: cardManager)
     dismiss(animated: true) {
       self.cardListVC.present(gameVC, animated: true, completion: nil)
+      self.cardListVC.stopSpinner()
     }
   }
 }

@@ -96,16 +96,21 @@ class CardListVC: UIViewController {
   
   @objc func addBtnTapped(_ sender: UIButton) {
     
-    let popUpVC = PopUpVC()
-    popUpVC.setCardListVC(vc: self)
-    popUpVC.preferredContentSize = CGSize(width: 100, height: 100)
-    popUpVC.modalPresentationStyle = .popover
-    popUpVC.popoverPresentationController?.delegate = self
-    popUpVC.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.init(rawValue: 0)
-    popUpVC.popoverPresentationController?.sourceRect = sender.bounds
-    popUpVC.popoverPresentationController?.sourceView = sender
+//    let popUpVC = PopUpVC()
+//    popUpVC.setCardListVC(vc: self)
+//    popUpVC.preferredContentSize = CGSize(width: 100, height: 100)
+//    popUpVC.modalPresentationStyle = .popover
+//    popUpVC.popoverPresentationController?.delegate = self
+//    popUpVC.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.init(rawValue: 0)
+//    popUpVC.popoverPresentationController?.sourceRect = sender.bounds
+//    popUpVC.popoverPresentationController?.sourceView = sender
+//
+//    present(popUpVC, animated: true, completion: nil)
     
-    present(popUpVC, animated: true, completion: nil)
+    let popUpBtnVC = PopUpBtnVC()
+    popUpBtnVC.modalPresentationStyle = .overFullScreen
+    popUpBtnVC.modalTransitionStyle = .crossDissolve
+    present(popUpBtnVC, animated: true, completion: nil)
   }
   
   @objc func editBtnTapped(_ sender: UIBarButtonItem) {
@@ -170,8 +175,9 @@ extension CardListVC: UIViewControllerTransitioningDelegate {
   }
 }
 
-extension CardListVC: UIPopoverPresentationControllerDelegate {
-  func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-    return .none
-  }
-}
+//extension CardListVC: UIPopoverPresentationControllerDelegate {
+//  func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+//    return .none
+//  }
+//}
+
