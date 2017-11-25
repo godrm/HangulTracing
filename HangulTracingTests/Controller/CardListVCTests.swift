@@ -81,7 +81,7 @@ class CardListVCTests: XCTestCase {
     UIApplication.shared.keyWindow?.rootViewController = sut
 
     sut.addBtnTapped(sut.addBtn)
-    XCTAssertTrue(sut.presentedViewController is PopUpVC)
+    XCTAssertTrue(sut.presentedViewController is PopUpBtnVC)
   }
   
   //cardManager

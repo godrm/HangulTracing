@@ -25,7 +25,7 @@ class CategoryVC: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    categoryDataProvider.setParentVC(vc: self)
     categoryManager = CategoryManager()
     categoryDataProvider.categoryManager = categoryManager
     setupCard()

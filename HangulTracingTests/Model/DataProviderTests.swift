@@ -21,6 +21,7 @@ class DataProviderTests: XCTestCase {
     controller.setCategoryAndManager(category: Category(category: ""), manager: CardManager(categoryTitle: ""))
     
     provider = DataProvider()
+    provider.setParentVC(vc: controller)
     provider.cardManager = CardManager(categoryTitle: "")
     
     _ = controller.view

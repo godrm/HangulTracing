@@ -33,6 +33,7 @@ class CardListVC: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    dataProvider.setParentVC(vc: self)
     guard let category = category else { return }
     title = category.title
     dataProvider.cardManager = cardManager
@@ -95,17 +96,6 @@ class CardListVC: UIViewController {
   }
   
   @objc func addBtnTapped(_ sender: UIButton) {
-    
-//    let popUpVC = PopUpVC()
-//    popUpVC.setCardListVC(vc: self)
-//    popUpVC.preferredContentSize = CGSize(width: 100, height: 100)
-//    popUpVC.modalPresentationStyle = .popover
-//    popUpVC.popoverPresentationController?.delegate = self
-//    popUpVC.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.init(rawValue: 0)
-//    popUpVC.popoverPresentationController?.sourceRect = sender.bounds
-//    popUpVC.popoverPresentationController?.sourceView = sender
-//
-//    present(popUpVC, animated: true, completion: nil)
     
     let popUpBtnVC = PopUpBtnVC()
     popUpBtnVC.modalPresentationStyle = .overFullScreen
@@ -174,10 +164,4 @@ extension CardListVC: UIViewControllerTransitioningDelegate {
     return transition
   }
 }
-
-//extension CardListVC: UIPopoverPresentationControllerDelegate {
-//  func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-//    return .none
-//  }
-//}
 

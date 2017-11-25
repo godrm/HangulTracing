@@ -14,9 +14,14 @@ enum CellMode: Int {
 }
 
 class DataProvider: NSObject {
+  private(set) var parentVC: CardListVC!
   var cardManager: CardManager?
   var cellMode: CellMode = .normal
   var audioPlayer = SoundPlayer()
+  
+  func setParentVC(vc: CardListVC) {
+    self.parentVC = vc
+  }
 }
 
 extension DataProvider: UICollectionViewDataSource {
@@ -30,7 +35,7 @@ extension DataProvider: UICollectionViewDataSource {
     guard let cardManager = cardManager else { fatalError() }
     if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WordCardCell", for: indexPath) as? WordCardCell {
       cell.configCell(card: cardManager.cardAt(index: indexPath.item), cellMode: cellMode)
-      cell.deleteBtnDelegate = collectionView.parentViewController as? CardListVC
+      cell.deleteBtnDelegate = parentVC
       return cell
     } else {
       return WordCardCell()
@@ -41,7 +46,6 @@ extension DataProvider: UICollectionViewDataSource {
 extension DataProvider: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     guard let cardManager = cardManager else { fatalError() }
-    guard let parentVC = collectionView.parentViewController as? CardListVC else { fatalError() }
     audioPlayer.playSoundEffect(name: "open", extender: "wav")
     let cell = collectionView.cellForItem(at: indexPath) as! WordCardCell
     parentVC.setSelectedCell(cell: cell)

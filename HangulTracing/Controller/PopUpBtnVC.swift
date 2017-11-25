@@ -7,13 +7,14 @@
 //
 
 import UIKit
-
+typealias CompletionHandler = (_ Success: Bool) -> ()
 class PopUpBtnVC: UIViewController {
   
   private(set) var didSetupConstraints = false
   private(set) var addBtn: AddBtn!
   private(set) var btn1: AddBtn!
   private(set) var btn2: AddBtn!
+  var presenting = true
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -24,10 +25,17 @@ class PopUpBtnVC: UIViewController {
     btn1 = AddBtn()
     btn2 = AddBtn()
     
-    view.addSubview(addBtn)
     view.addSubview(btn1)
     view.addSubview(btn2)
+    view.addSubview(addBtn)
+    
     view.setNeedsUpdateConstraints()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    animateBtn { (success) in
+    }
   }
   
   override func updateViewConstraints() {
@@ -40,14 +48,12 @@ class PopUpBtnVC: UIViewController {
       
       btn1.snp.makeConstraints({ (make) in
         make.height.width.equalTo(50)
-        make.centerX.equalTo(addBtn)
-        make.bottom.equalTo(addBtn.snp.top).offset(-10)
+        make.center.equalTo(addBtn)
       })
       
       btn2.snp.makeConstraints({ (make) in
         make.height.width.equalTo(50)
-        make.centerX.equalTo(addBtn)
-        make.bottom.equalTo(btn1.snp.top).offset(-10)
+        make.center.equalTo(addBtn)
       })
       
       didSetupConstraints = true
@@ -56,12 +62,37 @@ class PopUpBtnVC: UIViewController {
   }
   
   @objc func dismissPopUp(_ gesture: UITapGestureRecognizer) {
-    dismiss(animated: true, completion: nil)
+    animateBtn { (success) in
+      if success {
+        self.dismiss(animated: true, completion: nil)
+      }
+    }
   }
   
   func setBgViewTap() {
     let tap = UITapGestureRecognizer(target: self, action: #selector(PopUpBtnVC.dismissPopUp(_:)))
     view.addGestureRecognizer(tap)
+  }
+  
+  func animateBtn(completion: @escaping CompletionHandler) {
+    if presenting {
+      UIView.animate(withDuration: 0.2, animations: {
+        self.btn1.transform = CGAffineTransform(translationX: 0, y: -70)
+        self.btn2.transform = CGAffineTransform(translationX: 0, y: -130)
+        self.presenting = false
+      }, completion: { (success) in
+        completion(true)
+      })
+    } else {
+      UIView.animate(withDuration: 0.2, animations: {
+        self.btn1.transform = CGAffineTransform.identity
+        self.btn2.transform = CGAffineTransform.identity
+        self.presenting = true
+      }, completion: { (success) in
+        completion(true)
+      })
+      
+    }
   }
   
 }

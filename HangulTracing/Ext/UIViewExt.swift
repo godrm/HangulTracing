@@ -9,16 +9,6 @@
 import UIKit
 
 extension UIView {
-  var parentViewController: UIViewController? {
-    var parentResponder: UIResponder? = self
-    while parentResponder != nil {
-      parentResponder = parentResponder!.next
-      if let viewController = parentResponder as? UIViewController {
-        return viewController
-      }
-    }
-    return nil
-  }
   
   func bindToKeyboard() {
     NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(_:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)

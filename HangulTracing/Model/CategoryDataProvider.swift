@@ -9,11 +9,16 @@
 import UIKit
 
 class CategoryDataProvider: NSObject {
+  private(set) var parentVC: CategoryVC!
   var categoryManager: CategoryManager?
   var cellMode: CellMode = .normal
   let itemsPerRow: CGFloat = 3
   let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
   var audioPlayer = SoundPlayer()
+  
+  func setParentVC(vc: CategoryVC) {
+    self.parentVC = vc
+  }
 }
 
 extension CategoryDataProvider: UICollectionViewDataSource {
@@ -28,7 +33,7 @@ extension CategoryDataProvider: UICollectionViewDataSource {
     let category = categoryManager.categories[indexPath.item]
     if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as? CategoryCell {
       cell.configCell(category: category, cellMode: cellMode)
-      cell.deleteBtnDelegate = collectionView.parentViewController as? CategoryVC
+      cell.deleteBtnDelegate = parentVC
       return cell
     }
     return CategoryCell()
@@ -42,7 +47,6 @@ extension CategoryDataProvider: UICollectionViewDelegate {
     let category = categoryManager.categories[indexPath.item]
     let cardListVC = CardListVC()
     cardListVC.setCategoryAndManager(category: category, manager: CardManager(categoryTitle: category.title))
-    guard let parentVC = collectionView.parentViewController as? CategoryVC else { return }
     parentVC.navigationController?.pushViewController(cardListVC, animated: true)
   }
 }

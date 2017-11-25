@@ -47,7 +47,6 @@
 		487037981FAC3D6200A966A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 487037971FAC3D6200A966A2 /* Assets.xcassets */; };
 		4870379B1FAC3D6200A966A2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 487037991FAC3D6200A966A2 /* LaunchScreen.storyboard */; };
 		48770E3B1FC6B3B70057159A /* CategoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48770E3A1FC6B3B70057159A /* CategoryTests.swift */; };
-		48770E3F1FC7EEC20057159A /* PopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48770E3E1FC7EEC20057159A /* PopUpVC.swift */; };
 		48AD6F3F1FC3C06D0054FBD5 /* UICollectionViewCellExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48AD6F3E1FC3C06D0054FBD5 /* UICollectionViewCellExt.swift */; };
 		48AD6F401FC40C1E0054FBD5 /* UIImageExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484B620B1FBD7BDC00AE065F /* UIImageExt.swift */; };
 		48AD6F411FC415E60054FBD5 /* PinterestLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979CE1FB31F66000C1E2A /* PinterestLayout.swift */; };
@@ -123,7 +122,6 @@
 		487037A11FAC3D6300A966A2 /* HangulTracingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HangulTracingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		487037A71FAC3D6300A966A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		48770E3A1FC6B3B70057159A /* CategoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTests.swift; sourceTree = "<group>"; };
-		48770E3E1FC7EEC20057159A /* PopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpVC.swift; sourceTree = "<group>"; };
 		48AD6F3E1FC3C06D0054FBD5 /* UICollectionViewCellExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewCellExt.swift; sourceTree = "<group>"; };
 		48AD6F431FC516000054FBD5 /* cheering.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = cheering.wav; sourceTree = "<group>"; };
 		48AD6F4F1FC516590054FBD5 /* whistle.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = whistle.wav; sourceTree = "<group>"; };
@@ -267,7 +265,6 @@
 				484B62091FBD729F00AE065F /* PlayerVC.swift */,
 				484B620F1FBE7FC600AE065F /* CellVC.swift */,
 				484B62161FC01F1100AE065F /* CategoryVC.swift */,
-				48770E3E1FC7EEC20057159A /* PopUpVC.swift */,
 				4802982C1FC836D400A5DB3A /* PopUpBtnVC.swift */,
 			);
 			path = Controller;
@@ -608,7 +605,6 @@
 				484979BD1FB194A6000C1E2A /* CGPointExt.swift in Sources */,
 				484B621D1FC1816600AE065F /* CategoryManager.swift in Sources */,
 				484B62171FC01F1100AE065F /* CategoryVC.swift in Sources */,
-				48770E3F1FC7EEC20057159A /* PopUpVC.swift in Sources */,
 				484979CF1FB31F66000C1E2A /* PinterestLayout.swift in Sources */,
 				484979CD1FB31DE3000C1E2A /* DataProvider.swift in Sources */,
 				4802982D1FC836D400A5DB3A /* PopUpBtnVC.swift in Sources */,

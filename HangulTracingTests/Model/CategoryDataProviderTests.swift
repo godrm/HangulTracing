@@ -20,6 +20,7 @@ class CategoryDataProviderTests: XCTestCase {
     controller = CategoryVC()
     
     provider = CategoryDataProvider()
+    provider.setParentVC(vc: controller)
     provider.categoryManager = CategoryManager()
     _ = controller.view
     collectionView = controller.collectionView
