@@ -19,7 +19,7 @@ class CategoryVC: UIViewController {
   private(set) var collectionView: UICollectionView!
   private(set) var addBtn = AddBtn()
   private(set) var editBarBtnItem: UIBarButtonItem = {
-    let buttonItem = UIBarButtonItem(title: "EDIT", style: UIBarButtonItemStyle.plain, target: self, action: #selector(CategoryVC.editBtnTapped(_:)))
+    let buttonItem = UIBarButtonItem(image: UIImage(named: "trash"), style: .plain, target: self, action: #selector(CategoryVC.editBtnTapped(_:)))
     return buttonItem
   }()
   
@@ -123,8 +123,10 @@ class CategoryVC: UIViewController {
   @objc func editBtnTapped(_ sender: UIBarButtonItem) {
     if categoryDataProvider.cellMode == .normal {
       categoryDataProvider.cellMode = .delete
+      navigationItem.rightBarButtonItem = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(CategoryVC.editBtnTapped(_:)))
     } else {
       categoryDataProvider.cellMode = .normal
+      navigationItem.rightBarButtonItem = editBarBtnItem
     }
     collectionView.reloadData()
   }

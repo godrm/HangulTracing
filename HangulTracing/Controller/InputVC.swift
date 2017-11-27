@@ -67,7 +67,6 @@ class InputVC: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    guard let cardListVC = cardListVC as? CardListVC else { return }
     category = cardListVC.category
     cardManager = cardListVC.cardManager
     

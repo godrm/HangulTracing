@@ -20,6 +20,10 @@ class CategoryCell: UICollectionViewCell {
   private(set) var titleLabel: UILabel = {
     let label = UILabel()
     label.textAlignment = .center
+    label.font = label.font.withSize(50)
+    label.baselineAdjustment = .alignCenters
+    label.adjustsFontSizeToFitWidth = true
+    label.minimumScaleFactor = 0.1
     label.textColor = UIColor(hex: "65418F")
     return label
   }()

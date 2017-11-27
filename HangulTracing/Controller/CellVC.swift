@@ -32,13 +32,12 @@ class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
   private(set) var isBackViewShowing = false
   private(set) var wordLabel: UILabel = {
     let label = UILabel()
-    label.backgroundColor = UIColor.clear
-    label.textColor = UIColor(hex: "65418F")
     label.textAlignment = .center
     label.font = label.font.withSize(50)
     label.baselineAdjustment = .alignCenters
     label.adjustsFontSizeToFitWidth = true
     label.minimumScaleFactor = 0.1
+    label.textColor = UIColor(hex: "65418F")
     return label
   }()
   private(set) var tracingBtn: UIButton = {

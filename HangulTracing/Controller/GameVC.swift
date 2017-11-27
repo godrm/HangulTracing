@@ -156,14 +156,14 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
         self.scrollView.contentOffset.x = self.scrollView.bounds.size.width * CGFloat(page + 1)}, completion: nil)
     } else if page == cardManager.toDoCount - 1 {
       timer.invalidate()
-      stopMovieRecording()
-      let scoreView = GameView(frame: CGRect(x: UIScreen.main.bounds.width * CGFloat(cardManager.toDoCount), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), word: "\(greatCount!) 점 / \(cardManager.toDoCount)")
+      let scoreView = GameView(frame: CGRect(x: UIScreen.main.bounds.width * CGFloat(cardManager.toDoCount), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), word: "\(greatCount!) 점 / \(cardManager.toDoCount) 점")
       scoreView.exitBtnDelegate = self
       scrollView.addSubview(scoreView)
       audioPlayer.playSoundEffect(name: "cheering", extender: "wav")
       UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
         self.scrollView.contentOffset.x = self.scrollView.bounds.size.width * CGFloat(page + 1)}, completion: nil)
       motionManager.stopDeviceMotionUpdates()
+      stopMovieRecording()
     }
     
   }
@@ -279,7 +279,7 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
       timer.invalidate()
       motionManager.stopDeviceMotionUpdates()
       guard let cardManager = cardManager else { return }
-      let scoreView = GameView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), word: "\(greatCount!) 점 / \(cardManager.toDoCount)")
+      let scoreView = GameView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), word: "\(greatCount!) 점 / \(cardManager.toDoCount) 점")
       scoreView.exitBtnDelegate = self
       self.view.addSubview(scoreView)
       audioPlayer.playSoundEffect(name: "cheering", extender: "wav")
@@ -323,7 +323,6 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
         
         if self.session.canAddInput(audioDeviceInput) {
           self.session.addInput(audioDeviceInput)
-          print("오디오 삽입")
         } else {
           print("Could not add audio device input to the session")
         }

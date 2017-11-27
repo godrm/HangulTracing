@@ -21,6 +21,12 @@ class GameView: UIView {
   private(set) var words: String
   private(set) var wordLabel: UILabel = {
     let label = UILabel()
+    label.textAlignment = .center
+    label.font = label.font.withSize(50)
+    label.baselineAdjustment = .alignCenters
+    label.adjustsFontSizeToFitWidth = true
+    label.minimumScaleFactor = 0.1
+    label.textColor = UIColor(hex: "65418F")
     return label
   }()
   private(set) var exitBtn: UIButton = {
@@ -32,7 +38,7 @@ class GameView: UIView {
     self.words = word
     super.init(frame: frame)
     
-    self.backgroundColor = UIColor(hex: "54BB60")
+    self.backgroundColor = UIColor(hex: "398F37")
     setupView()
   }
   

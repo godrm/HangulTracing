@@ -22,7 +22,7 @@ class CardListVC: UIViewController {
   }()
   
   private(set) var editBarBtnItem: UIBarButtonItem = {
-    let buttonItem = UIBarButtonItem(title: "EDIT", style: UIBarButtonItemStyle.plain, target: self, action: #selector(CategoryVC.editBtnTapped(_:)))
+    let buttonItem = UIBarButtonItem(image: UIImage(named: "trash"), style: .plain, target: self, action: #selector(CardListVC.editBtnTapped(_:)))
     return buttonItem
   }()
   private(set) var collectionView: UICollectionView = {
@@ -98,16 +98,20 @@ class CardListVC: UIViewController {
   @objc func addBtnTapped(_ sender: UIButton) {
     
     let popUpBtnVC = PopUpBtnVC()
+    popUpBtnVC.setCardListVC(vc: self)
     popUpBtnVC.modalPresentationStyle = .overFullScreen
     popUpBtnVC.modalTransitionStyle = .crossDissolve
     present(popUpBtnVC, animated: true, completion: nil)
   }
   
   @objc func editBtnTapped(_ sender: UIBarButtonItem) {
+  
     if dataProvider.cellMode == .normal {
       dataProvider.cellMode = .delete
+      navigationItem.rightBarButtonItem = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(CategoryVC.editBtnTapped(_:)))
     } else {
       dataProvider.cellMode = .normal
+      navigationItem.rightBarButtonItem = editBarBtnItem
     }
     collectionView.reloadData()
   }

@@ -28,7 +28,7 @@ class LetterView: UIView {
     self.letter = letter
     super.init(frame: frame)
     
-    self.backgroundColor = UIColor(hex: "54BB60")
+    self.backgroundColor = UIColor(hex: "398F37")
     setupView()
     screenPointsSet = getScreenPointsSet()
   }
@@ -53,8 +53,9 @@ class LetterView: UIView {
       path.apply(CGAffineTransform(scaleX: 1, y: -1))
       path.apply(CGAffineTransform(translationX: UIScreen.main.bounds.width / 7, y: UIScreen.main.bounds.height * 3 / 5))
       
+      UIColor.white.setStroke()
       path.stroke()
-      UIColor.white.setFill()
+      UIColor.clear.setFill()
       path.fill()
     }
     letterSet = getContainingPoints(tempSet: screenPointsSet, path: path)
@@ -104,7 +105,9 @@ class LetterView: UIView {
     path.addArc(withCenter: center, radius: r, startAngle: 0, endAngle: 2 * .pi, clockwise: true)
     let shapeLayer = CAShapeLayer()
     shapeLayer.path = path.cgPath
-    shapeLayer.fillColor = UIColor.black.cgColor
+    shapeLayer.fillColor = UIColor(patternImage: UIImage(named: "chalk")!).cgColor
+    shapeLayer.opacity = 0.75
+    
     shapeLayer.lineWidth = UIScreen.main.bounds.width / 100
     self.layer.addSublayer(shapeLayer)
     unionPath.append(path)

@@ -16,5 +16,4 @@ class PlayerVC: AVPlayerViewController, orientationIsOnlyLandScapeRight {
     view.layer.cornerRadius = 15
     view.clipsToBounds = true
   }
-  
 }

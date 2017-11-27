@@ -49,8 +49,8 @@ extension DataProvider: UICollectionViewDelegate {
     audioPlayer.playSoundEffect(name: "open", extender: "wav")
     let cell = collectionView.cellForItem(at: indexPath) as! WordCardCell
     parentVC.setSelectedCell(cell: cell)
-    let imgHeight = cell.imgView.bounds.height
-    let imgWidth = cell.imgView.bounds.width
+    let imgHeight = cell.imgView.frame.height
+    let imgWidth = cell.imgView.frame.width
     let viewWidth = UIScreen.main.bounds.width - 100
     let viewHeight = imgHeight * viewWidth / imgWidth
     let centerX = UIScreen.main.bounds.width / 2
