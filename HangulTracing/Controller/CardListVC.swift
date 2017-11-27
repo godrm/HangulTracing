@@ -125,6 +125,10 @@ class CardListVC: UIViewController {
     spinner.stopAnimating()
     spinner.isHidden = true
   }
+  
+  override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    collectionView.collectionViewLayout.invalidateLayout()
+  }
 }
 
 extension CardListVC: DeleteBtnDelegate {

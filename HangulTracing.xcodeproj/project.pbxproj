@@ -47,6 +47,7 @@
 		487037981FAC3D6200A966A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 487037971FAC3D6200A966A2 /* Assets.xcassets */; };
 		4870379B1FAC3D6200A966A2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 487037991FAC3D6200A966A2 /* LaunchScreen.storyboard */; };
 		48770E3B1FC6B3B70057159A /* CategoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48770E3A1FC6B3B70057159A /* CategoryTests.swift */; };
+		488E6A681FCC06F90065F527 /* chalk.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 488E6A671FCC06F90065F527 /* chalk.mp3 */; };
 		48AD6F3F1FC3C06D0054FBD5 /* UICollectionViewCellExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48AD6F3E1FC3C06D0054FBD5 /* UICollectionViewCellExt.swift */; };
 		48AD6F401FC40C1E0054FBD5 /* UIImageExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484B620B1FBD7BDC00AE065F /* UIImageExt.swift */; };
 		48AD6F411FC415E60054FBD5 /* PinterestLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484979CE1FB31F66000C1E2A /* PinterestLayout.swift */; };
@@ -122,6 +123,7 @@
 		487037A11FAC3D6300A966A2 /* HangulTracingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HangulTracingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		487037A71FAC3D6300A966A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		48770E3A1FC6B3B70057159A /* CategoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTests.swift; sourceTree = "<group>"; };
+		488E6A671FCC06F90065F527 /* chalk.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = chalk.mp3; sourceTree = "<group>"; };
 		48AD6F3E1FC3C06D0054FBD5 /* UICollectionViewCellExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewCellExt.swift; sourceTree = "<group>"; };
 		48AD6F431FC516000054FBD5 /* cheering.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = cheering.wav; sourceTree = "<group>"; };
 		48AD6F4F1FC516590054FBD5 /* whistle.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = whistle.wav; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 				48AD6F591FC51D6F0054FBD5 /* open.wav */,
 				48AD6F5D1FC5225A0054FBD5 /* enter.wav */,
 				48AD6F511FC516E60054FBD5 /* writing.mp3 */,
+				488E6A671FCC06F90065F527 /* chalk.mp3 */,
 				48AD6F4F1FC516590054FBD5 /* whistle.wav */,
 				48AD6F431FC516000054FBD5 /* cheering.wav */,
 			);
@@ -454,6 +457,7 @@
 				487037981FAC3D6200A966A2 /* Assets.xcassets in Resources */,
 				48AD6F601FC5225A0054FBD5 /* enter.wav in Resources */,
 				48AD6F521FC516E60054FBD5 /* writing.mp3 in Resources */,
+				488E6A681FCC06F90065F527 /* chalk.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

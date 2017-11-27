@@ -112,9 +112,9 @@ class CategoryVC: UIViewController {
         make.edges.equalTo(self.view)
       })
       popUpView.snp.makeConstraints({ (make) in
-        make.width.height.equalTo(250)
+        make.width.height.equalTo(UIScreen.main.bounds.width / 2)
         make.centerX.equalTo(self.view)
-        make.centerY.equalTo(-125)
+        make.centerY.equalTo(-UIScreen.main.bounds.width * 1 / 4)
       })
       categoryTxtField.snp.makeConstraints({ (make) in
         make.top.equalTo(popUpView).offset(50)

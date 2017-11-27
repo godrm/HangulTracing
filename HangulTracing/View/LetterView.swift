@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 
 class LetterView: UIView {
-  
+  private(set) var audioPlayer = SoundPlayer()
   private(set) var letter: String!
   private(set) var path: UIBezierPath!
   private(set) var screenPointsSet: Set<CGPoint>!
@@ -110,6 +110,7 @@ class LetterView: UIView {
     
     shapeLayer.lineWidth = UIScreen.main.bounds.width / 100
     self.layer.addSublayer(shapeLayer)
+    
     unionPath.append(path)
   }
   
@@ -132,6 +133,7 @@ class LetterView: UIView {
   }
   
   override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    audioPlayer.playSoundEffect(name: "chalk", extender: "mp3")
     drawSet = getContainingPoints(tempSet: letterSet, path: unionPath)
     if drawSet.count * 100 / letterSet.count >= 95 {
       NotificationCenter.default.post(name: Constants().NOTI_DRAW_COMPLETED, object: nil)
