@@ -83,6 +83,7 @@ class InputVCTests: XCTestCase {
     let cardListVC = CardListVC()
     UIApplication.shared.keyWindow?.rootViewController = cardListVC
     let mockInputVC = MockInputVC()
+    mockInputVC.setCardListVC(vc: cardListVC)
     cardListVC.present(mockInputVC, animated: true, completion: nil)
     mockInputVC.wordTextField.text = ""
     mockInputVC.capturedPhotoData = Data()

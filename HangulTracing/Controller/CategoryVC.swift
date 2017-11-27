@@ -22,6 +22,46 @@ class CategoryVC: UIViewController {
     let buttonItem = UIBarButtonItem(image: UIImage(named: "trash"), style: .plain, target: self, action: #selector(CategoryVC.editBtnTapped(_:)))
     return buttonItem
   }()
+  private(set) var blockView: UIView = {
+    let view = UIView()
+    view.backgroundColor = UIColor.black.withAlphaComponent(0.75)
+    return view
+  }()
+  private(set) var popUpView: UIView = {
+    let view = UIView()
+    view.layer.cornerRadius = 15
+    view.backgroundColor = UIColor(hex: "1EBBBC")
+    return view
+  }()
+  private(set) var categoryTxtField: UITextField = {
+    let txtField = UITextField()
+    txtField.backgroundColor = UIColor.white
+    txtField.keyboardAppearance = .dark
+    txtField.keyboardType = .default
+    txtField.autocorrectionType = .default
+    txtField.placeholder = "카메고리명을 입력하세요"
+    txtField.clearButtonMode = .whileEditing
+    txtField.layer.cornerRadius = 15
+    txtField.textAlignment = .center
+    txtField.adjustsFontSizeToFitWidth = true
+    txtField.minimumFontSize = 30
+    txtField.textColor = UIColor(hex: "65418F")
+    return txtField
+  }()
+  private(set) var cancleBtn: UIButton = {
+    let btn = UIButton()
+    btn.layer.cornerRadius = 15
+    btn.setTitle("취소", for: .normal)
+    btn.backgroundColor = UIColor(hex: "F8CF41")
+    return btn
+  }()
+  private(set) var saveBtn: UIButton = {
+    let btn = UIButton()
+    btn.layer.cornerRadius = 15
+    btn.setTitle("저장", for: .normal)
+    btn.backgroundColor = UIColor(hex: "F35C4C")
+    return btn
+  }()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -42,6 +82,18 @@ class CategoryVC: UIViewController {
     editBarBtnItem.target = self
     editBarBtnItem.action = #selector(CategoryVC.editBtnTapped(_:))
     navigationItem.rightBarButtonItem = editBarBtnItem
+    
+    cancleBtn.addTarget(self, action: #selector(CategoryVC.dismissPopUp(_:)), for: .touchUpInside)
+    saveBtn.addTarget(self, action: #selector(CategoryVC.saveBtnTapped(_:)), for: .touchUpInside)
+    popUpView.addSubview(categoryTxtField)
+    popUpView.addSubview(cancleBtn)
+    popUpView.addSubview(saveBtn)
+    view.addSubview(blockView)
+    view.addSubview(popUpView)
+    setBlockViewTap()
+    blockView.isHidden = true
+    popUpView.isHidden = true
+    
     view.setNeedsUpdateConstraints()
   }
   
@@ -56,7 +108,32 @@ class CategoryVC: UIViewController {
         make.width.height.equalTo(70)
         make.right.bottom.equalTo(self.view).offset(-20)
       })
-      
+      blockView.snp.makeConstraints({ (make) in
+        make.edges.equalTo(self.view)
+      })
+      popUpView.snp.makeConstraints({ (make) in
+        make.width.height.equalTo(250)
+        make.centerX.equalTo(self.view)
+        make.centerY.equalTo(-125)
+      })
+      categoryTxtField.snp.makeConstraints({ (make) in
+        make.top.equalTo(popUpView).offset(50)
+        make.left.equalTo(popUpView).offset(10)
+        make.right.equalTo(popUpView).offset(-10)
+        make.bottom.equalTo(popUpView).offset(-100)
+      })
+      cancleBtn.snp.makeConstraints({ (make) in
+        make.top.equalTo(categoryTxtField.snp.bottom).offset(20)
+        make.left.equalTo(popUpView).offset(10)
+        make.bottom.equalTo(popUpView).offset(-20)
+        make.right.equalTo(saveBtn.snp.left).offset(-10)
+        make.width.equalTo(saveBtn)
+      })
+      saveBtn.snp.makeConstraints({ (make) in
+        make.top.equalTo(categoryTxtField.snp.bottom).offset(20)
+        make.right.equalTo(popUpView).offset(-10)
+        make.bottom.equalTo(popUpView).offset(-20)
+      })
       didSetupConstraints = true
     }
     super.updateViewConstraints()
@@ -98,26 +175,42 @@ class CategoryVC: UIViewController {
   }
   
   @objc func addBtnTapped(_ sender: UIButton) {
-    let alert = UIAlertController(title: "카테고리 추가", message: "", preferredStyle: .alert)
-    let addAction = UIAlertAction(title: "추가", style: .default) { (action) in
-      guard let textFields = alert.textFields else { fatalError() }
-      let titleTextField = textFields[0]
-      guard let text = titleTextField.text , !text.components(separatedBy: " ").joined(separator: "").isEmpty else { return }
-      self.categoryManager.addCategory(newCategory: Category(category: text))
-      self.collectionView.reloadData()
-    }
-    let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-    alert.addTextField { (textField) in
-      textField.keyboardAppearance = .dark
-      textField.keyboardType = .default
-      textField.autocorrectionType = .default
-      textField.placeholder = "카메고리명을 입력하세요"
-      textField.clearButtonMode = .whileEditing
-    }
+    blockView.isHidden = false
+    popUpView.isHidden = false
     
-    alert.addAction(cancelAction)
-    alert.addAction(addAction)
-    present(alert, animated: true, completion: nil)
+    UIView.animate(withDuration: 1.0, animations: {
+      self.popUpView.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height / 2)
+    }, completion: nil)
+  }
+  
+  @objc func saveBtnTapped(_ sender: UIButton) {
+    guard let text = categoryTxtField.text , !text.components(separatedBy: " ").joined(separator: "").isEmpty else { return }
+    view.endEditing(true)
+    categoryManager.addCategory(newCategory: Category(category: text))
+    collectionView.reloadData()
+    categoryTxtField.text = ""
+    UIView.animate(withDuration: 1.0, animations: {
+      self.popUpView.transform = .identity
+    }) { (success) in
+      self.blockView.isHidden = true
+      self.popUpView.isHidden = true
+    }
+  }
+  
+  func setBlockViewTap() {
+    let tap = UITapGestureRecognizer(target: self, action: #selector(CategoryVC.dismissPopUp(_:)))
+    blockView.addGestureRecognizer(tap)
+  }
+  
+  @objc func dismissPopUp(_ gesture: UITapGestureRecognizer) {
+    view.endEditing(true)
+    UIView.animate(withDuration: 1.0, animations: {
+      self.popUpView.transform = .identity
+    }) { (success) in
+      self.blockView.isHidden = true
+      self.popUpView.isHidden = true
+    }
+    categoryTxtField.text = ""
   }
   
   @objc func editBtnTapped(_ sender: UIBarButtonItem) {

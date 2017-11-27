@@ -38,7 +38,7 @@ class GameView: UIView {
     self.words = word
     super.init(frame: frame)
     
-    self.backgroundColor = UIColor(hex: "398F37")
+    backgroundColor = UIColor(patternImage: UIImage(named: "blackBoard")!)
     setupView()
   }
   

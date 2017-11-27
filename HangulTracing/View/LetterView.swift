@@ -28,7 +28,7 @@ class LetterView: UIView {
     self.letter = letter
     super.init(frame: frame)
     
-    self.backgroundColor = UIColor(hex: "398F37")
+    backgroundColor = UIColor(patternImage: UIImage(named: "blackBoard")!)
     setupView()
     screenPointsSet = getScreenPointsSet()
   }
