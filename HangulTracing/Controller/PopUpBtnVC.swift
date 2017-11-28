@@ -33,7 +33,7 @@ class PopUpBtnVC: UIViewController {
     label.adjustsFontSizeToFitWidth = true
     label.minimumScaleFactor = 0.1
     label.textColor = UIColor.white
-    label.text = "단어 삭제"
+    label.text = "카테고리 삭제"
     return label
   }()
   private(set) var addCardBtn: UIButton = {
@@ -51,7 +51,7 @@ class PopUpBtnVC: UIViewController {
     label.adjustsFontSizeToFitWidth = true
     label.minimumScaleFactor = 0.1
     label.textColor = UIColor.white
-    label.text = "단어 추가"
+    label.text = "카테고리 추가"
     return label
   }()
   private(set) var gameBtn: UIButton = {
@@ -306,6 +306,7 @@ class PopUpBtnVC: UIViewController {
   }
   
   func animateBtn(completion: @escaping CompletionHandler) {
+    
     if presenting {
       UIView.animate(withDuration: 0.2, animations: {
         self.addCardBtn.transform = CGAffineTransform(translationX: 0, y: -70)
@@ -316,13 +317,17 @@ class PopUpBtnVC: UIViewController {
           self.gameBtn.transform = CGAffineTransform(translationX: 0, y: -190)
           self.gameLabel.transform = CGAffineTransform(translationX: 0, y: -190)
         }
+        
         self.presenting = false
       }, completion: { (success) in
-        self.addCardLabel.isHidden = false
-        self.deleteCardLabel.isHidden = false
         if self.parentVC is CardListVC {
           self.gameLabel.isHidden = false
+          self.addCardLabel.text = "단어 추가"
+          self.deleteCardLabel.text = "단어 삭제"
         }
+        self.addCardLabel.isHidden = false
+        self.deleteCardLabel.isHidden = false
+        
         completion(true)
       })
     } else {
