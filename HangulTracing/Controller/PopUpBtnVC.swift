@@ -9,14 +9,32 @@
 import UIKit
 typealias CompletionHandler = (_ Success: Bool) -> ()
 class PopUpBtnVC: UIViewController {
-  
+  private(set) var parentVC: UIViewController?
   private(set) var didSetupConstraints = false
-  private(set) var minusBtn: UIButton = {
+  private(set) var hideBtn: UIButton = {
+    let btn = UIButton()
+    btn.backgroundColor = UIColor.white
+    btn.layer.cornerRadius = 35
+    btn.setImage(UIImage(named: "hideBtn"), for: .normal)
+    return btn
+  }()
+  private(set) var deleteCardBtn: UIButton = {
     let btn = UIButton()
     btn.backgroundColor = UIColor(hex: "5F9EF2")
-    btn.layer.cornerRadius = 35
-    btn.setImage(UIImage(named: "minus"), for: .normal)
+    btn.layer.cornerRadius = 25
+    btn.setImage(UIImage(named: "trash"), for: .normal)
     return btn
+  }()
+  private(set) var deleteCardLabel: UILabel = {
+    let label = UILabel()
+    label.textAlignment = .center
+    label.font = label.font.withSize(50)
+    label.baselineAdjustment = .alignCenters
+    label.adjustsFontSizeToFitWidth = true
+    label.minimumScaleFactor = 0.1
+    label.textColor = UIColor.white
+    label.text = "단어 삭제"
+    return label
   }()
   private(set) var addCardBtn: UIButton = {
     let btn = UIButton()
@@ -55,23 +73,71 @@ class PopUpBtnVC: UIViewController {
     return label
   }()
   private(set) var presenting = true
-  private(set) var cardListVC: CardListVC!
+  private(set) var popUpView: UIView = {
+    let view = UIView()
+    view.layer.cornerRadius = 15
+    view.backgroundColor = UIColor(hex: "1EBBBC")
+    return view
+  }()
+  private(set) var categoryTxtField: UITextField = {
+    let txtField = UITextField()
+    txtField.backgroundColor = UIColor.white
+    txtField.keyboardAppearance = .dark
+    txtField.keyboardType = .default
+    txtField.autocorrectionType = .default
+    txtField.placeholder = "새 카테고리 입력"
+    txtField.clearButtonMode = .whileEditing
+    txtField.layer.cornerRadius = 15
+    txtField.textAlignment = .center
+    txtField.sizeToFit()
+    txtField.adjustsFontSizeToFitWidth = true
+    txtField.minimumFontSize = 10
+    txtField.textColor = UIColor(hex: "65418F")
+    return txtField
+  }()
+  private(set) var cancleBtn: UIButton = {
+    let btn = UIButton()
+    btn.layer.cornerRadius = 15
+    btn.setTitle("취소", for: .normal)
+    btn.backgroundColor = UIColor(hex: "F8CF41")
+    return btn
+  }()
+  private(set) var saveBtn: UIButton = {
+    let btn = UIButton()
+    btn.layer.cornerRadius = 15
+    btn.setTitle("저장", for: .normal)
+    btn.backgroundColor = UIColor(hex: "F35C4C")
+    return btn
+  }()
   
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = UIColor.black.withAlphaComponent(0.75)
     setBgViewTap()
     
-    minusBtn.addTarget(self, action: #selector(PopUpBtnVC.dismissPopUp(_:)), for: .touchUpInside)
+    hideBtn.addTarget(self, action: #selector(PopUpBtnVC.dismissPopUp), for: .touchUpInside)
+    deleteCardBtn.addTarget(self, action: #selector(PopUpBtnVC.deleteBtnTapped(_:)), for: .touchUpInside)
     addCardBtn.addTarget(self, action: #selector(PopUpBtnVC.addCardBtnTapped(_:)), for: .touchUpInside)
     gameBtn.addTarget(self, action: #selector(PopUpBtnVC.gameBtnTapped(_:)), for: .touchUpInside)
     view.addSubview(addCardBtn)
-    view.addSubview(gameBtn)
-    view.addSubview(minusBtn)
+    view.addSubview(deleteCardBtn)
+    view.addSubview(deleteCardLabel)
+    view.addSubview(hideBtn)
     view.addSubview(addCardLabel)
+    view.addSubview(gameBtn)
     view.addSubview(gameLabel)
+    
+    deleteCardLabel.isHidden = true
     addCardLabel.isHidden = true
     gameLabel.isHidden = true
+    
+    cancleBtn.addTarget(self, action: #selector(PopUpBtnVC.dismissPopUp), for: .touchUpInside)
+    saveBtn.addTarget(self, action: #selector(PopUpBtnVC.saveBtnTapped(_:)), for: .touchUpInside)
+    popUpView.addSubview(categoryTxtField)
+    popUpView.addSubview(cancleBtn)
+    popUpView.addSubview(saveBtn)
+    view.addSubview(popUpView)
+    popUpView.isHidden = true
     view.setNeedsUpdateConstraints()
   }
   
@@ -81,22 +147,30 @@ class PopUpBtnVC: UIViewController {
     }
   }
   
+  func setParentVC(vc: UIViewController) {
+    self.parentVC = vc
+  }
+  
   override func updateViewConstraints() {
     if !didSetupConstraints {
       
-      minusBtn.snp.makeConstraints({ (make) in
+      hideBtn.snp.makeConstraints({ (make) in
         make.width.height.equalTo(70)
         make.bottom.right.equalTo(self.view).offset(-20)
       })
       
       addCardBtn.snp.makeConstraints({ (make) in
         make.height.width.equalTo(50)
-        make.center.equalTo(minusBtn)
+        make.center.equalTo(hideBtn)
       })
       
+      deleteCardBtn.snp.makeConstraints({ (make) in
+        make.height.width.equalTo(50)
+        make.center.equalTo(hideBtn)
+      })
       gameBtn.snp.makeConstraints({ (make) in
         make.height.width.equalTo(50)
-        make.center.equalTo(minusBtn)
+        make.center.equalTo(hideBtn)
       })
       addCardLabel.snp.makeConstraints({ (make) in
         make.height.equalTo(20)
@@ -104,22 +178,48 @@ class PopUpBtnVC: UIViewController {
         make.centerY.equalTo(addCardBtn)
         make.right.equalTo(addCardBtn.snp.left).offset(-8)
       })
+      deleteCardLabel.snp.makeConstraints({ (make) in
+        make.height.equalTo(20)
+        make.width.equalTo(100)
+        make.centerY.equalTo(gameBtn)
+        make.right.equalTo(gameBtn.snp.left).offset(-8)
+      })
       gameLabel.snp.makeConstraints({ (make) in
         make.height.equalTo(20)
         make.width.equalTo(100)
         make.centerY.equalTo(gameBtn)
         make.right.equalTo(gameBtn.snp.left).offset(-8)
       })
+      
+      popUpView.snp.makeConstraints({ (make) in
+        make.width.height.equalTo(UIScreen.main.bounds.width / 2)
+        make.centerX.equalTo(self.view)
+        make.centerY.equalTo(-UIScreen.main.bounds.width * 1 / 4)
+      })
+      categoryTxtField.snp.makeConstraints({ (make) in
+        make.top.equalTo(popUpView).offset(10)
+        make.left.equalTo(popUpView).offset(10)
+        make.right.equalTo(popUpView).offset(-10)
+        make.bottom.equalTo(popUpView).offset(-100)
+      })
+      cancleBtn.snp.makeConstraints({ (make) in
+        make.top.equalTo(categoryTxtField.snp.bottom).offset(20)
+        make.left.equalTo(popUpView).offset(10)
+        make.bottom.equalTo(popUpView).offset(-20)
+        make.right.equalTo(saveBtn.snp.left).offset(-10)
+        make.width.equalTo(saveBtn)
+      })
+      saveBtn.snp.makeConstraints({ (make) in
+        make.top.equalTo(categoryTxtField.snp.bottom).offset(20)
+        make.right.equalTo(popUpView).offset(-10)
+        make.bottom.equalTo(popUpView).offset(-20)
+      })
       didSetupConstraints = true
     }
     super.updateViewConstraints()
   }
   
-  func setCardListVC(vc: CardListVC) {
-    self.cardListVC = vc
-  }
-  
-  @objc func dismissPopUp(_ gesture: UITapGestureRecognizer) {
+  @objc func dismissPopUp() {
     animateBtn { (success) in
       if success {
         self.dismiss(animated: true, completion: nil)
@@ -127,33 +227,81 @@ class PopUpBtnVC: UIViewController {
     }
   }
   
-  @objc func addCardBtnTapped(_ sender: UIButton) {
-    let inputVC = InputVC()
-    inputVC.setCardListVC(vc: cardListVC)
-    animateBtn { (success) in
-      if success {
-        self.dismiss(animated: true, completion: {
-          self.cardListVC.present(inputVC, animated: true, completion: nil)
-        })
-      }
+  @objc func saveBtnTapped(_ sender: UIButton) {
+    guard let parentVC = parentVC as? CategoryVC else { return }
+    guard let text = categoryTxtField.text , !text.components(separatedBy: " ").joined(separator: "").isEmpty else { return }
+    view.endEditing(true)
+    parentVC.categoryManager.addCategory(newCategory: Category(category: text))
+    parentVC.collectionView.reloadData()
+    categoryTxtField.text = ""
+    UIView.animate(withDuration: 1.0, animations: {
+      self.popUpView.transform = .identity
+    }) { (success) in
+      self.popUpView.isHidden = true
     }
+    dismissPopUp()
+  }
+  
+  @objc func addCardBtnTapped(_ sender: UIButton) {
+    if parentVC is CardListVC {
+      guard let parentVC = parentVC as? CardListVC else { return }
+      let inputVC = InputVC()
+      inputVC.setCardListVC(vc: parentVC)
+      animateBtn { (success) in
+        if success {
+          self.dismiss(animated: true, completion: {
+            parentVC.present(inputVC, animated: true, completion: nil)
+          })
+        }
+      }
+    } else if parentVC is CategoryVC {
+      guard let parentVC = parentVC as? CategoryVC else { return }
+      popUpView.isHidden = false
+      UIView.animate(withDuration: 1.0, animations: {
+        self.popUpView.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height / 2)
+      }, completion: nil)
+    }
+    
   }
   
   @objc func gameBtnTapped(_ sender: UIButton) {
-    guard let cardManager = cardListVC.cardManager else { return }
+    guard let parentVC = parentVC as? CardListVC else { return }
+    guard let cardManager = parentVC.cardManager else { return }
     let gameVC = GameVC()
     gameVC.setCardManager(manager: cardManager)
     animateBtn { (success) in
       if success {
         self.dismiss(animated: true, completion: {
-          self.cardListVC.present(gameVC, animated: true, completion: nil)
+          parentVC.present(gameVC, animated: true, completion: nil)
         })
       }
     }
   }
   
+  @objc func deleteBtnTapped(_ sender: UIButton) {
+    if parentVC is CategoryVC {
+      guard let parentVC = parentVC as? CategoryVC else { return }
+      if parentVC.categoryDataProvider.cellMode == .normal {
+        parentVC.categoryDataProvider.cellMode = .delete
+      } else {
+        parentVC.categoryDataProvider.cellMode = .normal
+      }
+      parentVC.collectionView.reloadData()
+    }
+    else if parentVC is CardListVC {
+      guard let parentVC = parentVC as? CardListVC else { return }
+      if parentVC.dataProvider.cellMode == .normal {
+        parentVC.dataProvider.cellMode = .delete
+      } else {
+        parentVC.dataProvider.cellMode = .normal
+      }
+      parentVC.collectionView.reloadData()
+    }
+    dismissPopUp()
+  }
+  
   func setBgViewTap() {
-    let tap = UITapGestureRecognizer(target: self, action: #selector(PopUpBtnVC.dismissPopUp(_:)))
+    let tap = UITapGestureRecognizer(target: self, action: #selector(PopUpBtnVC.dismissPopUp))
     view.addGestureRecognizer(tap)
   }
   
@@ -161,13 +309,20 @@ class PopUpBtnVC: UIViewController {
     if presenting {
       UIView.animate(withDuration: 0.2, animations: {
         self.addCardBtn.transform = CGAffineTransform(translationX: 0, y: -70)
-        self.gameBtn.transform = CGAffineTransform(translationX: 0, y: -130)
+        self.deleteCardBtn.transform = CGAffineTransform(translationX: 0, y: -130)
         self.addCardLabel.transform = CGAffineTransform(translationX: 0, y: -70)
-        self.gameLabel.transform = CGAffineTransform(translationX: 0, y: -130)
+        self.deleteCardLabel.transform = CGAffineTransform(translationX: 0, y: -130)
+        if self.parentVC is CardListVC {
+          self.gameBtn.transform = CGAffineTransform(translationX: 0, y: -190)
+          self.gameLabel.transform = CGAffineTransform(translationX: 0, y: -190)
+        }
         self.presenting = false
       }, completion: { (success) in
         self.addCardLabel.isHidden = false
-        self.gameLabel.isHidden = false
+        self.deleteCardLabel.isHidden = false
+        if self.parentVC is CardListVC {
+          self.gameLabel.isHidden = false
+        }
         completion(true)
       })
     } else {
@@ -176,10 +331,13 @@ class PopUpBtnVC: UIViewController {
         self.gameBtn.transform = CGAffineTransform.identity
         self.addCardLabel.transform = CGAffineTransform.identity
         self.gameLabel.transform = CGAffineTransform.identity
+        self.deleteCardLabel.transform = CGAffineTransform.identity
+        self.deleteCardBtn.transform = CGAffineTransform.identity
         self.presenting = true
       }, completion: { (success) in
         self.addCardLabel.isHidden = true
         self.gameLabel.isHidden = true
+        self.deleteCardLabel.isHidden = true
         completion(true)
       })
       

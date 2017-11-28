@@ -128,22 +128,16 @@ class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
   }
   
   @objc func wordLBLTapped() {
-    guard let nav = cardListVC.navigationController else { return }
     flip { (success) in
-      nav.dismiss(animated: true, completion: nil)
+      self.dismiss(animated: true, completion: nil)
     }
   }
   
   @objc func tracingBtnTapped(_ sender: UIButton) {
     cardListVC.startSpinner()
-    guard let nav = cardListVC.navigationController else { return }
-    guard let cardManager = cardManager else { return }
-    guard let index = index else { return }
     audioPlayer.playSoundEffect(name: "writing", extender: "mp3")
-    let nextVC = TracingVC()
-    nextVC.setCardInfo(manager: cardManager, index: index)
+    cardListVC.pushTracingVC(index: index!)
     dismiss(animated: true) {
-      nav.pushViewController(nextVC, animated: true)
       self.cardListVC.stopSpinner()
     }
     

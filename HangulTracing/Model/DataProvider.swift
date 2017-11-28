@@ -45,27 +45,10 @@ extension DataProvider: UICollectionViewDataSource {
 
 extension DataProvider: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    guard let cardManager = cardManager else { fatalError() }
     audioPlayer.playSoundEffect(name: "open", extender: "wav")
-    let cell = collectionView.cellForItem(at: indexPath) as! WordCardCell
-    parentVC.setSelectedCell(cell: cell)
-    let imgHeight = cell.imgView.frame.height
-    let imgWidth = cell.imgView.frame.width
-    let viewWidth = UIScreen.main.bounds.width - 100
-    let viewHeight = imgHeight * viewWidth / imgWidth
-    let centerX = UIScreen.main.bounds.width / 2
-    let centerY = UIScreen.main.bounds.height / 2
-
-    let cellVC = CellVC(viewFrame: CGRect(x: centerX - viewWidth / 2, y: centerY - viewHeight / 2, width: viewWidth, height: viewHeight))
-    cellVC.setInit(index: indexPath.item, vc: parentVC, manager: cardManager)
-    cellVC.configView(card: cardManager.cardAt(index: indexPath.item))
-    cellVC.transitioningDelegate = parentVC as! UIViewControllerTransitioningDelegate
-    
-    parentVC.present(cellVC, animated: true) {
-      cellVC.flip(completion: { (success) in
-      })
-    }
+    parentVC.presentCellVC(indexPath: indexPath)
   }
+  
 }
 
 extension DataProvider: PinterestLayoutDelegate {

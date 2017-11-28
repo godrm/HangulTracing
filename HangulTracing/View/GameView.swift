@@ -22,16 +22,12 @@ class GameView: UIView {
   private(set) var wordLabel: UILabel = {
     let label = UILabel()
     label.textAlignment = .center
-    label.font = label.font.withSize(50)
+    label.font = label.font.withSize(100)
     label.baselineAdjustment = .alignCenters
     label.adjustsFontSizeToFitWidth = true
     label.minimumScaleFactor = 0.1
-    label.textColor = UIColor(hex: "65418F")
+    label.textColor = UIColor.white
     return label
-  }()
-  private(set) var exitBtn: UIButton = {
-    let btn = UIButton()
-    return btn
   }()
   
   init(frame: CGRect, word: String) {
@@ -39,43 +35,21 @@ class GameView: UIView {
     super.init(frame: frame)
     
     backgroundColor = UIColor(patternImage: UIImage(named: "blackBoard")!)
-    setupView()
+    wordLabel.text = words
+    addSubview(wordLabel)
+    
+    wordLabel.snp.makeConstraints { (make) in
+      make.left.top.equalTo(self).offset(50)
+      make.bottom.right.equalTo(self).offset(-50)
+    }
   }
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func setupView() {
-    
-    wordLabel.text = words
-    wordLabel.textAlignment = .center
-    wordLabel.font = wordLabel.font.withSize(100)
-    wordLabel.adjustsFontSizeToFitWidth = true
-    wordLabel.baselineAdjustment = .alignCenters
-    wordLabel.minimumScaleFactor = 0.1
-    wordLabel.textColor = UIColor.white
-    addSubview(wordLabel)
-    addSubview(exitBtn)
-    exitBtn.setImage(UIImage(named: "delete"), for: .normal)
-    exitBtn.addTarget(self, action: #selector(GameView.exitBtnTapped), for: .touchUpInside)
-    
-    wordLabel.snp.makeConstraints { (make) in
-      make.left.top.equalTo(self).offset(10)
-      make.bottom.right.equalTo(self).offset(-10)
-    }
-    exitBtn.snp.makeConstraints({ (make) in
-      make.width.height.equalTo(50)
-      make.left.top.equalTo(self).offset(2)
-    })
-  }
-  
   func setWords(words: String) {
     wordLabel.text = words
-  }
-  
-  @objc func exitBtnTapped() {
-    self.exitBtnDelegate?.exitBtnTapped(sender: exitBtn)
   }
   
 }

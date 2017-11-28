@@ -9,6 +9,8 @@
 import UIKit
 
 class CardListVC: UIViewController {
+  
+  var initialTouchPoint: CGPoint = CGPoint(x: 0,y: 0)
   private(set) var didSetupConstraints = false
   private(set) var selectedCell: WordCardCell?
   private(set) var spinner: UIActivityIndicatorView!
@@ -21,15 +23,17 @@ class CardListVC: UIViewController {
     return provider
   }()
   
-  private(set) var editBarBtnItem: UIBarButtonItem = {
-    let buttonItem = UIBarButtonItem(image: UIImage(named: "trash"), style: .plain, target: self, action: #selector(CardListVC.editBtnTapped(_:)))
-    return buttonItem
-  }()
   private(set) var collectionView: UICollectionView = {
-    let view = UICollectionView(frame: UIScreen.main.bounds, collectionViewLayout: PinterestLayout())
+    let view = UICollectionView(frame: CGRect(x: 0, y: 100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 100), collectionViewLayout: PinterestLayout())
     return view
   }()
-  private(set) var addBtn = AddBtn()
+  private(set) var showBtn: UIButton = {
+    let btn = UIButton()
+    btn.backgroundColor = UIColor.white
+    btn.layer.cornerRadius = 35
+    btn.setImage(UIImage(named: "showBtn"), for: .normal)
+    return btn
+  }()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -49,19 +53,16 @@ class CardListVC: UIViewController {
     }
     
     view.addSubview(collectionView)
-    view.addSubview(addBtn)
-    addBtn.addTarget(self, action: #selector(CardListVC.addBtnTapped(_:)), for: .touchUpInside)
+    view.addSubview(showBtn)
+    showBtn.addTarget(self, action: #selector(CardListVC.showBtnTapped(_:)), for: .touchUpInside)
     view.addSubview(spinner)
     spinner.isHidden = true
-
-    editBarBtnItem.target = self
-    editBarBtnItem.action = #selector(CardListVC.editBtnTapped(_:))
-    navigationItem.rightBarButtonItem = editBarBtnItem
     
     transition.dismissCompletion = {
       self.selectedCell?.isHidden = false
     }
     
+    setPanGesture()
     view.setNeedsUpdateConstraints()
   }
   
@@ -74,15 +75,20 @@ class CardListVC: UIViewController {
     self.selectedCell = cell
   }
   
+  override var prefersStatusBarHidden: Bool {
+    return true
+  }
+  
   override func updateViewConstraints() {
     if !didSetupConstraints {
       
       collectionView.snp.makeConstraints { make in
-        make.edges.equalTo(self.view)
+        make.left.right.bottom.equalTo(self.view)
+        make.top.equalTo(self.view).offset(50)
       }
       collectionView.contentInset = UIEdgeInsets(top: 23, left: 10, bottom: 10, right: 10)
       
-      addBtn.snp.makeConstraints({ (make) in
+      showBtn.snp.makeConstraints({ (make) in
         make.width.height.equalTo(70)
         make.right.bottom.equalTo(self.view).offset(-20)
       })
@@ -95,25 +101,42 @@ class CardListVC: UIViewController {
     super.updateViewConstraints()
   }
   
-  @objc func addBtnTapped(_ sender: UIButton) {
+  func setPanGesture() {
+    
+    let pan = UIPanGestureRecognizer(target: self, action: #selector(CardListVC.swipeView(_:)))
+    pan.delegate = self
+    collectionView.addGestureRecognizer(pan)
+  }
+  
+  @objc func showBtnTapped(_ sender: UIButton) {
     
     let popUpBtnVC = PopUpBtnVC()
-    popUpBtnVC.setCardListVC(vc: self)
+    popUpBtnVC.setParentVC(vc: self)
     popUpBtnVC.modalPresentationStyle = .overFullScreen
     popUpBtnVC.modalTransitionStyle = .crossDissolve
     present(popUpBtnVC, animated: true, completion: nil)
   }
   
-  @objc func editBtnTapped(_ sender: UIBarButtonItem) {
-  
-    if dataProvider.cellMode == .normal {
-      dataProvider.cellMode = .delete
-      navigationItem.rightBarButtonItem = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(CategoryVC.editBtnTapped(_:)))
-    } else {
-      dataProvider.cellMode = .normal
-      navigationItem.rightBarButtonItem = editBarBtnItem
+  @objc func swipeView(_ recognizer: UIPanGestureRecognizer) {
+    if collectionView.contentOffset.y <= -collectionView.contentInset.top {
+      let touchPoint = recognizer.location(in: self.view?.window)
+      if recognizer.state == UIGestureRecognizerState.began {
+        initialTouchPoint = touchPoint
+      } else if recognizer.state == UIGestureRecognizerState.changed {
+        if touchPoint.y - initialTouchPoint.y > 0 {
+          
+          self.view.frame = CGRect(x: 0, y: touchPoint.y - initialTouchPoint.y, width: self.view.frame.size.width, height: self.view.frame.size.height)
+        }
+      } else if recognizer.state == UIGestureRecognizerState.ended || recognizer.state == UIGestureRecognizerState.cancelled {
+        if touchPoint.y - initialTouchPoint.y > 100 {
+          navigationController?.popViewController(animated: true)
+        } else {
+          UIView.animate(withDuration: 0.3, animations: {
+            self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
+          })
+        }
+      }
     }
-    collectionView.reloadData()
   }
   
   func startSpinner() {
@@ -129,6 +152,34 @@ class CardListVC: UIViewController {
   override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
     collectionView.collectionViewLayout.invalidateLayout()
   }
+  
+  func presentCellVC(indexPath: IndexPath) {
+    let cell = collectionView.cellForItem(at: indexPath) as! WordCardCell
+    let imgHeight = cell.imgView.frame.height
+    let imgWidth = cell.imgView.frame.width
+    let viewWidth = UIScreen.main.bounds.width * 2 / 3
+    let viewHeight = imgHeight * viewWidth / imgWidth
+    let centerX = UIScreen.main.bounds.width / 2
+    let centerY = UIScreen.main.bounds.height / 2
+    
+    let cellVC = CellVC(viewFrame: CGRect(x: centerX - viewWidth / 2, y: centerY - viewHeight / 2, width: viewWidth, height: viewHeight))
+    guard let cardManager = cardManager else { return }
+    cellVC.setInit(index: indexPath.item, vc: self, manager: cardManager)
+    cellVC.configView(card: cardManager.cardAt(index: indexPath.item))
+    cellVC.transitioningDelegate = self
+    setSelectedCell(cell: cell)
+    present(cellVC, animated: true) {
+      cellVC.flip(completion: { (success) in
+      })
+    }
+  }
+  
+  func pushTracingVC(index: Int) {
+    guard let cardManager = cardManager else { return }
+    let nextVC = TracingVC()
+    nextVC.setCardInfo(manager: cardManager, index: index)
+    self.navigationController?.pushViewController(nextVC, animated: true)
+  }
 }
 
 extension CardListVC: DeleteBtnDelegate {
@@ -142,6 +193,7 @@ extension CardListVC: DeleteBtnDelegate {
           self.collectionView.reloadData()
           let layout = PinterestLayout()
           layout.delegate = self.self.dataProvider
+          self.dataProvider.cellMode = .normal
           self.collectionView.collectionViewLayout = layout
         }
       }
@@ -150,8 +202,6 @@ extension CardListVC: DeleteBtnDelegate {
     alert.addAction(cancelAction)
     alert.addAction(deleteAction)
     present(alert, animated: true, completion: nil)
-    
-    
   }
 }
 
@@ -173,3 +223,8 @@ extension CardListVC: UIViewControllerTransitioningDelegate {
   }
 }
 
+extension CardListVC: UIGestureRecognizerDelegate {
+  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    return true
+  }
+}

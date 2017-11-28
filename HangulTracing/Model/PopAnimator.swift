@@ -10,7 +10,7 @@ import UIKit
 
 class PopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
   
-  let duration = 1.0
+  let duration = 0.5
   var presenting = true
   var originFrame = CGRect.zero
   
@@ -22,7 +22,7 @@ class PopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
   
   func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
     let containerView = transitionContext.containerView
-    
+    containerView.backgroundColor = UIColor.white
     guard let toView = transitionContext.view(forKey: .to) else { return }
     let cellView = presenting ? toView : transitionContext.view(forKey: .from)!
     
@@ -52,7 +52,7 @@ class PopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     
     UIView.animate(withDuration: duration, delay:0.0,
-                   usingSpringWithDamping: 0.4, initialSpringVelocity: 0.0,
+                   usingSpringWithDamping: 1, initialSpringVelocity: 0.0,
                    animations: {
                     cellView.transform = self.presenting ? CGAffineTransform.identity : scaleTransform
                     cellView.center = CGPoint(x: finalFrame.midX, y: finalFrame.midY)

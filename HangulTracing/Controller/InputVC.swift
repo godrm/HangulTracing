@@ -122,14 +122,14 @@ class InputVC: UIViewController {
       addBtn.snp.makeConstraints({ (make) in
         make.right.equalTo(self.view).offset(-50)
         make.bottom.equalTo(self.view).offset(-50)
-        make.top.equalTo(cardView.snp.bottom).offset(8)
+        make.top.equalTo(cardView.snp.bottom).offset(10)
         make.left.equalTo(cancelBtn.snp.right).offset(8)
         make.width.equalTo(cancelBtn)
       })
       cancelBtn.snp.makeConstraints({ (make) in
         make.left.equalTo(self.view).offset(50)
         make.bottom.equalTo(self.view).offset(-50)
-        make.top.equalTo(cardView.snp.bottom).offset(8)
+        make.top.equalTo(cardView.snp.bottom).offset(10)
       })
       spinner.snp.makeConstraints({ (make) in
         make.center.equalTo(self.view)
@@ -176,9 +176,7 @@ class InputVC: UIViewController {
     let filterdText = text.components(separatedBy: " ").joined(separator: "")
     guard let photoData = capturedPhotoData else { return }
     cardManager?.addCard(newCard: WordCard(word: filterdText, imageData: photoData, category: category.title))
-//
-//    guard let nav = presentingViewController as? UINavigationController else { return }
-//    guard let cardListVC = nav.viewControllers[1] as? CardListVC else { return }
+
     guard let cardListVC = self.cardListVC else { return }
     cardListVC.collectionView.reloadData()
     

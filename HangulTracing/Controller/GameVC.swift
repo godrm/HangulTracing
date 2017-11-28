@@ -52,6 +52,7 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
   }()
   private(set) var startView: GameView!
   private(set) var greatCount: Int!
+  private(set) var exitBtn: UIButton!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -63,6 +64,10 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
     setupView()
     setupMotionManager()
     
+    exitBtn = UIButton()
+    exitBtn.setImage(UIImage(named: "delete"), for: .normal)
+    exitBtn.addTarget(self, action: #selector(GameVC.exitBtnTapped(sender:)), for: .touchUpInside)
+    view.addSubview(exitBtn)
     view.setNeedsUpdateConstraints()
   }
   
@@ -101,7 +106,6 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
     blurEffectView.isHidden = true
     
     startView = GameView(frame: CGRect(), word: "핸드폰을 세워보세요")
-    startView.exitBtnDelegate = self
     view.addSubview(startView)
     view.addSubview(timerLabel)
   }
@@ -157,7 +161,7 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
     } else if page == cardManager.toDoCount - 1 {
       timer.invalidate()
       let scoreView = GameView(frame: CGRect(x: UIScreen.main.bounds.width * CGFloat(cardManager.toDoCount), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), word: "\(greatCount!) 점 / \(cardManager.toDoCount) 점")
-      scoreView.exitBtnDelegate = self
+      
       scrollView.addSubview(scoreView)
       audioPlayer.playSoundEffect(name: "cheering", extender: "wav")
       UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
@@ -244,6 +248,10 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
         make.height.equalTo(50)
         make.width.equalTo(100)
       })
+      exitBtn.snp.makeConstraints({ (make) in
+        make.width.height.equalTo(50)
+        make.top.left.equalTo(self.view).offset(10)
+      })
       didSetupConstraints = true
     }
     super.updateViewConstraints()
@@ -255,7 +263,6 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
     let shuffledWordsArr = wordsArr.getShuffledArr() as! [String]
     for i in 0..<cardManager.toDoCount {
       let view = GameView(frame: CGRect(x: UIScreen.main.bounds.width * CGFloat(i), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), word: shuffledWordsArr[i])
-      view.exitBtnDelegate = self
       scrollView.addSubview(view)
     }
   }
@@ -280,10 +287,10 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
       motionManager.stopDeviceMotionUpdates()
       guard let cardManager = cardManager else { return }
       let scoreView = GameView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), word: "\(greatCount!) 점 / \(cardManager.toDoCount) 점")
-      scoreView.exitBtnDelegate = self
       self.view.addSubview(scoreView)
       audioPlayer.playSoundEffect(name: "cheering", extender: "wav")
       stopMovieRecording()
+      exitBtn.superview?.bringSubview(toFront: exitBtn)
     }
   }
   
@@ -384,10 +391,8 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
       }
     }
   }
-}
-
-extension GameVC: ExitBtnDelegate {
-  func exitBtnTapped(sender: UIButton) {
+  
+  @objc func exitBtnTapped(sender: UIButton) {
     if timer != nil {
       timer.invalidate()
     }

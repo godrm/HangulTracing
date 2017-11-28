@@ -15,6 +15,7 @@ class TracingVC: UIViewController {
   private(set) var characters = [Character]()
   private(set) var characterViews = [LetterView]()
   private(set) var speechSynthesizer: AVSpeechSynthesizer!
+  private(set) var audioPlayer = SoundPlayer()
   
   private(set) var scrollView: UIScrollView = {
     let scrollView = UIScrollView()
@@ -87,6 +88,7 @@ class TracingVC: UIViewController {
       UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
         self.scrollView.contentOffset.x = self.scrollView.bounds.size.width * CGFloat(page + 1)}, completion: nil)
       synthesizeSpeech(fromString: selectedWord)
+      audioPlayer.playSoundEffect(name: "cheering", extender: "wav")
     }
     
   }
@@ -100,6 +102,6 @@ class TracingVC: UIViewController {
 
 extension TracingVC: ExitBtnDelegate {
   func exitBtnTapped(sender: UIButton) {
-    navigationController?.popViewController(animated: true)
+    dismiss(animated: true, completion: nil)
   }
 }
