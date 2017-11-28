@@ -22,9 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     window?.makeKeyAndVisible()
     
     let navigationBarAppearace = UINavigationBar.appearance()
-    navigationBarAppearace.tintColor = UIColor.black
-    navigationBarAppearace.barTintColor = UIColor.white
-    navigationBarAppearace.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black]
+    navigationBarAppearace.tintColor = UIColor.white
+    navigationBarAppearace.barTintColor = UIColor.clear
+    navigationBarAppearace.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
     return true
   }
   

@@ -178,7 +178,7 @@ class CardListVC: UIViewController {
     guard let cardManager = cardManager else { return }
     let nextVC = TracingVC()
     nextVC.setCardInfo(manager: cardManager, index: index)
-    self.navigationController?.pushViewController(nextVC, animated: true)
+    navigationController?.pushViewController(nextVC, animated: true)
   }
 }
 
@@ -208,6 +208,7 @@ extension CardListVC: DeleteBtnDelegate {
 extension CardListVC: UIViewControllerTransitioningDelegate {
   
   func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    
     guard let selectedCell = selectedCell as? WordCardCell else { fatalError() }
     transition.originFrame = selectedCell.convert(selectedCell.bounds, to: nil)
     
@@ -217,8 +218,10 @@ extension CardListVC: UIViewControllerTransitioningDelegate {
     return transition
   }
   func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    if let dismissed = dismissed as? CellVC, dismissed.isBackViewShowing {
+      return nil
+    }
     transition.presenting = false
-    
     return transition
   }
 }

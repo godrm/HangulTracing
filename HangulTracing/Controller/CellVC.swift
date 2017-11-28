@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CellVC: UIViewController, UIViewControllerTransitioningDelegate {
+class CellVC: UIViewController {
   private(set) var viewFrame: CGRect!
   private(set) var cardListVC: CardListVC!
   private(set) var didSetupConstraints = false

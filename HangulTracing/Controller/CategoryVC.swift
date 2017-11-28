@@ -152,10 +152,11 @@ extension CategoryVC: UINavigationControllerDelegate {
       return transition
     }
     //pop
-    else {
+    else if fromVC is CardListVC {
       transition.presenting = false
       return transition
     }
+    return nil
   }
   
 }

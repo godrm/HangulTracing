@@ -34,6 +34,7 @@ class TracingVC: UIViewController {
     NotificationCenter.default.addObserver(self, selector: #selector(TracingVC.goToNextLetter(_:)), name: Constants().NOTI_DRAW_COMPLETED, object: nil)
     view.addSubview(scrollView)
     
+    navigationController?.setNavigationBarHidden(false, animated: true)
     view.setNeedsUpdateConstraints()
   }
   
@@ -58,6 +59,11 @@ class TracingVC: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     getCharactersView()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    navigationController?.setNavigationBarHidden(true, animated: true)
   }
   
   func getCharactersView() {
