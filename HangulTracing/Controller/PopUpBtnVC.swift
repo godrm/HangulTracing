@@ -122,10 +122,10 @@ class PopUpBtnVC: UIViewController {
     view.addSubview(addCardBtn)
     view.addSubview(deleteCardBtn)
     view.addSubview(deleteCardLabel)
-    view.addSubview(hideBtn)
     view.addSubview(addCardLabel)
     view.addSubview(gameBtn)
     view.addSubview(gameLabel)
+    view.addSubview(hideBtn)
     
     deleteCardLabel.isHidden = true
     addCardLabel.isHidden = true

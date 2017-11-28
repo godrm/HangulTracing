@@ -10,7 +10,6 @@ import UIKit
 
 class CategoryVC: UIViewController {
   let transition = PopAnimator()
-  var statusBarShouldBeHidden = false
   private(set) var selectedCell: CategoryCell?
   private(set) var categoryManager: CategoryManager!
   private(set) var didSetupConstraints = false
@@ -29,7 +28,7 @@ class CategoryVC: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    title = "단어장"
     categoryDataProvider.setParentVC(vc: self)
     categoryManager = CategoryManager()
     categoryDataProvider.categoryManager = categoryManager
@@ -67,25 +66,8 @@ class CategoryVC: UIViewController {
     super.updateViewConstraints()
   }
   
-  override var prefersStatusBarHidden: Bool {
-    return statusBarShouldBeHidden
-  }
-  
-  override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
-    return .slide
-  }
-  
   func setSelectedCell(cell: CategoryCell) {
     self.selectedCell = cell
-  }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    
-    statusBarShouldBeHidden = false
-    UIView.animate(withDuration: 0.25) {
-      self.setNeedsStatusBarAppearanceUpdate()
-    }
   }
   
   func pushCardListVC(indexPath: IndexPath) {
@@ -94,10 +76,7 @@ class CategoryVC: UIViewController {
     cardListVC.setCategoryAndManager(category: category, manager: CardManager(categoryTitle: category.title))
     
     cardListVC.transitioningDelegate = self
-    statusBarShouldBeHidden = true
-    UIView.animate(withDuration: 0.25) {
-      self.setNeedsStatusBarAppearanceUpdate()
-    }
+    
     let cell = collectionView.cellForItem(at: indexPath) as! CategoryCell
     setSelectedCell(cell: cell)
     navigationController?.pushViewController(cardListVC, animated: true)
@@ -145,14 +124,14 @@ extension CategoryVC: UINavigationControllerDelegate {
   func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
     
     //push
-    if fromVC is CategoryVC {
+    if fromVC is CategoryVC, toVC is CardListVC {
       guard let selectedCell = selectedCell as? CategoryCell else { fatalError() }
       transition.originFrame = selectedCell.convert(selectedCell.bounds, to: nil)
       transition.presenting = true
       return transition
     }
     //pop
-    else if fromVC is CardListVC {
+    else if fromVC is CardListVC, toVC is CategoryVC {
       transition.presenting = false
       return transition
     }

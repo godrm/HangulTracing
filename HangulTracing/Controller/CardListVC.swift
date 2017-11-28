@@ -24,7 +24,7 @@ class CardListVC: UIViewController {
   }()
   
   private(set) var collectionView: UICollectionView = {
-    let view = UICollectionView(frame: CGRect(x: 0, y: 100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 100), collectionViewLayout: PinterestLayout())
+    let view = UICollectionView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), collectionViewLayout: PinterestLayout())
     return view
   }()
   private(set) var showBtn: UIButton = {
@@ -75,16 +75,11 @@ class CardListVC: UIViewController {
     self.selectedCell = cell
   }
   
-  override var prefersStatusBarHidden: Bool {
-    return true
-  }
-  
   override func updateViewConstraints() {
     if !didSetupConstraints {
       
       collectionView.snp.makeConstraints { make in
-        make.left.right.bottom.equalTo(self.view)
-        make.top.equalTo(self.view).offset(50)
+        make.edges.equalTo(self.view)
       }
       collectionView.contentInset = UIEdgeInsets(top: 23, left: 10, bottom: 10, right: 10)
       
@@ -218,9 +213,7 @@ extension CardListVC: UIViewControllerTransitioningDelegate {
     return transition
   }
   func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-    if let dismissed = dismissed as? CellVC, dismissed.isBackViewShowing {
-      return nil
-    }
+    
     transition.presenting = false
     return transition
   }

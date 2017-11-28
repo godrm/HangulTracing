@@ -136,9 +136,11 @@ class CellVC: UIViewController {
   @objc func tracingBtnTapped(_ sender: UIButton) {
     cardListVC.startSpinner()
     audioPlayer.playSoundEffect(name: "writing", extender: "mp3")
-    cardListVC.pushTracingVC(index: index!)
+    
     dismiss(animated: true) {
+      self.cardListVC.selectedCell?.isHidden = false
       self.cardListVC.stopSpinner()
+      self.cardListVC.pushTracingVC(index: self.index!)
     }
     
   }
