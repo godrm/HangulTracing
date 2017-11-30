@@ -17,7 +17,8 @@ class CardManagerTests: XCTestCase {
   override func setUp() {
     super.setUp()
     testRealm = try! Realm()
-    sut = CardManager(categoryTitle: "동물")
+    sut = CardManager.instance
+    sut.changeCategory(category: "동물")
     sut.realm = testRealm
     
     try! sut.realm.write {

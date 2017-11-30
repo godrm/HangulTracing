@@ -52,8 +52,8 @@ class CameraVC: UIViewController {
     spinner.isHidden = true
     saveBtn.isHidden = true
     saveBtn.addTarget(self, action: #selector(CameraVC.saveBtnTapped(_:)), for: .touchUpInside)
-    view.setNeedsUpdateConstraints()
     exitBtn.addTarget(self, action: #selector(CameraVC.exitBtnTapped(_:)), for: .touchUpInside)
+    view.setNeedsUpdateConstraints()
   }
   
   override func viewDidAppear(_ animated: Bool) {

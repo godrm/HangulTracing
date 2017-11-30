@@ -16,37 +16,27 @@ class InputVCTests: XCTestCase {
   override func setUp() {
     super.setUp()
     sut = InputVC()
-    sut.setCardListVC(vc: CardListVC())
+    let cardListVC = CardListVC()
+    cardListVC.cardManager.changeCategory(category: "동물")
+    sut.setCardListVC(vc: cardListVC)
     
     _ = sut.view
     
   }
   
   override func tearDown() {
-    sut.cardManager?.makeRealmEmpty()
+    sut.cardManager.makeRealmEmpty()
     super.tearDown()
   }
   
-  func test_Has_wordTextField() {
+  func test_Has_Property() {
     XCTAssertNotNil(sut.wordTextField)
-  }
-  
-  func test_Has_imageView() {
     XCTAssertNotNil(sut.imageView)
-  }
-  
-  func test_Has_cameraBtn() {
     XCTAssertNotNil(sut.cameraBtn)
-  }
-  func test_Has_libraryBtn() {
-    XCTAssertNotNil(sut.libraryBtn)
-  }
-  func test_Has_addBtn() {
     XCTAssertNotNil(sut.addBtn)
-  }
-  
-  func test_Has_cancelBtn() {
     XCTAssertNotNil(sut.cancelBtn)
+    XCTAssertNotNil(sut.cardListVC)
+    XCTAssertNotNil(sut.cardManager)
   }
   
   func test_AddBtn_HasAction() {
@@ -64,33 +54,37 @@ class InputVCTests: XCTestCase {
     let mockNav = MockNavigationController(rootViewController: categoryVC)
     UIApplication.shared.keyWindow?.rootViewController = mockNav
     _ = categoryVC.view
+    categoryVC.collectionView.reloadData()
+    categoryVC.collectionView.layoutIfNeeded()
     categoryVC.collectionView.delegate?.collectionView!(categoryVC.collectionView, didSelectItemAt: IndexPath(item: 0, section: 0))
     guard let cardListVC = mockNav.pushedVC as? CardListVC else { fatalError() }
     let mockInputVC = MockInputVC()
     mockInputVC.setCardListVC(vc: cardListVC)
+    cardListVC.present(mockInputVC, animated: true) {
+      _ = mockInputVC.view
+      mockInputVC.wordTextField.text = "개"
+      mockInputVC.capturedPhotoData = WordCards().dogImgData!
+      
+      let addBtn: UIButton = mockInputVC.addBtn
+      mockInputVC.addBtnTapped(addBtn)
+      XCTAssertTrue(mockInputVC.dismissIsCalled)
+    }
     
-    cardListVC.present(mockInputVC, animated: true, completion: nil)
-    _ = mockInputVC.view
-    mockInputVC.wordTextField.text = "개"
-    mockInputVC.capturedPhotoData = Constants().dogImgData!
+   
+  }
 
-    let addBtn: UIButton = mockInputVC.addBtn
-    mockInputVC.addBtnTapped(addBtn)
-    XCTAssertTrue(mockInputVC.dismissIsCalled)
-  }
-  
-  func test_WhenNotGivenTextAndIMG_AddBtn_NotCall_Dismiss() {
-    let cardListVC = CardListVC()
-    UIApplication.shared.keyWindow?.rootViewController = cardListVC
-    let mockInputVC = MockInputVC()
-    mockInputVC.setCardListVC(vc: cardListVC)
-    cardListVC.present(mockInputVC, animated: true, completion: nil)
-    mockInputVC.wordTextField.text = ""
-    mockInputVC.capturedPhotoData = Data()
-    let addBtn: UIButton = mockInputVC.addBtn
-    mockInputVC.addBtnTapped(addBtn)
-    XCTAssertFalse(mockInputVC.dismissIsCalled)
-  }
+//  func test_WhenNotGivenTextAndIMG_AddBtn_NotCall_Dismiss() {
+//    let cardListVC = CardListVC()
+//    UIApplication.shared.keyWindow?.rootViewController = cardListVC
+//    let mockInputVC = MockInputVC()
+//    mockInputVC.setCardListVC(vc: cardListVC)
+//    cardListVC.present(mockInputVC, animated: true, completion: nil)
+//    mockInputVC.wordTextField.text = ""
+//    mockInputVC.capturedPhotoData = Data()
+//    let addBtn: UIButton = mockInputVC.addBtn
+//    mockInputVC.addBtnTapped(addBtn)
+//    XCTAssertFalse(mockInputVC.dismissIsCalled)
+//  }
   
   func test_cameraBtn_HasAction() {
     let cameraBtn = sut.cameraBtn

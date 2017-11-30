@@ -11,8 +11,7 @@ import UIKit
 class InputVC: UIViewController {
   
   private(set) var didSetupConstraints = false
-  private(set) var category: Category?
-  private(set) var cardManager: CardManager?
+  private(set) var cardManager = CardManager.instance
   private(set) var cardListVC: CardListVC!
   private(set) var spinner: UIActivityIndicatorView!
   private(set) var wordTextField: UITextField = {
@@ -67,21 +66,10 @@ class InputVC: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    category = cardListVC.category
-    cardManager = cardListVC.cardManager
     
-    spinner = UIActivityIndicatorView()
-    view.backgroundColor = UIColor(hex: "1EBBBC")
+    setupView()
     NotificationCenter.default.addObserver(self, selector: #selector(InputVC.photoCaptured(_:)), name: Constants().NOTI_PHOTO_SELECTED, object: nil)
-    view.addSubview(cardView)
-    cardView.addSubview(wordTextField)
-    cardView.addSubview(imageView)
-    view.addSubview(libraryBtn)
-    view.addSubview(cameraBtn)
-    view.addSubview(addBtn)
-    view.addSubview(cancelBtn)
-    view.addSubview(spinner)
-    spinner.isHidden = true
+    
     view.bindToKeyboard()
     let tap = UITapGestureRecognizer(target: self, action: #selector(InputVC.closeTap))
     view.addGestureRecognizer(tap)
@@ -92,6 +80,20 @@ class InputVC: UIViewController {
     cancelBtn.addTarget(self, action: #selector(InputVC.cancelBtnTapped(_:)), for: .touchUpInside)
     view.setNeedsUpdateConstraints()
     
+  }
+  
+  func setupView() {
+    spinner = UIActivityIndicatorView()
+    view.backgroundColor = UIColor(hex: "1EBBBC")
+    view.addSubview(cardView)
+    cardView.addSubview(wordTextField)
+    cardView.addSubview(imageView)
+    view.addSubview(libraryBtn)
+    view.addSubview(cameraBtn)
+    view.addSubview(addBtn)
+    view.addSubview(cancelBtn)
+    view.addSubview(spinner)
+    spinner.isHidden = true
   }
   
   override func updateViewConstraints() {
@@ -172,10 +174,9 @@ class InputVC: UIViewController {
   
   @objc func addBtnTapped(_ sender: UIButton) {
     guard let text = wordTextField.text , !text.components(separatedBy: " ").joined(separator: "").isEmpty else { return }
-    guard let category = category else { return }
     let filterdText = text.components(separatedBy: " ").joined(separator: "")
     guard let photoData = capturedPhotoData else { return }
-    cardManager?.addCard(newCard: WordCard(word: filterdText, imageData: photoData, category: category.title))
+    cardManager.addCard(newCard: WordCard(word: filterdText, imageData: photoData, category: cardManager.title!))
 
     guard let cardListVC = self.cardListVC else { return }
     cardListVC.collectionView.reloadData()

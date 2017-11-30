@@ -9,7 +9,7 @@
 import UIKit
 typealias CompletionHandler = (_ Success: Bool) -> ()
 class PopUpBtnVC: UIViewController {
-  private(set) var parentVC: UIViewController?
+  private(set) weak var parentVC: UIViewController?
   private(set) var didSetupConstraints = false
   private(set) var hideBtn: UIButton = {
     let btn = UIButton()
@@ -255,7 +255,6 @@ class PopUpBtnVC: UIViewController {
         }
       }
     } else if parentVC is CategoryVC {
-      guard let parentVC = parentVC as? CategoryVC else { return }
       popUpView.isHidden = false
       UIView.animate(withDuration: 1.0, animations: {
         self.popUpView.transform = CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.height / 2)
@@ -266,9 +265,9 @@ class PopUpBtnVC: UIViewController {
   
   @objc func gameBtnTapped(_ sender: UIButton) {
     guard let parentVC = parentVC as? CardListVC else { return }
-    guard let cardManager = parentVC.cardManager else { return }
+    
     let gameVC = GameVC()
-    gameVC.setCardManager(manager: cardManager)
+    
     animateBtn { (success) in
       if success {
         self.dismiss(animated: true, completion: {

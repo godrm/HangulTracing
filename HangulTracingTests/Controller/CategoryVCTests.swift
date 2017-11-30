@@ -42,8 +42,8 @@ class CategoryVCTests: XCTestCase {
     XCTAssertNotNil(sut.collectionView)
   }
   
-  func test_HasAddBtn() {
-    XCTAssertNotNil(sut.addBtn)
+  func test_HasShowBtn() {
+    XCTAssertNotNil(sut.showBtn)
   }
   
   func test_CategoryManagerOfCategoryDataProvider_SameAsCategoryManager() {
@@ -70,12 +70,12 @@ class CategoryVCTests: XCTestCase {
     XCTAssertEqual(sut.collectionView.dataSource as? CategoryDataProvider, sut.collectionView.delegate as? CategoryDataProvider)
   }
   
-  func test_addBtnTapped_ShowPopUpView() {
+  func test_showBtnTapped_ShowPopUpView() {
     XCTAssertNil(sut.presentedViewController)
     
     UIApplication.shared.keyWindow?.rootViewController = sut
-    sut.addBtnTapped(sut.addBtn)
-    XCTAssertFalse(sut.popUpView.isHidden)
+    sut.showBtnTapped(sut.showBtn)
+    XCTAssertTrue(sut.presentedViewController is PopUpBtnVC)
   }
   
   func test_deleteBtnTapped_presentUIAlertController() {

@@ -23,15 +23,11 @@ class GameViewTests: XCTestCase {
     super.tearDown()
   }
   
-  func test_HasWords() {
+  func test_HasProperty() {
     XCTAssertNotNil(gameView.words)
-  }
-  func test_HasWordLabel() {
     XCTAssertNotNil(gameView.wordLabel)
   }
-  func test_Has_exitBtn() {
-    XCTAssertNotNil(gameView.exitBtn)
-  }
+  
   func test_setWords_isSetWordLblText() {
     gameView.setWords(words: "새단어")
     XCTAssertEqual("새단어", gameView.wordLabel.text)

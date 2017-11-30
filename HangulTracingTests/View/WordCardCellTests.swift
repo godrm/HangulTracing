@@ -17,7 +17,6 @@ class WordCardCellTests: XCTestCase {
   override func setUp() {
     super.setUp()
     let cardListVC = CardListVC()
-    cardListVC.setCategoryAndManager(category: Category(category: ""), manager: CardManager(categoryTitle: ""))
     
     //viewdidload
     _ = cardListVC.view
@@ -36,12 +35,8 @@ class WordCardCellTests: XCTestCase {
     super.tearDown()
   }
   
-  //imgView
-  func test_HasImgView() {
+  func test_HasProperty() {
     XCTAssertNotNil(cell.imgView)
-  }
-  
-  func test_HasDeleteBtn() {
     XCTAssertNotNil(cell.deleteBtn)
   }
   

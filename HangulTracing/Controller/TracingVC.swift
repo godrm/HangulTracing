@@ -52,10 +52,6 @@ class TracingVC: UIViewController {
     super.updateViewConstraints()
   }
   
-  func setCardInfo(manager: CardManager, index: Int) {
-    self.cardInfo = (manager, index)
-  }
-  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     getCharactersView()
@@ -64,6 +60,11 @@ class TracingVC: UIViewController {
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     navigationController?.setNavigationBarHidden(true, animated: true)
+  }
+  
+  func setCardInfo(index: Int) {
+    let manager = CardManager.instance
+    self.cardInfo = (manager, index)
   }
   
   func getCharactersView() {
@@ -89,7 +90,6 @@ class TracingVC: UIViewController {
         self.scrollView.contentOffset.x = self.scrollView.bounds.size.width * CGFloat(page + 1)}, completion: nil)
     } else if page == characterViews.count - 1 {
       let lastView = GameView(frame: CGRect(x: UIScreen.main.bounds.width * CGFloat(characterViews.count), y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), word: selectedWord)
-      lastView.exitBtnDelegate = self
       scrollView.addSubview(lastView)
       UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
         self.scrollView.contentOffset.x = self.scrollView.bounds.size.width * CGFloat(page + 1)}, completion: nil)
@@ -104,10 +104,4 @@ class TracingVC: UIViewController {
     speechSynthesizer.speak(speechUtterence)
   }
   
-}
-
-extension TracingVC: ExitBtnDelegate {
-  func exitBtnTapped(sender: UIButton) {
-    dismiss(animated: true, completion: nil)
-  }
 }

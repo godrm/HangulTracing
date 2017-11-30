@@ -17,14 +17,14 @@ class CellVCTests: XCTestCase {
     super.setUp()
     sut = CellVC(viewFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
     let cardListVC = CardListVC()
-    cardListVC.setCategoryAndManager(category: Category(category: "동물"), manager: CardManager(categoryTitle: "동물"))
-    sut.setInit(index: 0, vc: cardListVC, manager: CardManager(categoryTitle: "동물"))
+    cardListVC.cardManager.changeCategory(category: "동물")
+    sut.setParentVC(vc: cardListVC)
     
     _ = sut.view
   }
   
   override func tearDown() {
-    sut.cardManager?.makeRealmEmpty()
+    sut.cardManager.makeRealmEmpty()
     super.tearDown()
   }
   
@@ -65,24 +65,23 @@ class CellVCTests: XCTestCase {
   
   func test_WhenWordLabelTapped_flipCalled() {
     let cardListVC = CardListVC()
-    cardListVC.setCategoryAndManager(category: Category(category: "동물"), manager: CardManager(categoryTitle: "동물"))
+    cardListVC.cardManager.changeCategory(category: "동물")
     let nav = UINavigationController(rootViewController: cardListVC)
     UIApplication.shared.keyWindow?.rootViewController = nav
     let mockCellVC = MockCellVC(viewFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
-    mockCellVC.setInit(index: 0, vc: cardListVC, manager: cardListVC.cardManager!)
+    mockCellVC.setParentVC(vc: cardListVC)
     mockCellVC.wordLBLTapped()
     XCTAssertTrue(mockCellVC.flipIsCalled)
   }
   
   func test_WhenTracingBtnTapped_dismissCellVC() {
     let cardListVC = CardListVC()
-    cardListVC.setCategoryAndManager(category: Category(category: "동물"), manager: CardManager(categoryTitle: "동물"))
-    cardListVC.cardManager?.addCard(newCard: WordCard(word: "고양이", imageData: Constants().catImgData!, category: "동물"))
-    let mockNav = MockNavigationController(rootViewController: cardListVC)
-    let mockCellVC = MockCellVC(viewFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
-    mockCellVC.setInit(index: 0, vc: cardListVC, manager: CardManager(categoryTitle: "동물"))
+    cardListVC.cardManager.changeCategory(category: "동물")
+    cardListVC.cardManager.addCard(newCard: WordCard(word: "고양이", imageData: WordCards().catImgData!, category: "동물"))
     
-    mockCellVC.configView(card: CardManager(categoryTitle: "동물").cardAt(index: 0))
+    let mockCellVC = MockCellVC(viewFrame: CGRect(x: 0, y: 0, width: 100, height: 100))
+    mockCellVC.setParentVC(vc: cardListVC)
+    mockCellVC.configView(card: cardListVC.cardManager.cardAt(index: 0))
     mockCellVC.transitioningDelegate = cardListVC
     _ = cardListVC.view
     cardListVC.present(mockCellVC, animated: true, completion: nil)

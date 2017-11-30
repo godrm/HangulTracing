@@ -14,8 +14,8 @@ enum CellMode: Int {
 }
 
 class DataProvider: NSObject {
-  private(set) var parentVC: CardListVC!
-  var cardManager: CardManager?
+  private(set) weak var parentVC: CardListVC!
+  weak var cardManager: CardManager?
   var cellMode: CellMode = .normal
   var audioPlayer = SoundPlayer()
   

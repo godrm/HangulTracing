@@ -12,6 +12,7 @@ import RealmSwift
 class CategoryManager: NSObject {
   var realm: Realm!
   var categories: Results<Category>!
+  static let instance = CategoryManager()
   
   override init() {
     realm = try! Realm()
@@ -45,7 +46,7 @@ class CategoryManager: NSObject {
     }
   }
   
-  //테스트코드용
+  //TDD 초기화
   func makeRealmEmpty() {
     try! realm.write {
       realm.deleteAll()

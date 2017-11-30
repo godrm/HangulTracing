@@ -36,11 +36,8 @@ class CategoryCellTests: XCTestCase {
     super.tearDown()
   }
   
-  func test_HasTitleLabel() {
+  func test_HasProperty() {
     XCTAssertNotNil(cell.titleLabel)
-  }
-  
-  func test_HasDeleteBtn() {
     XCTAssertNotNil(cell.deleteBtn)
   }
   
@@ -69,4 +66,5 @@ extension CategoryCellTests {
       return UICollectionViewCell()
     }
   }
+  
 }

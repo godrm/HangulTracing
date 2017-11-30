@@ -18,11 +18,11 @@ class DataProviderTests: XCTestCase {
   override func setUp() {
     super.setUp()
     controller = CardListVC()
-    controller.setCategoryAndManager(category: Category(category: ""), manager: CardManager(categoryTitle: ""))
+    controller.cardManager.changeCategory(category: "")
     
     provider = DataProvider()
     provider.setParentVC(vc: controller)
-    provider.cardManager = CardManager(categoryTitle: "")
+    provider.cardManager = CardManager.instance
     
     _ = controller.view
     collectionView = controller.collectionView
@@ -38,12 +38,10 @@ class DataProviderTests: XCTestCase {
   
   //collectionview test할때 reloadData 해줘야 함
   
-  func test_HasCellMode() {
+  func test_HasProperty() {
     XCTAssertNotNil(provider.cellMode)
-  }
-  
-  func test_HasAudioPlayer() {
     XCTAssertNotNil(provider.audioPlayer)
+    XCTAssertNotNil(provider.cardManager)
   }
   
   //numberofitems

@@ -30,23 +30,25 @@ class CategoryDataProviderTests: XCTestCase {
   }
   
   override func tearDown() {
-    provider.categoryManager?.makeRealmEmpty()
+    provider.categoryManager.makeRealmEmpty()
     super.tearDown()
   }
   
-  func test_HasCellMode() {
+  func test_HasProperty() {
     XCTAssertNotNil(provider.cellMode)
+    XCTAssertNotNil(provider.audioPlayer)
+    XCTAssertNotNil(provider.categoryManager)
   }
   
   func test_numberOfItems_SameAsCategoriesCount() {
     let itemCount = collectionView.numberOfItems(inSection: 0)
-    let categoryCount = provider.categoryManager?.categories.count
+    let categoryCount = provider.categoryManager.categories.count
     XCTAssertEqual(itemCount, categoryCount)
   }
   
   func test_CellForItemAt_ReturnCategoryCell() {
     let newCategory = Category(category: "new")
-    provider.categoryManager?.addCategory(newCategory: newCategory)
+    provider.categoryManager.addCategory(newCategory: newCategory)
     
     collectionView.reloadData()
     controller.view.layoutIfNeeded()
@@ -59,7 +61,7 @@ class CategoryDataProviderTests: XCTestCase {
   func test_WhenCellForItemAt_DequeueCalled() {
     let mockCollectionView = MockCollectionView.mockCollectionView(provider)
     let newCategory = Category(category: "new")
-    provider.categoryManager?.addCategory(newCategory: newCategory)
+    provider.categoryManager.addCategory(newCategory: newCategory)
     mockCollectionView.reloadData()
     mockCollectionView.layoutIfNeeded()
     
@@ -71,7 +73,7 @@ class CategoryDataProviderTests: XCTestCase {
     let mockNavigationController = MockNavigationController(rootViewController: controller)
     
     UIApplication.shared.keyWindow?.rootViewController = mockNavigationController
-    provider.categoryManager?.addCategory(newCategory: Category(category: "동물"))
+    provider.categoryManager.addCategory(newCategory: Category(category: "동물"))
     collectionView.reloadData()
     controller.view.layoutIfNeeded()
     XCTAssertNotNil(collectionView.cellForItem(at: IndexPath(item: 0, section: 0)))
@@ -82,7 +84,7 @@ class CategoryDataProviderTests: XCTestCase {
   
   func test_sizeForItemAt() {
     let newCategory = Category(category: "new")
-    provider.categoryManager?.addCategory(newCategory: newCategory)
+    provider.categoryManager.addCategory(newCategory: newCategory)
     
     collectionView.reloadData()
     controller.view.layoutIfNeeded()

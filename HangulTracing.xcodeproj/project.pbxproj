@@ -249,8 +249,8 @@
 		487037A41FAC3D6300A966A2 /* HangulTracingTests */ = {
 			isa = PBXGroup;
 			children = (
-				48D1A20A1FAC7D4400F4B9A6 /* View */,
 				48D1A2011FAC63A900F4B9A6 /* Model */,
+				48D1A20A1FAC7D4400F4B9A6 /* View */,
 				487037B61FAC3EEA00A966A2 /* Controller */,
 				487037A71FAC3D6300A966A2 /* Info.plist */,
 			);
@@ -277,8 +277,8 @@
 			isa = PBXGroup;
 			children = (
 				484979B41FB17C41000C1E2A /* LetterView.swift */,
-				484979C81FB31711000C1E2A /* WordCardCell.swift */,
 				484979EC1FB6D7B0000C1E2A /* GameView.swift */,
+				484979C81FB31711000C1E2A /* WordCardCell.swift */,
 				484B621A1FC0295100AE065F /* CategoryCell.swift */,
 			);
 			path = View;
@@ -288,12 +288,12 @@
 			isa = PBXGroup;
 			children = (
 				48D1A1FF1FAC5F3200F4B9A6 /* CardManager.swift */,
+				484B621C1FC1816600AE065F /* CategoryManager.swift */,
 				484979CC1FB31DE3000C1E2A /* DataProvider.swift */,
+				484B62181FC0224400AE065F /* CategoryDataProvider.swift */,
 				48D1A2041FAC66B900F4B9A6 /* WordCard.swift */,
 				48AD6F6F1FC561770054FBD5 /* Category.swift */,
 				484B62111FBEDD9700AE065F /* PopAnimator.swift */,
-				484B62181FC0224400AE065F /* CategoryDataProvider.swift */,
-				484B621C1FC1816600AE065F /* CategoryManager.swift */,
 				48AD6F631FC522DB0054FBD5 /* SoundPlayer.swift */,
 			);
 			path = Model;
@@ -336,10 +336,10 @@
 			isa = PBXGroup;
 			children = (
 				48D1A2021FAC63BE00F4B9A6 /* CardManagerTests.swift */,
-				48D1A2061FAC673B00F4B9A6 /* WordCardTests.swift */,
+				48AD6F691FC5347E0054FBD5 /* CategoryManagerTests.swift */,
 				484979D81FB45610000C1E2A /* DataProviderTests.swift */,
 				48AD6F671FC534610054FBD5 /* CategoryDataProviderTests.swift */,
-				48AD6F691FC5347E0054FBD5 /* CategoryManagerTests.swift */,
+				48D1A2061FAC673B00F4B9A6 /* WordCardTests.swift */,
 				48770E3A1FC6B3B70057159A /* CategoryTests.swift */,
 			);
 			path = Model;
@@ -349,8 +349,8 @@
 			isa = PBXGroup;
 			children = (
 				484979B61FB17C4F000C1E2A /* LetterViewTests.swift */,
-				484979D61FB455B1000C1E2A /* WordCardCellTests.swift */,
 				484979F71FBADE7C000C1E2A /* GameViewTests.swift */,
+				484979D61FB455B1000C1E2A /* WordCardCellTests.swift */,
 				48AD6F651FC534320054FBD5 /* CategoryCellTests.swift */,
 			);
 			path = View;

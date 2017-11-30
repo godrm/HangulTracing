@@ -40,7 +40,7 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
   private(set) var speechSynthesizer: AVSpeechSynthesizer!
   private(set) var blurEffectView: UIVisualEffectView!
   private(set) var motionManager: CMMotionManager!
-  private(set) var cardManager: CardManager?
+  private(set) var cardManager = CardManager.instance
   private(set) var scrollView: UIScrollView = {
     let scrollView = UIScrollView()
     scrollView.showsHorizontalScrollIndicator = false
@@ -153,7 +153,7 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
   }
   
   func goToNextWords() {
-    guard let cardManager = cardManager else { return }
+    
     let page = Int(scrollView.contentOffset.x / scrollView.bounds.size.width)
     if page < cardManager.toDoCount - 1 {
       UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.curveLinear, animations: {
@@ -229,8 +229,6 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
   override func updateViewConstraints() {
     if !didSetupConstraints {
       
-      guard let cardManager = cardManager else { return }
-      
       scrollView.snp.makeConstraints({ (make) in
         make.edges.equalTo(self.view)
       })
@@ -258,7 +256,6 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
   }
   
   func inputCardToScrollView() {
-    guard let cardManager = cardManager else { return }
     let wordsArr: [String] = cardManager.toDoCards.map({ $0.word })
     let shuffledWordsArr = wordsArr.getShuffledArr() as! [String]
     for i in 0..<cardManager.toDoCount {
@@ -285,7 +282,7 @@ class GameVC: UIViewController, orientationIsOnlyLandScapeRight {
     if seconds == 0 {
       timer.invalidate()
       motionManager.stopDeviceMotionUpdates()
-      guard let cardManager = cardManager else { return }
+      
       let scoreView = GameView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height), word: "\(greatCount!) 점 / \(cardManager.toDoCount) 점")
       self.view.addSubview(scoreView)
       audioPlayer.playSoundEffect(name: "cheering", extender: "wav")

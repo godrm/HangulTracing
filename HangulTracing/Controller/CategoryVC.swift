@@ -10,8 +10,8 @@ import UIKit
 
 class CategoryVC: UIViewController {
   let transition = PopAnimator()
-  private(set) var selectedCell: CategoryCell?
-  private(set) var categoryManager: CategoryManager!
+  private(set) weak var selectedCell: CategoryCell?
+  private(set) var categoryManager = CategoryManager.instance
   private(set) var didSetupConstraints = false
   private(set) var categoryDataProvider: CategoryDataProvider = {
     let provider = CategoryDataProvider()
@@ -30,7 +30,6 @@ class CategoryVC: UIViewController {
     super.viewDidLoad()
     title = "단어장"
     categoryDataProvider.setParentVC(vc: self)
-    categoryManager = CategoryManager()
     categoryDataProvider.categoryManager = categoryManager
     
     WordCards().setupDefaultCards()
@@ -72,9 +71,9 @@ class CategoryVC: UIViewController {
   
   func pushCardListVC(indexPath: IndexPath) {
     let category = categoryManager.categories[indexPath.item]
+    let manager = CardManager.instance
+    manager.changeCategory(category: category.title)
     let cardListVC = CardListVC()
-    cardListVC.setCategoryAndManager(category: category, manager: CardManager(categoryTitle: category.title))
-    
     cardListVC.transitioningDelegate = self
     
     let cell = collectionView.cellForItem(at: indexPath) as! CategoryCell
@@ -95,13 +94,16 @@ extension CategoryVC: DeleteBtnDelegate {
       if let cell = sender.parentCell as? CategoryCell {
         if cell.superview == self.collectionView {
           guard let indexPath = self.collectionView.indexPath(for: cell) else { return }
-          self.categoryDataProvider.categoryManager?.removeCategoryAt(index: indexPath.item)
+          self.categoryDataProvider.categoryManager.removeCategoryAt(index: indexPath.item)
           self.categoryDataProvider.cellMode = .normal
           self.collectionView.reloadData()
         }
       }
     }
-    let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+    let cancelAction = UIAlertAction(title: "취소", style: .cancel) { (action) in
+      self.categoryDataProvider.cellMode = .normal
+      self.collectionView.reloadData()
+    }
     alert.addAction(cancelAction)
     alert.addAction(deleteAction)
     present(alert, animated: true, completion: nil)
@@ -125,7 +127,7 @@ extension CategoryVC: UINavigationControllerDelegate {
     
     //push
     if fromVC is CategoryVC, toVC is CardListVC {
-      guard let selectedCell = selectedCell as? CategoryCell else { fatalError() }
+      guard let selectedCell = selectedCell else { fatalError() }
       transition.originFrame = selectedCell.convert(selectedCell.bounds, to: nil)
       transition.presenting = true
       return transition

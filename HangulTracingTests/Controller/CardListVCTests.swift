@@ -16,7 +16,8 @@ class CardListVCTests: XCTestCase {
   override func setUp() {
     super.setUp()
     sut = CardListVC()
-    sut.setCategoryAndManager(category: Category(category: "동물"), manager: CardManager(categoryTitle: "동물"))
+    sut.cardManager.changeCategory(category: "동물")
+    sut.cardManager.addCard(newCard: WordCard(word: "고양이", imageData: WordCards().catImgData!, category: "동물"))
     
     _ = sut.view
     sut.collectionView.reloadData()
@@ -36,16 +37,12 @@ class CardListVCTests: XCTestCase {
     XCTAssertNotNil(sut.collectionView)
   }
   
-  func test_HasAddBtn() {
-    XCTAssertNotNil(sut.addBtn)
+  func test_HasShowBtn() {
+    XCTAssertNotNil(sut.showBtn)
   }
   
   func test_HasDataProvider() {
     XCTAssertNotNil(sut.dataProvider)
-  }
-  
-  func test_HasEditBarBtnItem() {
-    XCTAssertNotNil(sut.editBarBtnItem)
   }
   
   //collectionView
@@ -67,20 +64,14 @@ class CardListVCTests: XCTestCase {
     XCTAssertEqual(sut.collectionView.dataSource as? DataProvider, sut.collectionView.delegate as? DataProvider)
   }
   
-  //UIBarButton
-  func test_Controller_HasRightBarBtnWithSelfAsTarget() {
-    let target = sut.navigationItem.rightBarButtonItem?.target
-    XCTAssertEqual(target as? CardListVC, sut)
-  }
-  
-  //addBtn
-  func test_WhenAddBtnTapped_PresentInputVC() {
+  //ShowBtn
+  func test_WhenShowBtnTapped_PresentPopupVC() {
     XCTAssertNil(sut.presentedViewController)
 
     //버튼 띄우기
     UIApplication.shared.keyWindow?.rootViewController = sut
 
-    sut.addBtnTapped(sut.addBtn)
+    sut.showBtnTapped(sut.showBtn)
     XCTAssertTrue(sut.presentedViewController is PopUpBtnVC)
   }
   
@@ -92,7 +83,7 @@ class CardListVCTests: XCTestCase {
   func test_deleteBtnTapped_presentUIAlertController() {
     UIApplication.shared.keyWindow?.rootViewController = sut
     XCTAssertNil(sut.presentedViewController)
-    sut.cardManager?.addCard(newCard: WordCard(word: "고양이", imageData: Constants().catImgData!, category: "동물"))
+    sut.cardManager.addCard(newCard: WordCard(word: "고양이", imageData: WordCards().catImgData!, category: "동물"))
     sut.collectionView.reloadData()
     sut.collectionView.layoutIfNeeded()
     guard let wordCardCell = sut.collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as? WordCardCell else { fatalError() }

@@ -10,10 +10,9 @@ import UIKit
 
 class CellVC: UIViewController {
   private(set) var viewFrame: CGRect!
-  private(set) var cardListVC: CardListVC!
+  private(set) weak var cardListVC: CardListVC?
   private(set) var didSetupConstraints = false
-  private(set) var cardManager: CardManager?
-  private(set) var index: Int?
+  private(set) var cardManager = CardManager.instance
   private(set) var imgView: UIImageView = {
     let imgView = UIImageView()
     imgView.contentMode = .scaleAspectFill
@@ -73,10 +72,8 @@ class CellVC: UIViewController {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func setInit(index: Int, vc: CardListVC, manager: CardManager) {
-    self.index = index
+  func setParentVC(vc: CardListVC) {
     self.cardListVC = vc
-    self.cardManager = manager
   }
   
   override func updateViewConstraints() {
@@ -134,13 +131,14 @@ class CellVC: UIViewController {
   }
   
   @objc func tracingBtnTapped(_ sender: UIButton) {
+    guard let cardListVC = cardListVC else { return }
     cardListVC.startSpinner()
     audioPlayer.playSoundEffect(name: "writing", extender: "mp3")
     
     dismiss(animated: true) {
-      self.cardListVC.selectedCell?.isHidden = false
-      self.cardListVC.stopSpinner()
-      self.cardListVC.pushTracingVC(index: self.index!)
+      cardListVC.selectedCell?.isHidden = false
+      cardListVC.stopSpinner()
+      cardListVC.pushTracingVC()
     }
     
   }

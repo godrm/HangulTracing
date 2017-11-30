@@ -11,16 +11,21 @@ import RealmSwift
 
 class CardManager: NSObject {
   
-  var realm: Realm!
+  static let instance = CardManager()
+  
+  var realm = try! Realm()
   var toDoCards: Results<WordCard>!
   var toDoCount: Int { return toDoCards.count }
-  var categoryTitle: String!
+  var title: String?
   
-  convenience init(categoryTitle: String) {
-    self.init()
-    self.categoryTitle = categoryTitle
-    realm = try! Realm()
-    toDoCards = realm.objects(WordCard.self).filter("category = %@", categoryTitle)
+  override init() {
+    super.init()
+    toDoCards = realm.objects(WordCard.self)
+  }
+  
+  func changeCategory(category: String) {
+    toDoCards = realm.objects(WordCard.self).filter("category = %@", category)
+    self.title = category
   }
   
   func addCard(newCard: WordCard) {
@@ -48,7 +53,7 @@ class CardManager: NSObject {
     }
   }
   
-  //테스트코드용
+  //TDD 초기화
   func makeRealmEmpty() {
     try! realm.write {
       realm.deleteAll()

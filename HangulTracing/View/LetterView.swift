@@ -28,8 +28,8 @@ class LetterView: UIView {
     self.letter = letter
     super.init(frame: frame)
     
-    backgroundColor = UIColor(patternImage: UIImage(named: "blackBoard")!)
     setupView()
+    speakerBtn.addTarget(self, action: #selector(LetterView.speakerTapped(_:)), for: .touchUpInside)
     screenPointsSet = getScreenPointsSet()
   }
   
@@ -41,7 +41,7 @@ class LetterView: UIView {
     path = UIBezierPath(rect: rect)
     path.lineWidth = 10
     
-    let font = UIFont(name: "NanumBarunpen", size: UIScreen.main.bounds.width)!
+    let font = UIFont(name: "NanumBarunpen", size: UIScreen.main.bounds.width * 4 / 5)!
     var unichars = [UniChar](letter.utf16)
     var glyphs = [CGGlyph](repeating: 0, count: unichars.count)
     
@@ -51,7 +51,7 @@ class LetterView: UIView {
       let cgpath = CTFontCreatePathForGlyph(font, glyphs[0], nil)!
       path.cgPath = cgpath
       path.apply(CGAffineTransform(scaleX: 1, y: -1))
-      path.apply(CGAffineTransform(translationX: UIScreen.main.bounds.width / 7, y: UIScreen.main.bounds.height * 3 / 5))
+      path.apply(CGAffineTransform(translationX: (UIScreen.main.bounds.width - UIScreen.main.bounds.width * 4 / 5), y: UIScreen.main.bounds.height * 1 / 2))
       
       UIColor.white.setStroke()
       path.stroke()
@@ -62,13 +62,14 @@ class LetterView: UIView {
   }
   
   func setupView() {
+    backgroundColor = UIColor(patternImage: UIImage(named: "blackBoard")!)
     addSubview(speakerBtn)
     speakerBtn.snp.makeConstraints { (make) in
       make.width.height.equalTo(50)
       make.top.equalTo(self).offset(10)
       make.right.equalTo(self).offset(-10)
     }
-    speakerBtn.addTarget(self, action: #selector(LetterView.speakerTapped(_:)), for: .touchUpInside)
+    
   }
   
   func getScreenPointsSet() -> Set<CGPoint> {
@@ -105,13 +106,13 @@ class LetterView: UIView {
     path.addArc(withCenter: center, radius: r, startAngle: 0, endAngle: 2 * .pi, clockwise: true)
     let shapeLayer = CAShapeLayer()
     shapeLayer.path = path.cgPath
-    shapeLayer.fillColor = UIColor(patternImage: UIImage(named: "chalk")!).cgColor
-    shapeLayer.opacity = 0.75
+    shapeLayer.fillColor = UIColor.white.withAlphaComponent(0.8).cgColor
     
     shapeLayer.lineWidth = UIScreen.main.bounds.width / 100
-    self.layer.addSublayer(shapeLayer)
-    
     unionPath.append(path)
+    DispatchQueue.main.async {
+      self.layer.addSublayer(shapeLayer)
+    }
   }
   
   @objc func speakerTapped(_ sender: UIButton) {
@@ -127,6 +128,7 @@ class LetterView: UIView {
     if let touch = touches.first {
       let currentPoint = touch.location(in: self)
       if path.contains(currentPoint) {
+        
         addLine(currentPoint)
       }
     }
@@ -134,8 +136,9 @@ class LetterView: UIView {
   
   override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
     audioPlayer.playSoundEffect(name: "chalk", extender: "mp3")
+    
     drawSet = getContainingPoints(tempSet: letterSet, path: unionPath)
-    if drawSet.count * 100 / letterSet.count >= 95 {
+    if drawSet.count * 100 / letterSet.count >= 90 {
       NotificationCenter.default.post(name: Constants().NOTI_DRAW_COMPLETED, object: nil)
     }
   }

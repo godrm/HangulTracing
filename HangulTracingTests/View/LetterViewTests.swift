@@ -25,15 +25,17 @@ class LetterViewTests: XCTestCase {
     super.tearDown()
   }
   
-  func test_HasScreenPointsSet() {
+  func test_HasProperty() {
+    
+    XCTAssertNotNil(letterView.audioPlayer)
+    XCTAssertNotNil(letterView.letter)
     XCTAssertNotNil(letterView.screenPointsSet)
-  }
-  
-  func test_HasSpeakerBtn() {
+    XCTAssertNotNil(letterView.unionPath)
     XCTAssertNotNil(letterView.speakerBtn)
+    XCTAssertNotNil(letterView.speechSynthesizer)
   }
   
-  func test_SpeakBtn_HasAction() {
+  func test_SpeakerBtn_HasAction() {
     let speakerBtn = letterView.speakerBtn
     guard let actions = speakerBtn.actions(forTarget: letterView, forControlEvent: .touchUpInside) else { XCTFail(); return }
     XCTAssertTrue(actions.contains("speakerTapped:"))

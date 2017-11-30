@@ -10,12 +10,12 @@ import UIKit
 
 class CardListVC: UIViewController {
   
-  var initialTouchPoint: CGPoint = CGPoint(x: 0,y: 0)
+  private(set) var initialTouchPoint: CGPoint = CGPoint(x: 0,y: 0)
   private(set) var didSetupConstraints = false
+  private(set) var selectedIndexPath: IndexPath?
   private(set) var selectedCell: WordCardCell?
   private(set) var spinner: UIActivityIndicatorView!
-  private(set) var category: Category?
-  private(set) var cardManager: CardManager?
+  private(set) var cardManager = CardManager.instance
   private let transition = PopAnimator()
   private(set) var cellMode: CellMode = .normal
   private(set) var dataProvider: DataProvider = {
@@ -37,9 +37,9 @@ class CardListVC: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
     dataProvider.setParentVC(vc: self)
-    guard let category = category else { return }
-    title = category.title
+    title = cardManager.title
     dataProvider.cardManager = cardManager
     view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     spinner = UIActivityIndicatorView()
@@ -64,15 +64,6 @@ class CardListVC: UIViewController {
     
     setPanGesture()
     view.setNeedsUpdateConstraints()
-  }
-  
-  func setCategoryAndManager(category: Category, manager: CardManager) {
-    self.category = category
-    self.cardManager = manager
-  }
-  
-  func setSelectedCell(cell: WordCardCell) {
-    self.selectedCell = cell
   }
   
   override func updateViewConstraints() {
@@ -158,22 +149,23 @@ class CardListVC: UIViewController {
     let centerY = UIScreen.main.bounds.height / 2
     
     let cellVC = CellVC(viewFrame: CGRect(x: centerX - viewWidth / 2, y: centerY - viewHeight / 2, width: viewWidth, height: viewHeight))
-    guard let cardManager = cardManager else { return }
-    cellVC.setInit(index: indexPath.item, vc: self, manager: cardManager)
+    
+    cellVC.setParentVC(vc: self)
     cellVC.configView(card: cardManager.cardAt(index: indexPath.item))
     cellVC.transitioningDelegate = self
-    setSelectedCell(cell: cell)
+    self.selectedIndexPath = indexPath
+    self.selectedCell = collectionView.cellForItem(at: indexPath) as? WordCardCell
     present(cellVC, animated: true) {
       cellVC.flip(completion: { (success) in
       })
     }
   }
   
-  func pushTracingVC(index: Int) {
-    guard let cardManager = cardManager else { return }
-    let nextVC = TracingVC()
-    nextVC.setCardInfo(manager: cardManager, index: index)
-    navigationController?.pushViewController(nextVC, animated: true)
+  func pushTracingVC() {
+    guard let selectedIndexPath = selectedIndexPath else { return }
+    let tracingVC = TracingVC()
+    tracingVC.setCardInfo(index: selectedIndexPath.item)
+    navigationController?.pushViewController(tracingVC, animated: true)
   }
 }
 
@@ -185,15 +177,18 @@ extension CardListVC: DeleteBtnDelegate {
         if cell.superview == self.collectionView {
           guard let indexPath = self.collectionView.indexPath(for: cell) else { return }
           self.dataProvider.cardManager?.removeCardAt(index: indexPath.item)
+          self.dataProvider.cellMode = .normal
           self.collectionView.reloadData()
           let layout = PinterestLayout()
           layout.delegate = self.self.dataProvider
-          self.dataProvider.cellMode = .normal
           self.collectionView.collectionViewLayout = layout
         }
       }
     }
-    let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+    let cancelAction = UIAlertAction(title: "취소", style: .cancel) { (action) in
+      self.dataProvider.cellMode = .normal
+      self.collectionView.reloadData()
+    }
     alert.addAction(cancelAction)
     alert.addAction(deleteAction)
     present(alert, animated: true, completion: nil)
@@ -202,9 +197,10 @@ extension CardListVC: DeleteBtnDelegate {
 
 extension CardListVC: UIViewControllerTransitioningDelegate {
   
+  //custom present
   func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
     
-    guard let selectedCell = selectedCell as? WordCardCell else { fatalError() }
+    guard let selectedCell = selectedCell else { fatalError() }
     transition.originFrame = selectedCell.convert(selectedCell.bounds, to: nil)
     
     transition.presenting = true
@@ -212,6 +208,8 @@ extension CardListVC: UIViewControllerTransitioningDelegate {
     
     return transition
   }
+  
+  //custom dismiss
   func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
     
     transition.presenting = false
@@ -219,6 +217,7 @@ extension CardListVC: UIViewControllerTransitioningDelegate {
   }
 }
 
+//scroll과 pangesture 가 동시에 인식되도록
 extension CardListVC: UIGestureRecognizerDelegate {
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
     return true

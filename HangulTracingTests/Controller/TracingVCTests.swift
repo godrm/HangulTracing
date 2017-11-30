@@ -16,10 +16,11 @@ class TracingVCTests: XCTestCase {
   override func setUp() {
     super.setUp()
     sut = TracingVC()
-    let cardManager = CardManager(categoryTitle: "동물")
-    let catCard = WordCard(word: "고양이", imageData: Constants().catImgData!, category: "동물")
+    let cardManager = CardManager.instance
+    cardManager.changeCategory(category: "동물")
+    let catCard = WordCard(word: "고양이", imageData: WordCards().catImgData!, category: "동물")
     cardManager.addCard(newCard: catCard)
-    sut.setCardInfo(manager: cardManager, index: 0)
+    sut.setCardInfo(index: 0)
     
     _ = sut.view
   }
@@ -43,22 +44,24 @@ class TracingVCTests: XCTestCase {
   func test_WhenViewWillAppear_Call_getCharactersView() {
     let mockTracingVC = MockTracingVC()
     let category = Category(category: "동물")
-    let cardManager = CardManager(categoryTitle: category.title)
-    
-    mockTracingVC.setCardInfo(manager: cardManager, index: 0)
+    let cardManager = CardManager.instance
+    cardManager.changeCategory(category: category.title)
+    mockTracingVC.setCardInfo(index: 0)
     UIApplication.shared.keyWindow?.rootViewController = mockTracingVC
     mockTracingVC.beginAppearanceTransition(true, animated: true)
     mockTracingVC.endAppearanceTransition()
+    
     XCTAssertTrue(mockTracingVC.getCharactersViewIsCalled)
   }
   
-  func test_WhenExitBtnTapped_popViewController() {
+  func test_WhenViewWillDisappear_Call_SetNavigationBarHidden() {
     let mockNav = MockNavigationController(rootViewController: sut)
-    UIApplication.shared.keyWindow?.rootViewController = mockNav
-    let btn = GameView(frame: CGRect(), word: "고양이").exitBtn
-    sut.exitBtnTapped(sender: btn)
-    XCTAssertTrue(mockNav.popIsCalled)
+    sut.dismiss(animated: true) {
+      XCTAssertTrue(mockNav.setNavigatinoBarHiddenIsCalled)
+    }
+    
   }
+  
 }
 
 extension TracingVCTests {
@@ -75,10 +78,16 @@ extension TracingVCTests {
   
   class MockNavigationController: UINavigationController {
     var popIsCalled = false
+    var setNavigatinoBarHiddenIsCalled = false
     
     override func popViewController(animated: Bool) -> UIViewController? {
       popIsCalled = true
       return super.popViewController(animated: animated)
+    }
+    
+    override func setNavigationBarHidden(_ hidden: Bool, animated: Bool) {
+      setNavigatinoBarHiddenIsCalled = true
+      super.setNavigationBarHidden(hidden, animated: animated)
     }
   }
 }

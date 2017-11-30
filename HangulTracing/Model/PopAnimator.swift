@@ -51,7 +51,7 @@ class PopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     containerView.bringSubview(toFront: cellView)
     
     
-    UIView.animate(withDuration: duration, delay:0.0,
+    UIView.animate(withDuration: duration, delay: 0.0,
                    usingSpringWithDamping: 1, initialSpringVelocity: 0.0,
                    animations: {
                     cellView.transform = self.presenting ? CGAffineTransform.identity : scaleTransform

@@ -41,8 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 protocol orientationIsOnlyLandScapeRight {}
 class UIHelper {
   
-  class func topViewController() -> UIViewController?
-  {
+  class func topViewController() -> UIViewController? {
     let helper = UIHelper()
     return helper.topViewControllerWithRootViewController(rootViewController: UIApplication.shared.keyWindow?.rootViewController)
   }
@@ -51,26 +50,19 @@ class UIHelper {
   {
     if(rootViewController != nil)
     {
-      // UITabBarController
-      if let tabBarController = rootViewController as? UITabBarController,
-        let selectedViewController = tabBarController.selectedViewController {
-        return self.topViewControllerWithRootViewController(rootViewController: selectedViewController)
-      }
-      
       // UINavigationController
-      if let navigationController = rootViewController as? UINavigationController ,let visibleViewController = navigationController.visibleViewController {
+      if let navigationController = rootViewController as? UINavigationController,
+        let visibleViewController = navigationController.visibleViewController {
         return self.topViewControllerWithRootViewController(rootViewController: visibleViewController)
       }
       
-      if ((rootViewController!.presentedViewController) != nil) {
-        let presentedViewController = rootViewController!.presentedViewController;
-        return self.topViewControllerWithRootViewController(rootViewController: presentedViewController!);
-      }else
-      {
+      if rootViewController!.presentedViewController != nil {
+        let presentedViewController = rootViewController!.presentedViewController
+        return self.topViewControllerWithRootViewController(rootViewController: presentedViewController!)
+      } else {
         return rootViewController
       }
     }
-    
     return nil
   }
   

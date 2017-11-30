@@ -9,8 +9,8 @@
 import UIKit
 
 class CategoryDataProvider: NSObject {
-  private(set) var parentVC: CategoryVC!
-  var categoryManager: CategoryManager?
+  private(set) weak var parentVC: CategoryVC!
+  var categoryManager = CategoryManager.instance
   var cellMode: CellMode = .normal
   let itemsPerRow: CGFloat = 2
   let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
@@ -24,12 +24,10 @@ class CategoryDataProvider: NSObject {
 extension CategoryDataProvider: UICollectionViewDataSource {
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    guard let categoryManager = categoryManager else { fatalError() }
     return categoryManager.categories.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    guard let categoryManager = categoryManager else { fatalError() }
     let category = categoryManager.categories[indexPath.item]
     if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as? CategoryCell {
       cell.configCell(category: category, cellMode: cellMode)

@@ -8,16 +8,8 @@
 
 import UIKit
 
-protocol ExitBtnDelegate: class {
-  func exitBtnTapped(sender: UIButton)
-}
-
-extension ExitBtnDelegate {
-  func exitBtnTapped(sender: UIButton) {}
-}
-
 class GameView: UIView {
-  weak var exitBtnDelegate: ExitBtnDelegate?
+  
   private(set) var words: String
   private(set) var wordLabel: UILabel = {
     let label = UILabel()
