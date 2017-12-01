@@ -26,23 +26,11 @@ class CategoryVCTests: XCTestCase {
     super.tearDown()
   }
   
-  func test_HasCategoryProvider() {
+  func test_HasProperty() {
     XCTAssertNotNil(sut.categoryDataProvider)
-  }
-  
-  func test_HasCategoryManager() {
     XCTAssertNotNil(sut.categoryManager)
-  }
-  
-  func test_HasCategoryDataProvider() {
     XCTAssertNotNil(sut.categoryDataProvider)
-  }
-  
-  func test_HasCollectionView() {
     XCTAssertNotNil(sut.collectionView)
-  }
-  
-  func test_HasShowBtn() {
     XCTAssertNotNil(sut.showBtn)
   }
   

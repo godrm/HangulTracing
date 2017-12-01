@@ -47,6 +47,7 @@
 		4870379B1FAC3D6200A966A2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 487037991FAC3D6200A966A2 /* LaunchScreen.storyboard */; };
 		48770E3B1FC6B3B70057159A /* CategoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48770E3A1FC6B3B70057159A /* CategoryTests.swift */; };
 		488E6A681FCC06F90065F527 /* chalk.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 488E6A671FCC06F90065F527 /* chalk.mp3 */; };
+		4890BB5D1FD1819B002B1921 /* PopUpBtnVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4890BB5C1FD1819B002B1921 /* PopUpBtnVCTests.swift */; };
 		48A8273D1FCD118300A2DA87 /* WordCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A8273C1FCD118300A2DA87 /* WordCards.swift */; };
 		48AD6F3F1FC3C06D0054FBD5 /* UICollectionViewCellExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48AD6F3E1FC3C06D0054FBD5 /* UICollectionViewCellExt.swift */; };
 		48AD6F401FC40C1E0054FBD5 /* UIImageExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484B620B1FBD7BDC00AE065F /* UIImageExt.swift */; };
@@ -123,6 +124,7 @@
 		487037A71FAC3D6300A966A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		48770E3A1FC6B3B70057159A /* CategoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTests.swift; sourceTree = "<group>"; };
 		488E6A671FCC06F90065F527 /* chalk.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = chalk.mp3; sourceTree = "<group>"; };
+		4890BB5C1FD1819B002B1921 /* PopUpBtnVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpBtnVCTests.swift; sourceTree = "<group>"; };
 		48A8273C1FCD118300A2DA87 /* WordCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordCards.swift; sourceTree = "<group>"; };
 		48AD6F3E1FC3C06D0054FBD5 /* UICollectionViewCellExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewCellExt.swift; sourceTree = "<group>"; };
 		48AD6F431FC516000054FBD5 /* cheering.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = cheering.wav; sourceTree = "<group>"; };
@@ -307,6 +309,7 @@
 				484979DE1FB56ABC000C1E2A /* InputVCTests.swift */,
 				48AD6F6B1FC534C70054FBD5 /* CellVCTests.swift */,
 				48AD6F6D1FC534D40054FBD5 /* CategoryVCTests.swift */,
+				4890BB5C1FD1819B002B1921 /* PopUpBtnVCTests.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -638,6 +641,7 @@
 				484979B71FB17C4F000C1E2A /* LetterViewTests.swift in Sources */,
 				484979D71FB455B1000C1E2A /* WordCardCellTests.swift in Sources */,
 				484979B31FB16B90000C1E2A /* TracingVCTests.swift in Sources */,
+				4890BB5D1FD1819B002B1921 /* PopUpBtnVCTests.swift in Sources */,
 				48AD6F6A1FC5347E0054FBD5 /* CategoryManagerTests.swift in Sources */,
 				484979AF1FB1659B000C1E2A /* Constants.swift in Sources */,
 				48AD6F6C1FC534C70054FBD5 /* CellVCTests.swift in Sources */,

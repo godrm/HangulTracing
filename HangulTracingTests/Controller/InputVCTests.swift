@@ -37,6 +37,7 @@ class InputVCTests: XCTestCase {
     XCTAssertNotNil(sut.cancelBtn)
     XCTAssertNotNil(sut.cardListVC)
     XCTAssertNotNil(sut.cardManager)
+    XCTAssertNotNil(sut.cardView)
   }
   
   func test_AddBtn_HasAction() {
@@ -69,22 +70,29 @@ class InputVCTests: XCTestCase {
       mockInputVC.addBtnTapped(addBtn)
       XCTAssertTrue(mockInputVC.dismissIsCalled)
     }
-    
-   
   }
 
-//  func test_WhenNotGivenTextAndIMG_AddBtn_NotCall_Dismiss() {
-//    let cardListVC = CardListVC()
-//    UIApplication.shared.keyWindow?.rootViewController = cardListVC
-//    let mockInputVC = MockInputVC()
-//    mockInputVC.setCardListVC(vc: cardListVC)
-//    cardListVC.present(mockInputVC, animated: true, completion: nil)
-//    mockInputVC.wordTextField.text = ""
-//    mockInputVC.capturedPhotoData = Data()
-//    let addBtn: UIButton = mockInputVC.addBtn
-//    mockInputVC.addBtnTapped(addBtn)
-//    XCTAssertFalse(mockInputVC.dismissIsCalled)
-//  }
+  func test_WhenNotGivenTextAndIMG_AddBtn_NotCall_Dismiss() {
+    let categoryVC = CategoryVC()
+    let mockNav = MockNavigationController(rootViewController: categoryVC)
+    UIApplication.shared.keyWindow?.rootViewController = mockNav
+    _ = categoryVC.view
+    categoryVC.collectionView.reloadData()
+    categoryVC.collectionView.layoutIfNeeded()
+    categoryVC.collectionView.delegate?.collectionView!(categoryVC.collectionView, didSelectItemAt: IndexPath(item: 0, section: 0))
+    guard let cardListVC = mockNav.pushedVC as? CardListVC else { fatalError() }
+    let mockInputVC = MockInputVC()
+    mockInputVC.setCardListVC(vc: cardListVC)
+    cardListVC.present(mockInputVC, animated: true) {
+      _ = mockInputVC.view
+      mockInputVC.wordTextField.text = ""
+      mockInputVC.capturedPhotoData = WordCards().dogImgData!
+      
+      let addBtn: UIButton = mockInputVC.addBtn
+      mockInputVC.addBtnTapped(addBtn)
+      XCTAssertFalse(mockInputVC.dismissIsCalled)
+    }
+  }
   
   func test_cameraBtn_HasAction() {
     let cameraBtn = sut.cameraBtn
@@ -98,6 +106,18 @@ class InputVCTests: XCTestCase {
     XCTAssertTrue(actions.contains("libraryBtnTapped:"))
   }
   
+//  func test_libraryBtnTapped_presentUIImagePickerController() {
+//    let presentExpectation = expectation(description: "Present")
+//    sut.libraryBtnTapped(sut.libraryBtn) { (success) in
+//      if success {
+//        presentExpectation.fulfill()
+//        XCTAssertTrue(self.sut.presentedViewController is UIImagePickerController)
+//      }
+//    }
+//
+//    waitForExpectations(timeout: 3, handler: nil)
+//  }
+  
   func test_cancelBtn_HasAction() {
     let cancelBtn = sut.cancelBtn
     guard let actions = cancelBtn.actions(forTarget: sut, forControlEvent: .touchUpInside) else { XCTFail(); return }
@@ -109,6 +129,12 @@ class InputVCTests: XCTestCase {
     let cancelBtn: UIButton = mockInputVC.cancelBtn
     mockInputVC.cancelBtnTapped(cancelBtn)
     XCTAssertTrue(mockInputVC.dismissIsCalled)
+  }
+  
+  func test_WhenPostnotification_setCapturedData() {
+    let photoData = WordCards().airplaneImgData
+    NotificationCenter.default.post(name: Constants().NOTI_PHOTO_SELECTED, object: nil, userInfo: ["photoData":photoData])
+    XCTAssertEqual(sut.capturedPhotoData, photoData)
   }
 }
 

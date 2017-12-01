@@ -28,32 +28,32 @@ class CellVCTests: XCTestCase {
     super.tearDown()
   }
   
-  func test_HasViewFrame() {
+  func test_HasProperty() {
     XCTAssertNotNil(sut.viewFrame)
+    XCTAssertNotNil(sut.imgView)
+    XCTAssertNotNil(sut.audioPlayer)
+    XCTAssertNotNil(sut.backView)
+    XCTAssertNotNil(sut.wordLabel)
+    XCTAssertNotNil(sut.tracingBtn)
+    XCTAssertNotNil(sut.isBackViewShowing)
   }
   
-  func test_HasImgView() {
-    XCTAssertNotNil(sut.imgView)
+  func test_flip_changeIsBackViewShowing() {
+    let flipExpectation = expectation(description: "isBackViewShowing filpped")
+    XCTAssertFalse(sut.isBackViewShowing)
+    
+    sut.flip { (completed) in
+      if completed {
+        flipExpectation.fulfill()
+        XCTAssertTrue(self.sut.isBackViewShowing)
+      }
+    }
+    waitForExpectations(timeout: 3.0, handler: nil)
   }
+  
   
   func test_imgViewContentmode_aspectFill() {
     XCTAssertEqual(sut.imgView.contentMode, .scaleAspectFill)
-  }
-  
-  func test_HasAudioPlayer() {
-    XCTAssertNotNil(sut.audioPlayer)
-  }
-  
-  func test_HasBackView() {
-    XCTAssertNotNil(sut.backView)
-  }
-  
-  func test_HasWordLabel() {
-    XCTAssertNotNil(sut.wordLabel)
-  }
-  
-  func test_HasTracingBtn() {
-    XCTAssertNotNil(sut.tracingBtn)
   }
   
   func test_configViewSetTextAndImg() {

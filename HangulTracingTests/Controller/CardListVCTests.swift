@@ -29,25 +29,15 @@ class CardListVCTests: XCTestCase {
     super.tearDown()
   }
   
-  func test_HasTitle() {
+  func test_HasProperty() {
     XCTAssertEqual(sut.title, "동물")
-  }
-  
-  func test_HasCollectionView() {
     XCTAssertNotNil(sut.collectionView)
-  }
-  
-  func test_HasShowBtn() {
     XCTAssertNotNil(sut.showBtn)
-  }
-  
-  func test_HasDataProvider() {
     XCTAssertNotNil(sut.dataProvider)
-  }
-  
-  //collectionView
-  func test_CollectionView_IsNotNil_AfterViewDidLoad() {
-    XCTAssertNotNil(sut.collectionView)
+    XCTAssertNotNil(sut.cardManager)
+    XCTAssertNotNil(sut.cellMode)
+    XCTAssertNotNil(sut.initialTouchPoint)
+    XCTAssertNotNil(sut.showBtn)
   }
   
   //datasource
@@ -91,4 +81,32 @@ class CardListVCTests: XCTestCase {
     XCTAssertTrue(sut.presentedViewController is UIAlertController)
   }
   
+  func test_presentCellVC() {
+    UIApplication.shared.keyWindow?.rootViewController = sut
+    sut.presentCellVC(indexPath: IndexPath(item: 0, section: 0))
+    XCTAssertTrue(sut.presentedViewController is CellVC)
+  }
+  
+  func test_pushTracingVC() {
+    let mockNav = MockNav(rootViewController: sut)
+    
+    UIApplication.shared.keyWindow?.rootViewController = mockNav
+    sut.presentCellVC(indexPath: IndexPath(item: 0, section: 0))
+    sut.presentedViewController?.dismiss(animated: true, completion: {
+      self.sut.pushTracingVC()
+      XCTAssertTrue(mockNav.pushedVC is TracingVC)
+    })
+    
+  }
+  
+}
+
+extension CardListVCTests {
+  class MockNav: UINavigationController {
+    var pushedVC: UIViewController?
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+      pushedVC = viewController
+      super.pushViewController(viewController, animated: animated)
+    }
+  }
 }

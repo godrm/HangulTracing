@@ -7,7 +7,7 @@
 //
 
 import UIKit
-typealias CompletionHandler = (_ Success: Bool) -> ()
+
 class PopUpBtnVC: UIViewController {
   private(set) weak var parentVC: UIViewController?
   private(set) var didSetupConstraints = false

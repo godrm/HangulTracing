@@ -6,7 +6,9 @@
 //  Copyright © 2017년 samchon. All rights reserved.
 //
 
-import UIKit
+import Foundation
+
+typealias CompletionHandler = (_ Success: Bool) -> ()
 
 struct Constants {
   //notification
